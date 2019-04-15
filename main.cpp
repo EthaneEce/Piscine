@@ -19,6 +19,8 @@ int main()
 
     }while(a==0);
 
+
+
 }END_OF_MAIN();
 
 void lancerToutAllegro(int largeur, int hauteur)
