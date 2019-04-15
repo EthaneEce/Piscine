@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1555319938 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\allegro_init.cpp
+	<iostream>
+	<allegro.h>
+
+1555322976 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\main.cpp
+	<iostream>
+	<stdio.h>
+	<stdlib.h>
+	<allegro.h>
+	<time.h>
+
