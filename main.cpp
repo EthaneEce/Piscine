@@ -10,9 +10,8 @@ void lancerToutAllegro(int largeur, int hauteur);
 
 int main()
 {
-    int a =0;
 
-    lancerToutAllegro(400,400);
+    lancerToutAllegro(1900,1000);
 
     /**BITMAP*perso;
     perso=load_bitmap("persotest.bmp",NULL);
@@ -25,15 +24,15 @@ int main()
     textprintf_centre_ex(screen,font,100,100,makecol(255,255,0),0,"Valeur de j : %d",j);}
     void line(BITMAP *bmp, int x1, int y1, int x2, int y2, int color);
     void rectfill(BITMAP *bmp, int x1, int y1, int x2, int y2, int color);
+    void circlefill(BITMAP *bmp, int x, int y, int radius, int color);
     **/
 
-    Graphe b("txt/broadway.txt","txt/broadway_weights_0.txt");
+    Graphe b("txt/manhattan.txt","txt/manhattan_weights_0.txt");
     b.afficher();
     b.afficherallegro();
-     while(!key[KEY_0_PAD])
-    {
+    while(!key[KEY_SPACE])
+    {}
 
-    }
 
 
     return 0;
