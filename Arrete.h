@@ -9,9 +9,9 @@ class Arrete
         Arrete(int id,int s1,int s2,std::vector<float> Cout);
         ~Arrete();
         void afficherData() const;
-        int getid()const ;
-        int gets1()const ;
-        int gets2()const ;
+        int getid() const ;
+        int gets1() const ;
+        int gets2() const ;
         std::vector<float> getcout()const ;
 
     protected:

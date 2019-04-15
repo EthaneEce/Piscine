@@ -22,11 +22,18 @@ int main()
     }while(a==0);
     while(!key[KEY_0])
     {int j = 300;
-    textprintf_centre_ex(screen,font,100,100,makecol(255,255,0),0,"Valeur de j : %d",j);}**/
+    textprintf_centre_ex(screen,font,100,100,makecol(255,255,0),0,"Valeur de j : %d",j);}
+    void line(BITMAP *bmp, int x1, int y1, int x2, int y2, int color);
+    void rectfill(BITMAP *bmp, int x1, int y1, int x2, int y2, int color);
+    **/
 
     Graphe b("txt/broadway.txt","txt/broadway_weights_0.txt");
     b.afficher();
+    b.afficherallegro();
+     while(!key[KEY_0_PAD])
+    {
 
+    }
 
 
     return 0;

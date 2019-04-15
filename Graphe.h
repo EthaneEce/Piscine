@@ -2,6 +2,7 @@
 #define GRAPHE_H
 #include <string>
 #include <unordered_map>
+#include "allegro.h"
 #include "Sommet.h"
 #include "Arrete.h"
 
@@ -12,6 +13,7 @@ class Graphe
         Graphe();
         ~Graphe();
         void afficher() const;
+        void afficherallegro() const;
 
     protected:
 

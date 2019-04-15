@@ -98,3 +98,24 @@ void Graphe::afficher() const
     }
 
 }
+
+void Graphe::afficherallegro() const
+{
+    for(auto it: m_arretes)
+    {
+
+        int sommet1id = it.second->gets1();
+        int sommet2id = it.second->gets2();
+
+        Sommet* n1 = m_sommets.find(sommet1id)->second;
+        Sommet* n2 = m_sommets.find(sommet2id)->second;
+        line(screen, n1->getx()-2, n1->gety()-2, n2->getx()+2, n2->gety()+2, makecol(255,255,255));
+        std::cout<< std::endl;
+    }
+    for(auto it: m_sommets)
+    {
+        std::cout<< "->";
+        it.second->afficherData();
+        std::cout<< std::endl;
+    }
+}
