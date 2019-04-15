@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <allegro.h>
 #include <time.h>
+#include <string.h>
+#include "Graphe.h"
 
 void lancerToutAllegro(int largeur, int hauteur);
 
@@ -12,15 +14,22 @@ int main()
 
     lancerToutAllegro(400,400);
 
-    BITMAP*perso;
+    /**BITMAP*perso;
     perso=load_bitmap("persotest.bmp",NULL);
     do{
         draw_sprite(screen,perso,0,0);
 
     }while(a==0);
+    while(!key[KEY_0])
+    {int j = 300;
+    textprintf_centre_ex(screen,font,100,100,makecol(255,255,0),0,"Valeur de j : %d",j);}**/
+
+    Graphe b("txt/broadway.txt","txt/broadway_weights_0.txt");
+    b.afficher();
 
 
 
+    return 0;
 }END_OF_MAIN();
 
 void lancerToutAllegro(int largeur, int hauteur)

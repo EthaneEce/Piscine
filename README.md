@@ -18,6 +18,8 @@ Bon courage !
 [TACHES] :
 
 Initialiser allegro | Ethane + Nabil | Fait
+
 Creation Classe Sommet | Nabil | Fait
+
 Creation Classe Graphe | Nabil | Encours
 
