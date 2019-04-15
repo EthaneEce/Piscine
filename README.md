@@ -16,3 +16,6 @@ Bon courage !
 
 
 [TACHES] :
+
+Initialiser allegro | Ethane + Nabil | Fait
+Lecture des Fichiers | Nabil | En cours
