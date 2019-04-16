@@ -1,0 +1,88 @@
+# depslib dependency file v1.0
+1555319938 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\allegro_init.cpp
+	<iostream>
+	<allegro.h>
+
+1555366823 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\main.cpp
+	<iostream>
+	<stdio.h>
+	<stdlib.h>
+	<allegro.h>
+	<time.h>
+	<string.h>
+	<iomanip>
+	"Graphe.h"
+	<iomanip>
+
+1555324814 source:c:\users\ethane\desktop\ecole\informatique\piscine\piscine\main.cpp
+	<iostream>
+	<stdio.h>
+	<stdlib.h>
+	<allegro.h>
+	<time.h>
+
+1555366177 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\sommet.cpp
+	"sommet.h"
+	"iomanip"
+
+1555354368 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\sommet.h
+	<iostream>
+
+1555367189 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\graphe.cpp
+	<fstream>
+	"Graphe.h"
+
+1555366059 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\graphe.h
+	<string>
+	<unordered_map>
+	<iomanip>
+	"allegro.h"
+	"Sommet.h"
+	"Arrete.h"
+
+1555354368 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\arrete.h
+	<iostream>
+	<vector>
+
+1555366534 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\arrete.cpp
+	"Arrete.h"
+
+1555411414 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\arrete.cpp
+	"Arrete.h"
+
+1555411414 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\arrete.h
+	<iostream>
+	<vector>
+
+1555413121 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\graphe.cpp
+	<fstream>
+	"Graphe.h"
+	<functional>
+	<algorithm>
+
+1555413050 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\graphe.h
+	<string>
+	<unordered_map>
+	<iomanip>
+	"allegro.h"
+	"Sommet.h"
+	"Arrete.h"
+
+1555411414 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\sommet.h
+	<iostream>
+
+1555411414 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\sommet.cpp
+	"sommet.h"
+	"iomanip"
+
+1555413110 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\main.cpp
+	<iostream>
+	<stdio.h>
+	<stdlib.h>
+	<allegro.h>
+	<time.h>
+	<string.h>
+	<iomanip>
+	"Graphe.h"
+	<iomanip>
+

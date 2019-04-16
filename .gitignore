@@ -1,5 +1,3 @@
-
-*.exe
 *.exe
 *.vcxproj
 *.user
@@ -17,6 +15,13 @@
 *.obj
 *.log
 *.tlog
+.vs/Piscine/v16/.suo
+*.db
+*.opendb
+*.ipch
+*.obj
+*.tlog
+*.log
 *.idb
 *.pdb
 *.ilk

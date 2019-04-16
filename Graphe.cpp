@@ -30,13 +30,13 @@ Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 )
     {
         ifs1 >> id1;
         if ( ifs1.fail ( ) )
-            throw std::runtime_error ( "Probleme lecture donn�es sommet" );
+            throw std::runtime_error ( "Probleme lecture donnees sommet" );
         ifs1 >> x1;
         if ( ifs1.fail ( ) )
-            throw std::runtime_error ( "Probleme lecture donn�es sommet" );
+            throw std::runtime_error ( "Probleme lecture donnees sommet" );
         ifs1 >> y1;
         if ( ifs1.fail ( ) )
-            throw std::runtime_error ( "Probleme lecture donn�es sommet" );
+            throw std::runtime_error ( "Probleme lecture donnees sommet" );
         m_sommets.insert ( { id1, new Sommet{id1, x1, y1} } );
     }
 
@@ -113,7 +113,6 @@ void Graphe::afficher ( ) const
         std::cout << std::endl;
     }
 }
-
 
 
 std::vector<Arrete*> Graphe::Kruskal ( size_t cout_id ) const
