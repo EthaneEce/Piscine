@@ -33,7 +33,7 @@ class String : public Type
 protected :
     std::string var;
 public :
-    Sting();
+    String();
     std::string getVar(){return var};
     void setVar(std::string a){var = a});
 };
