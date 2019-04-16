@@ -9,6 +9,8 @@
 
 void lancerToutAllegro(int largeur, int hauteur);
 
+std::vector<Graphe> bruteforce(Graphe b);
+
 int main ( )
 {
 
@@ -35,12 +37,14 @@ int main ( )
 
     do{}while(!key[KEY_ESC]);
 
+    bruteforce(b);
 
-    Graphe c ( "txt/broadway.txt" , "txt/broadway_weights_0.txt" );
+
+    /**Graphe c ( "txt/broadway.txt" , "txt/broadway_weights_0.txt" );
     std::vector<Arrete*> vec = c.Kruskal ( 0 );
     for ( auto& a : vec )
         a->afficherData ( );
-    b.afficher ( );
+    b.afficher ( );**/
 
     return 0;
 }END_OF_MAIN();
@@ -68,4 +72,7 @@ void lancerToutAllegro(int largeur, int hauteur)
     show_mouse(screen);
 }
 
+std::vector<Graphe> bruteforce(Graphe b)
+{
 
+}

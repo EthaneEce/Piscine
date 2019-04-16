@@ -94,6 +94,15 @@ Graphe::~Graphe ( )
     //dtor
 }
 
+std::unordered_map<int,Sommet*> getsommets()
+{
+    return m_sommets;
+}
+std::unordered_map<int,Arrete*> getarretes();
+{
+    return m_arretes;
+}
+
 void Graphe::afficher ( ) const
 {
     std::cout << "graphe : " << std::endl;
