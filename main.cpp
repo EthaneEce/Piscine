@@ -1,18 +1,17 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
-#include <allegro.h>
 #include <time.h>
 #include <string.h>
 #include <iomanip>
 #include "Graphe.h"
 
-void lancerToutAllegro(int largeur, int hauteur);
+void lancerToutAllegro ( int largeur , int hauteur );
 
 int main ( )
 {
 
-    lancerToutAllegro(1900,1000);
+    lancerToutAllegro ( 1900 , 1000 );
 
     /**BITMAP*perso;
     perso=load_bitmap("persotest.bmp",NULL);
@@ -29,11 +28,11 @@ int main ( )
     void circlefill(BITMAP *bmp, int x, int y, int radius, int color);
     **/
 
-    Graphe b("txt/cubetown.txt","txt/cubetown_weights_0.txt");
-    b.afficher();
-    b.afficherallegro();
+    Graphe b ( "txt/cubetown.txt" , "txt/cubetown_weights_0.txt" );
+    b.afficher ( );
+    b.afficherallegro ( );
 
-    do{}while(!key[KEY_ESC]);
+    do { } while ( !key [ KEY_ESC ] );
 
 
     Graphe c ( "txt/broadway.txt" , "txt/broadway_weights_0.txt" );
@@ -44,29 +43,29 @@ int main ( )
     std::cin.get ( );
 
     return 0;
-}END_OF_MAIN();
+}END_OF_MAIN ( );
 
-void lancerToutAllegro(int largeur, int hauteur)
+void lancerToutAllegro ( int largeur , int hauteur )
 {
     /// initialisation g�n�rale
-    allegro_init();
+    allegro_init ( );
     /// pour utiliser le clavier
-    install_keyboard();
+    install_keyboard ( );
     /// pour utiliser la souris
-    install_mouse();
+    install_mouse ( );
     /// initialisation du MODE GRAPHIQUE
     //on fixe le mode couleur (8, 16, 24 ou 32 bits)
-    set_color_depth(desktop_color_depth());
+    set_color_depth ( desktop_color_depth ( ) );
     // on essaie d�ouvrir une fen�tre de largeur*hauteur pixels
     // si l�ouverture �choue on quitte
-    if (set_gfx_mode(GFX_AUTODETECT_WINDOWED,largeur,hauteur,0,0)!=0)
+    if ( set_gfx_mode ( GFX_AUTODETECT_WINDOWED , largeur , hauteur , 0 , 0 ) != 0 )
     {
-        allegro_message("probleme mode graphique : %s", allegro_error);
-        allegro_exit();
-        exit(EXIT_FAILURE);
+        allegro_message ( "probleme mode graphique : %s" , allegro_error );
+        allegro_exit ( );
+        exit ( EXIT_FAILURE );
     }
     /// si on veut afficher le pointeur de souris
-    show_mouse(screen);
+    show_mouse ( screen );
 }
 
 

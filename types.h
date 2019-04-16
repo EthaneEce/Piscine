@@ -1,41 +1,29 @@
-#ifndef TYPES_H_INCLUDED
-#define TYPES_H_INCLUDED
+#ifndef VarS_H_INCLUDED
+#define VarS_H_INCLUDED
 #include <iostream>
 
-class Type
+struct Var
 {
-public :
-    virtual ~Type();
+public:
+    virtual ~Var ( ) = default;
 };
 
-class Integer : public Type
+struct Integer : public Var
 {
-protected :
-    int var;
-public :
-    Integer();
-    int getVar(){return var};
-    void setVar(int a){var = a};
+    int value;
+    Integer ( int v ) : value ( v ) {}
 };
 
-class Float : public Type
+struct Float : public Var
 {
-protected :
-    float var;
-public :
-    Float();
-    float getVar(){return var};
-    void setVar(float a){var = a});
+    float value;
+    Float ( const float& v ) : value ( v ) {};
 };
 
-class String : public Type
+struct String : public Var
 {
-protected :
-    std::string var;
-public :
-    Sting();
-    std::string getVar(){return var};
-    void setVar(std::string a){var = a});
+    std::string value;
+    String ( const std::string& v ) : value ( v ) {};
 };
 
-#endif // TYPES_H_INCLUDED
+#endif // VarS_H_INCLUDED

@@ -9,19 +9,19 @@
 
 class Graphe
 {
-    public:
-        Graphe(std::string nomFichier1,std::string nomFichier2);
-        Graphe();
-        ~Graphe();
-        void afficher() const;
-        void afficherallegro() const;
-        std::vector<Arrete*> Kruskal(size_t cout_id)const;
+public:
+    Graphe ( std::string nomFichier1 , std::string nomFichier2 );
+    Graphe ( );
+    ~Graphe ( );
+    void afficher ( ) const;
+    void afficherallegro ( ) const;
+    std::vector<Arrete*> Kruskal ( size_t cout_id )const;
 
-    protected:
+protected:
 
-    private:
-        std::unordered_map<int,Sommet*> m_sommets;
-        std::unordered_map<int,Arrete*> m_arretes;
+private:
+    std::unordered_map<int , Sommet*> m_sommets;
+    std::unordered_map<int , Arrete*> m_arretes;
 };
 
 #endif // GRAPHE_H
