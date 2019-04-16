@@ -2,23 +2,24 @@
 #define ARRETE_H
 #include <iostream>
 #include <vector>
-template<typename T>
+#include <variant>
+#include <any>
 class Arrete
 {
 public:
-    Arrete ( int id , int s1 , int s2 , std::vector<T> Cout );
+    Arrete ( int id , int s1 , int s2 , std::vector<float> Cout );
     ~Arrete ( ) = default;
     void afficherData ( ) const;
     int getid ( ) const;
     int gets1 ( ) const;
     int gets2 ( ) const;
-    std::vector<T> getcout ( ) const;
+    std::vector<float> getcout ( ) const;
 
 protected:
 private:
     int m_id;
     int m_s1 , m_s2;
-    std::vector<T> m_Cout;
+    std::vector <float> m_Couts;
 };
 
 #endif // ARRETE_H

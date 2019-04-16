@@ -115,14 +115,14 @@ void Graphe::afficher ( ) const
 }
 
 
-std::vector<Arrete*> Graphe::Kruskal ( size_t cout_id ) const
+std::unordered_map<int , Arrete*> Graphe::Kruskal ( size_t cout_id ) const
 {
-    std::vector<Arrete*> solution;
-    std::unordered_map<int , int*> composantesConnexes;
+    std::unordered_map<int , Arrete*>solution;
+    std::unordered_map<int , std::shared_ptr<int>> composantesConnexes;
     int i = 0;
     for ( auto& a : m_sommets )
     {
-        composantesConnexes.insert ( { a.second->getid ( ), new int ( i ) } );
+        composantesConnexes.insert ( { a.second->getid ( ), std::make_shared<int> ( i ) } );
         i++;
     }
     std::vector<std::pair<int , Arrete*>> vec;
@@ -132,16 +132,18 @@ std::vector<Arrete*> Graphe::Kruskal ( size_t cout_id ) const
         return p1.second->getcout ( ) < p2.second->getcout ( );
     };
     std::sort ( vec.begin ( ) , vec.end ( ) , sortFunction );
-    std::unordered_set<int> set;
-    for ( auto a = vec.begin ( ); a != vec.end ( ); ) {
-        auto s1 = composantesConnexes.find ( a->second->gets1 ( ) );
-        auto s2 = composantesConnexes.find ( a->second->gets2 ( ) );
-        if ( s1->second != s2->second ) {
-            solution.push_back ( a->second );
-            a = vec.erase ( a );
-        }
-        else {
-            a++;
+
+    for ( auto& a : vec ) {
+        auto s1 = composantesConnexes.find ( a.second->gets1 ( ) );
+        auto s2 = composantesConnexes.find ( a.second->gets2 ( ) );
+        if ( *( s1->second ) != *( s2->second ) ) {
+            solution.insert ( { a.first,a.second } );
+            if ( s1->second.use_count ( ) < s2->second.use_count ( ) )
+                s1->second = s2->second;
+            else if ( s2->second.use_count ( ) == 1 ) s2->second = s1->second;
+            else *( s1->second ) = *( s2->second );
+            if ( solution.size ( ) == m_sommets.size ( ) - 1 )
+                break;
         }
     }
     return solution;
