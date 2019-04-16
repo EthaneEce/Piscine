@@ -128,7 +128,6 @@ void Graphe::afficherallegro() const
             for(int i=-5;i<=5;i++)
             {
                 line(screen, n1->getx()+i, n1->gety()+i, n2->getx()+j, n2->gety()+j, makecol(255,255,255));
-
             }
         }
         textprintf_centre_ex(screen,font,(n1->getx()+n2->getx())/2,(n1->gety()+n2->gety())/2,makecol(0,0,0),makecol(255,255,255),"%d",it.second->getid());
