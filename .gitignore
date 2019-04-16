@@ -9,3 +9,7 @@
 *.layout
 *.depend
 *.cbp
+*.sln
+*.ipch
+*.db
+.vs/Piscine/v16/.suo
