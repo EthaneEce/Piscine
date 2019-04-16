@@ -13,3 +13,4 @@
 *.ipch
 *.db
 .vs/Piscine/v16/.suo
+*.opendb
