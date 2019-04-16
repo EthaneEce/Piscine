@@ -2,10 +2,13 @@
 #include "Graphe.h"
 #include <functional>
 #include <algorithm>
-Graphe::Graphe ( )
+
+Graphe::Graphe ( std::unordered_map<int , Sommet*> mS , std::unordered_map<int , Arrete*> mA )
 {
-    //ctor
+    m_sommets = mS;
+    m_arretes = mA;
 }
+
 
 Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 )
 {
