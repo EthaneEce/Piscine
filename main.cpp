@@ -17,9 +17,21 @@ int main ( )
 
     lancerToutAllegro(1900,1000);
 
-    Graphe b("txt/manhattan.txt","txt/manhattan_weights_0.txt");
-
+    Graphe b("txt/broadway.txt","txt/broadway_weights_0.txt");
+    //b.afficherallegro(100,100,2);
     std::vector<Graphe*> Ttgraphes = bruteforce(b);
+    int i=0,j=0;
+    for(auto it:Ttgraphes)
+    {
+        it->afficherallegro(i,j,2);
+        i+=150;
+        if (i >= 1500)
+        {
+            j+=150;
+            i=0;
+        }
+    }
+    do{}while(!key[KEY_ESC]);
 
     /**BITMAP*perso;
     perso=load_bitmap("persotest.bmp",NULL);
@@ -46,12 +58,11 @@ int main ( )
 
 
     /**Graphe p (b.getSommets(),b.Kruskal(0));
-    p.afficherallegro();
+    p.afficherallegro(500,100,2);
     do{}while(!key[KEY_ESC]);**/
 
     //Graphe p (b.getSommets(),b.Kruskal(0));
     //p.afficherallegro();
-    do{}while(!key[KEY_ESC]);
 
 /*
     Graphe c ( "txt/broadway.txt" , "txt/broadway_weights_0.txt" );
@@ -134,11 +145,12 @@ std::vector<Graphe*> bruteforce(Graphe b)
         }
         Graphe *a =  new Graphe(Sommetsmap,ArretesN);
         TtGraphes.push_back(a);
-        //a->afficher();
+        a->afficher();
 
         compteur[0]+=1;
          std::cout<<std::endl;
          //system("pause");
+         ArretesN.clear();
     }
 
     /**for (i;i<Arretesvec.size();i++)
