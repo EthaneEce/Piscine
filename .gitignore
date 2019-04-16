@@ -7,3 +7,5 @@
 *.layout
 *.depend
 *.cbp
+*.depend
+*.layout
