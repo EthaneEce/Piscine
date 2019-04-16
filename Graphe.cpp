@@ -29,13 +29,13 @@ Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 )
     {
         ifs1 >> id1;
         if ( ifs1.fail ( ) )
-            throw std::runtime_error ( "Probleme lecture donn�es sommet" );
+            throw std::runtime_error ( "Probleme lecture donnees sommet" );
         ifs1 >> x1;
         if ( ifs1.fail ( ) )
-            throw std::runtime_error ( "Probleme lecture donn�es sommet" );
+            throw std::runtime_error ( "Probleme lecture donnees sommet" );
         ifs1 >> y1;
         if ( ifs1.fail ( ) )
-            throw std::runtime_error ( "Probleme lecture donn�es sommet" );
+            throw std::runtime_error ( "Probleme lecture donnees sommet" );
         m_sommets.insert ( { id1, new Sommet{id1, x1, y1} } );
     }
 
@@ -110,6 +110,47 @@ void Graphe::afficher ( ) const
         std::cout << "->";
         it.second->afficherData ( );
         std::cout << std::endl;
+    }
+}
+
+void Graphe::afficherallegro() const
+    for(auto it: m_arretes)
+    {
+        BITMAP *buffer = create_bitmap(SCREEN_W, SCREEN_H);
+        int sommet1id = it.second->gets1();
+        int sommet2id = it.second->gets2();
+
+        Sommet* n1 = m_sommets.find(sommet1id)->second;
+        Sommet* n2 = m_sommets.find(sommet2id)->second;
+        for(int j=5;j>=-5;j--)
+        {
+            for(int i=-5;i<=5;i++)
+            {
+                line(screen, n1->getx()+i, n1->gety()+i, n2->getx()+j, n2->gety()+j, makecol(255,255,255));
+
+            }
+        }
+        textprintf_centre_ex(screen,font,(n1->getx()+n2->getx())/2,(n1->gety()+n2->gety())/2,makecol(0,0,0),makecol(255,255,255),"%d",it.second->getid());
+    }
+    int texte1 = 0;
+    for(auto it: m_arretes)
+    {
+        std::vector<float> couts;
+        couts = it.second->getcout();
+        textprintf_centre_ex(screen,font,SCREEN_W-300,100+texte1,makecol(0,0,0),makecol(255,255,255),"Cout de %d --> ",it.second->getid());
+        int texte2=0;
+        for(auto it2: couts)
+        {
+            textprintf_centre_ex(screen,font,SCREEN_W-200+texte2,100+texte1,makecol(0,0,0),makecol(255,255,255),"%f ",it2);
+            texte2+=100;
+        }
+        texte1 += 10;
+    }
+
+    for(auto it: m_sommets)
+    {
+        circlefill(screen, it.second->getx(), it.second->gety(), 12, makecol(255,0,0));
+        textprintf_centre_ex(screen,font,it.second->getx(),it.second->gety(),makecol(255,255,0),makecol(255,0,0),"%d",it.second->getid());
     }
 }
 

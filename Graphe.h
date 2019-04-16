@@ -14,6 +14,7 @@ class Graphe
         Graphe();
         ~Graphe();
         void afficher() const;
+        void afficherallegro() const;
         std::vector<Arrete*> Kruskal(size_t cout_id)const;
 
     protected:
