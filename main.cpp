@@ -12,7 +12,7 @@ void lancerToutAllegro(int largeur, int hauteur);
 int main ( )
 {
 
-    lancerToutAllegro(1900,1000);
+    lancerToutAllegro(1200,800);
 
     /**BITMAP*perso;
     perso=load_bitmap("persotest.bmp",NULL);
@@ -35,13 +35,18 @@ int main ( )
 
     do{}while(!key[KEY_ESC]);
 
+    Graphe p (b.getSommets(),b.Kruskal(0));
+    p.afficherallegro();
+    do{}while(!key[KEY_ESC]);
 
+/*
     Graphe c ( "txt/broadway.txt" , "txt/broadway_weights_0.txt" );
-    std::vector<Arrete*> vec = c.Kruskal ( 0 );
+
+    std::unordered_map<int,Arrete*> vec = c.Kruskal ( 0 );
     for ( auto& a : vec )
-        a->afficherData ( );
+        a.second->afficherData ( );
     b.afficher ( );
-    std::cin.get ( );
+    std::cin.get ( ); */
 
     return 0;
 }END_OF_MAIN();
