@@ -2,9 +2,10 @@
 #include "Graphe.h"
 #include <functional>
 #include <algorithm>
-Graphe::Graphe ( )
+Graphe::Graphe (std::unordered_map<int,Sommet*> mS, std::unordered_map<int,Arrete*> mA)
 {
-    //ctor
+    m_sommets = mS;
+    m_arretes = mA;
 }
 
 Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 )
@@ -114,6 +115,7 @@ void Graphe::afficher ( ) const
 }
 
 void Graphe::afficherallegro() const
+{
     for(auto it: m_arretes)
     {
         BITMAP *buffer = create_bitmap(SCREEN_W, SCREEN_H);
@@ -154,9 +156,10 @@ void Graphe::afficherallegro() const
     }
 }
 
-std::vector<Arrete*> Graphe::Kruskal ( size_t cout_id ) const
+std::unordered_map<int,Arrete*> Graphe::Kruskal ( size_t cout_id ) const
 {
     std::vector<Arrete*> solution;
+    std::unordered_map<int,Arrete*>solution1;
     std::unordered_map<int , int> composantesConnexes;
     int i = 0;
     for ( auto& a : m_sommets )
@@ -181,9 +184,10 @@ std::vector<Arrete*> Graphe::Kruskal ( size_t cout_id ) const
                     b.second = s1->second;
             }
             solution.push_back ( a.second );
+            solution1.insert({a.first,a.second});
         }
     }
 
 
-    return solution;
+    return solution1;
 }

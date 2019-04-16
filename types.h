@@ -5,7 +5,7 @@
 class Type
 {
 public :
-    virtual ~Type();
+    virtual ~Type() = default;
 };
 
 class Integer : public Type
@@ -14,8 +14,8 @@ protected :
     int var;
 public :
     Integer();
-    int getVar(){return var};
-    void setVar(int a){var = a};
+    int getVar(){return var;};
+    void setVar(int a){var = a;};
 };
 
 class Float : public Type
@@ -24,8 +24,8 @@ protected :
     float var;
 public :
     Float();
-    float getVar(){return var};
-    void setVar(float a){var = a});
+    float getVar(){return var;};
+    void setVar(float a){var = a;};
 };
 
 class String : public Type
@@ -33,9 +33,9 @@ class String : public Type
 protected :
     std::string var;
 public :
-    Sting();
-    std::string getVar(){return var};
-    void setVar(std::string a){var = a});
+    String();
+    std::string getVar(){return var;};
+    void setVar(std::string a){var = a;};
 };
 
 #endif // TYPES_H_INCLUDED

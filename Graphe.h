@@ -11,11 +11,12 @@ class Graphe
 {
     public:
         Graphe(std::string nomFichier1,std::string nomFichier2);
-        Graphe();
+        Graphe(std::unordered_map<int,Sommet*>,std::unordered_map<int,Arrete*>);
         ~Graphe();
         void afficher() const;
         void afficherallegro() const;
-        std::vector<Arrete*> Kruskal(size_t cout_id)const;
+        std::unordered_map<int,Arrete*> Kruskal(size_t cout_id)const;
+        std::unordered_map<int,Sommet*> getSommets(){return m_sommets;};
 
     protected:
 
