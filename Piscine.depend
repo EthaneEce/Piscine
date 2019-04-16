@@ -54,13 +54,14 @@
 	<iostream>
 	<vector>
 
-1555443376 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\graphe.cpp
+1555452436 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\graphe.cpp
 	<fstream>
 	"Graphe.h"
 	<functional>
 	<algorithm>
+	<memory>
 
-1555443376 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\graphe.h
+1555451603 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\graphe.h
 	<string>
 	<unordered_map>
 	<iomanip>
@@ -75,7 +76,7 @@
 	"sommet.h"
 	"iomanip"
 
-1555445696 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\main.cpp
+1555452248 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\main.cpp
 	<iostream>
 	<stdio.h>
 	<stdlib.h>
@@ -86,7 +87,8 @@
 	"Graphe.h"
 	<iomanip>
 
-<<<<<<< HEAD
+1555445696 D
+
 1555412537 source:c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\arrete.cpp
 	"Arrete.h"
 
@@ -132,11 +134,13 @@
 	<functional>
 	<algorithm>
 
-=======
-1555432197 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\types.cpp
+1555423077 >
+
+1555451603 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\types.cpp
 	"types.h"
 
-1555432197 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\types.h
+1555451990 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\types.h
 	<iostream>
 
->>>>>>> Bruteforce
+1555432197 teforce
+

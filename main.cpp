@@ -14,16 +14,12 @@ std::vector<Graphe*> bruteforce(Graphe b);
 int main ( )
 {
 
-<<<<<<< HEAD
-    lancerToutAllegro(1200,800);
-=======
-    //lancerToutAllegro(1900,1000);
 
-    Graphe b("txt/broadway.txt","txt/broadway_weights_0.txt");
+    lancerToutAllegro(1900,1000);
+
+    Graphe b("txt/manhattan.txt","txt/manhattan_weights_0.txt");
 
     std::vector<Graphe*> Ttgraphes = bruteforce(b);
-    std::cout<<std::endl<<Ttgraphes.size()<<"cec";
->>>>>>> Bruteforce
 
     /**BITMAP*perso;
     perso=load_bitmap("persotest.bmp",NULL);
@@ -53,11 +49,10 @@ int main ( )
     p.afficherallegro();
     do{}while(!key[KEY_ESC]);**/
 
-    Graphe p (b.getSommets(),b.Kruskal(0));
-    p.afficherallegro();
+    //Graphe p (b.getSommets(),b.Kruskal(0));
+    //p.afficherallegro();
     do{}while(!key[KEY_ESC]);
 
-<<<<<<< HEAD
 /*
     Graphe c ( "txt/broadway.txt" , "txt/broadway_weights_0.txt" );
 
@@ -66,8 +61,7 @@ int main ( )
         a.second->afficherData ( );
     b.afficher ( );
     std::cin.get ( ); */
-=======
->>>>>>> Bruteforce
+
 
     return 0;
 }END_OF_MAIN();
