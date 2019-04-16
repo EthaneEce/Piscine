@@ -1,4 +1,9 @@
-
+*.exe
 *.vcxproj
-*.filters
 *.user
+*.filters
+*.o
+*.o
+*.layout
+*.depend
+*.cbp
