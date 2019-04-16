@@ -2,6 +2,7 @@
 #include "Graphe.h"
 #include <functional>
 #include <algorithm>
+#include <unordered_set>
 Graphe::Graphe ( )
 {
     //ctor
@@ -113,14 +114,16 @@ void Graphe::afficher ( ) const
     }
 }
 
+
+
 std::vector<Arrete*> Graphe::Kruskal ( size_t cout_id ) const
 {
     std::vector<Arrete*> solution;
-    std::unordered_map<int , int> composantesConnexes;
+    std::unordered_map<int , int*> composantesConnexes;
     int i = 0;
     for ( auto& a : m_sommets )
     {
-        composantesConnexes.insert ( { a.second->getid ( ), i } );
+        composantesConnexes.insert ( { a.second->getid ( ), new int ( i ) } );
         i++;
     }
     std::vector<std::pair<int , Arrete*>> vec;
@@ -130,19 +133,17 @@ std::vector<Arrete*> Graphe::Kruskal ( size_t cout_id ) const
         return p1.second->getcout ( ) < p2.second->getcout ( );
     };
     std::sort ( vec.begin ( ) , vec.end ( ) , sortFunction );
-
-    for ( auto& a : vec ) {
-        auto s1 = composantesConnexes.find ( a.second->gets1 ( ) );
-        auto s2 = composantesConnexes.find ( a.second->gets2 ( ) );
+    std::unordered_set<int> set;
+    for ( auto a = vec.begin ( ); a != vec.end ( ); ) {
+        auto s1 = composantesConnexes.find ( a->second->gets1 ( ) );
+        auto s2 = composantesConnexes.find ( a->second->gets2 ( ) );
         if ( s1->second != s2->second ) {
-            for ( auto& b : composantesConnexes ) {
-                if ( b.second == s2->second )
-                    b.second = s1->second;
-            }
-            solution.push_back ( a.second );
+            solution.push_back ( a->second );
+            a = vec.erase ( a );
+        }
+        else {
+            a++;
         }
     }
-
-
     return solution;
 }

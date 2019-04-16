@@ -1,15 +1,14 @@
 #include "Arrete.h"
 
-Arrete::Arrete ( int id , int s1 , int s2 , std::vector<float> Cout )
+
+template<typename T>
+Arrete<T>::Arrete ( int id , int s1 , int s2 , std::vector<T> Cout )
     :m_id ( id ) , m_s1 ( s1 ) , m_s2 ( s2 ) , m_Cout ( Cout )
 {}
 
-Arrete::~Arrete ( )
-{
-    //dtor
-}
 
-void Arrete::afficherData ( ) const {
+template<typename T>
+void Arrete<T>::afficherData ( ) const {
     std::cout
         << "Arrete " << m_id
         << " : " << std::endl <<
@@ -23,21 +22,23 @@ void Arrete::afficherData ( ) const {
     }
     std::cout << std::endl << std::endl;
 }
-
-int Arrete::getid ( )const
+template<typename T>
+int Arrete<T>::getid ( )const
 {
     return m_id;
 }
-
-int Arrete::gets1 ( )const
+template<typename T>
+int Arrete<T>::gets1 ( )const
 {
     return m_s1;
 }
-int Arrete::gets2 ( )const
+template<typename T>
+int Arrete<T>::gets2 ( )const
 {
     return m_s2;
 }
-std::vector<float> Arrete::getcout ( )const
+template<typename T>
+std::vector<T> Arrete<T>::getcout ( )const
 {
     return m_Cout;
 }

@@ -14,3 +14,9 @@
 *.db
 .vs/Piscine/v16/.suo
 *.opendb
+*.obj
+*.log
+*.tlog
+*.idb
+*.pdb
+*.ilk
