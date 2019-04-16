@@ -15,7 +15,8 @@ public:
     Graphe ( );
     ~Graphe ( );
     void afficher ( ) const;
-    std::unordered_map<int , Arrete*> Kruskal ( size_t cout_id ) const;
+    std::unordered_map<int , Arrete*> Kruskal ( size_t cout_id  = 0) const;
+    std::vector<Graphe*> bruteforce ( Graphe b );
     inline int distanceEuclidienne ( int s1 , int s2 )
     {
         auto _s1 = m_sommets.find ( s1 );
