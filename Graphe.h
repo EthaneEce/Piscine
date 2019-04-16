@@ -11,6 +11,7 @@ class Graphe
 {
 public:
     Graphe ( std::string nomFichier1 , std::string nomFichier2 );
+    Graphe(std::unordered_map<int,Sommet*>,std::unordered_map<int,Arrete*>);
     Graphe ( );
     ~Graphe ( );
     void afficher ( ) const;
