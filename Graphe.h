@@ -2,6 +2,7 @@
 #define GRAPHE_H
 #include <string>
 #include <unordered_map>
+#include <iomanip>
 #include "allegro.h"
 #include "Sommet.h"
 #include "Arrete.h"

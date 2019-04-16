@@ -1,4 +1,5 @@
 #include "sommet.h"
+#include "iomanip"
 
 Sommet::Sommet(int id,double x,double y):m_id{id},m_x{x},m_y{y}
 {}

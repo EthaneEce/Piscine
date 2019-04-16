@@ -2,7 +2,12 @@
 
 Arrete::Arrete(int id,int s1,int s2,std::vector<float> Cout)
 :m_id(id),m_s1(s1),m_s2(s2),m_Cout(Cout)
-{}
+{
+    for(auto it: m_Cout)
+    {
+        //std::cout<<fixed<<stdsetprecision(2)<<it;
+    }
+}
 
 Arrete::~Arrete()
 {

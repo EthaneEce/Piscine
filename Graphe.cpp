@@ -110,10 +110,14 @@ void Graphe::afficherallegro() const
 
         Sommet* n1 = m_sommets.find(sommet1id)->second;
         Sommet* n2 = m_sommets.find(sommet2id)->second;
-        for(int i=-5;i<=5;i++)
+        for(int j=5;j>=-5;j--)
         {
-            line(screen, n1->getx()+i, n1->gety()+i, n2->getx()+i, n2->gety()+i, makecol(255,255,255));
+            for(int i=-5;i<=5;i++)
+            {
+                line(screen, n1->getx()+i, n1->gety()+i, n2->getx()+j, n2->gety()+j, makecol(255,255,255));
+            }
         }
+
         textprintf_centre_ex(screen,font,(n1->getx()+n2->getx())/2,(n1->gety()+n2->gety())/2,makecol(0,0,0),makecol(255,255,255),"%d",it.second->getid());
     }
 
