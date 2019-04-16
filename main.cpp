@@ -41,7 +41,6 @@ int main ( )
     for ( auto& a : vec )
         a->afficherData ( );
     b.afficher ( );
-    std::cin.get ( );
 
     return 0;
 }END_OF_MAIN();

@@ -114,6 +114,7 @@ void Graphe::afficher ( ) const
 }
 
 void Graphe::afficherallegro() const
+{
     for(auto it: m_arretes)
     {
         BITMAP *buffer = create_bitmap(SCREEN_W, SCREEN_H);
