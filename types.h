@@ -2,7 +2,7 @@
 #define TYPES_H_INCLUDED
 #include <iostream>
 
-class Type
+/**class Type
 {
 public :
     virtual ~Type() = default;
@@ -36,7 +36,11 @@ public :
     String();
     std::string getVar(){return var;};
     void setVar(std::string a){var = a;};
+<<<<<<< HEAD
 
 };
+=======
+};**/
+>>>>>>> Bruteforce
 
 #endif // TYPES_H_INCLUDED

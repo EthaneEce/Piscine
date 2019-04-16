@@ -2,11 +2,16 @@
 #include "Graphe.h"
 #include <functional>
 #include <algorithm>
+<<<<<<< HEAD
+=======
+
+>>>>>>> Bruteforce
 Graphe::Graphe ( std::unordered_map<int , Sommet*> mS , std::unordered_map<int , Arrete*> mA )
 {
     m_sommets = mS;
     m_arretes = mA;
 }
+
 
 Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 )
 {
@@ -114,9 +119,15 @@ void Graphe::afficher ( ) const
     }
 }
 
+<<<<<<< HEAD
 void Graphe::afficherallegro ( ) const
 {
     for ( auto it : m_arretes )
+=======
+void Graphe::afficherallegro() const
+{
+    for(auto it: m_arretes)
+>>>>>>> Bruteforce
     {
         BITMAP* buffer = create_bitmap ( SCREEN_W , SCREEN_H );
         int sommet1id = it.second->gets1 ( );
@@ -128,8 +139,12 @@ void Graphe::afficherallegro ( ) const
         {
             for ( int i = -5; i <= 5; i++ )
             {
+<<<<<<< HEAD
                 line ( screen , n1->getx ( ) + i , n1->gety ( ) + i , n2->getx ( ) + j , n2->gety ( ) + j , makecol ( 255 , 255 , 255 ) );
 
+=======
+                line(screen, n1->getx()+i, n1->gety()+i, n2->getx()+j, n2->gety()+j, makecol(255,255,255));
+>>>>>>> Bruteforce
             }
         }
         textprintf_centre_ex ( screen , font , ( n1->getx ( ) + n2->getx ( ) ) / 2 , ( n1->gety ( ) + n2->gety ( ) ) / 2 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "%d" , it.second->getid ( ) );

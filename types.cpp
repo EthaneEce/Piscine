@@ -1,7 +1,7 @@
 #include "types.h"
 
-Integer::Integer(){}
+/**Integer::Integer(){}
 
 Float::Float(){}
 
-String::String(){}
+String::String(){}**/

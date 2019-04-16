@@ -13,6 +13,8 @@ class Graphe
         Graphe(std::string nomFichier1,std::string nomFichier2);
         Graphe(std::unordered_map<int,Sommet*>,std::unordered_map<int,Arrete*>);
         ~Graphe();
+        std::unordered_map<int,Sommet*> getsommets(){return m_sommets;};
+        std::unordered_map<int,Arrete*> getarretes(){return m_arretes;};
         void afficher() const;
         void afficherallegro() const;
         std::unordered_map<int,Arrete*> Kruskal(size_t cout_id)const;
