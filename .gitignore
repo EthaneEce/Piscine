@@ -7,3 +7,13 @@
 *.layout
 *.depend
 *.cbp
+.vs/Piscine/v16/.suo
+*.db
+*.ipch
+*.obj
+*.log
+*.tlog
+*.idb
+*.pdb
+*.ilk
+*.sln
