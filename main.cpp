@@ -6,6 +6,7 @@
 #include <string.h>
 #include <iomanip>
 #include "Graphe.h"
+#include "graphisme.h"
 
 void lancerToutAllegro(int largeur, int hauteur);
 
@@ -14,12 +15,17 @@ std::vector<Graphe*> bruteforce(Graphe b);
 int main ( )
 {
 
-    size_t lng = 1200,lrg =800;
-    lancerToutAllegro(lng,lrg);
+    lancerToutAllegro(1200,800);
     BITMAP*buffer;
-    buffer=create_bitmap(lng,lrg);
+    buffer=create_bitmap(SCREEN_W,SCREEN_H);
 
     Graphe b("txt/broadway.txt","txt/broadway_weights_0.txt");
+    FONT* font1= load_font("font/font3.pcx",nullptr,nullptr);
+
+    int choix = menu(buffer,b,font1);
+
+
+    /*
     //b.afficherallegro(100,100,2);
     std::vector<Graphe*> Ttgraphes = bruteforce(b);
     int i=0,j=0;
@@ -34,7 +40,7 @@ int main ( )
         }
     }
     draw_sprite(screen,buffer,0,0);
-    do{}while(!key[KEY_ESC]);
+    do{}while(!key[KEY_ESC]);*/
 
     /**BITMAP*perso;
     perso=load_bitmap("persotest.bmp",NULL);
