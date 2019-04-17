@@ -4,11 +4,23 @@
 #include <algorithm>
 #include <unordered_set>
 #include <memory>
-
+#include "Timer.h"
 Graphe::Graphe ( std::vector<Sommet*> mS , std::vector<Arrete*> mA )
-: m_sommets ( mS ) , m_arretes ( mA )
+    : m_sommets ( mS ) , m_arretes ( mA )
 {
-    nbCouts = m_arretes.begin ( )->second->getcout ( ).size ( );
+    nbCouts = m_arretes [ 0 ]->getcout ( ).size ( );
+}
+
+Graphe::Graphe ( const Graphe& src , const std::vector<bool>& vec )
+{
+    std::vector<Arrete*> temp;
+    for ( size_t i = 0; i < vec.size ( ); i++ )
+    {
+        if ( vec.at ( i ) & true ) {
+            temp.push_back ( src.m_arretes.at ( i ) );
+        }
+    }
+    *this = Graphe ( src.m_sommets , temp );
 }
 
 Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 )
@@ -40,7 +52,7 @@ Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 )
         ifs1 >> y1;
         if ( ifs1.fail ( ) )
             throw std::runtime_error ( "Probleme lecture donnees sommet" );
-        m_sommets.push_back ( new Sommet{id1, x1, y1});
+        m_sommets.push_back ( new Sommet { id1, x1, y1 } );
     }
 
     int taille , taille2;
@@ -88,7 +100,7 @@ Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 )
                 throw std::runtime_error ( "Probleme lecture donn�es arrete" );
             Cout.push_back ( coutnbr );
         }
-        m_arretes.push_back( new Arrete{id2, x2, y2, Cout}  );
+        m_arretes.push_back ( new Arrete { id2, x2, y2, Cout } );
     }
 }
 
@@ -117,65 +129,13 @@ void Graphe::afficher ( ) const
 }
 
 
-void Graphe::afficherallegro(BITMAP*buffer,double x, double y,int proportion) const
+
+
+std::vector<Arrete*> Graphe::Kruskal ( size_t cout_id ) const
 {
-    for ( auto it : m_arretes )
-    {
-
-        int sommet1id = it->gets1 ( );
-        int sommet2id = it->gets2 ( );
-
-        Sommet* n1;
-        Sommet* n2;
-        for ( auto it2 : m_sommets )
-        {
-            if(sommet1id == it2->getid())
-            {
-                n1 = it2;
-            }
-            if(sommet2id == it2->getid())
-            {
-                n2 = it2;
-            }
-        }
-
-        for ( int j = 5; j >= -5; j-- )
-        {
-            for ( int i = -5; i <= 5; i++ )
-            {
-                line ( buffer , (x + n1->getx ( ) + i)/proportion , (y + n1->gety ( ) + i)/proportion , (x + n2->getx ( ) + j)/proportion , (y + n2->gety ( ) + j)/proportion , makecol ( 255 , 255 , 255 ) );
-            }
-        }
-        textprintf_centre_ex ( buffer , font , (x + ( n1->getx ( ) + n2->getx ( ) ) / 2)/proportion , (y + ( n1->gety ( ) + n2->gety ( ) ) / 2)/proportion , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "%d" , it->getid ( ) );
-    }
-    int texte1 = 0;
-    for ( auto it : m_arretes )
-    {
-        std::vector<float> couts;
-        couts = it->getcout ( );
-        textprintf_centre_ex ( buffer , font , x + SCREEN_W - 300 , y + 100 + texte1 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "Cout de %d --> " , it->getid ( ) );
-        int texte2 = 0;
-        for ( auto it2 : couts )
-        {
-            textprintf_centre_ex ( buffer , font , x + SCREEN_W - 200 + texte2 , y + 100 + texte1 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "%f " , it2 );
-            texte2 += 100;
-        }
-        texte1 += 10;
-    }
-
-    for ( auto it : m_sommets )
-    {
-        circlefill ( buffer , (x + it->getx ( ))/proportion , (y + it->gety ( ))/proportion , 100/(proportion*10) , makecol ( 255 , 0 , 0 ) );
-        textprintf_centre_ex ( buffer , font , (x + it->getx ( ))/proportion , (y + it->gety ( ) )/proportion, makecol ( 255 , 255 , 0 ) , makecol ( 255 , 0 , 0 ) , "%d" , it->getid ( ) );
-    }
-}
-
-
-/**std::vector<Arrete*> Graphe::Kruskal ( size_t cout_id ) const
-{
-
+    Timer t ( "Kruskal" );
     //Map Solution
-    std::unordered_map<int , Arrete*> solution;
+    std::vector<Arrete*> solution;
 
     //Associer un sommet et sa composante connexe
     std::unordered_map<int , std::shared_ptr<int>> composantesConnexes;
@@ -189,15 +149,14 @@ void Graphe::afficherallegro(BITMAP*buffer,double x, double y,int proportion) co
     }
 
     //Vector dans lequel on va mettre notre map d'aretes
-    std::vector<std::pair<int , Arrete*>> vec;
-    std::copy ( m_arretes.begin ( ) , m_arretes.end ( ) ,
-        std::back_inserter<std::vector<std::pair<int , Arrete*>>> ( vec ) );
+    std::vector<Arrete*> vec ( m_arretes );
 
 
     //trier le vector en fonction du cout reçu en parametre
-    auto sortFunction = [ = ] ( const std::pair<int , Arrete*> & p1 , const std::pair<int , Arrete*> & p2 ) {
-        return p1.second->getcout ( ).at ( cout_id ) < p2.second->getcout ( ).at ( cout_id );
+    auto sortFunction = [ & ] ( Arrete * a1 , Arrete * a2 ) {
+        return a1->getcout ( ).at ( cout_id ) < a2->getcout ( ).at ( cout_id );
     };
+
     std::sort ( vec.begin ( ) , vec.end ( ) , sortFunction );
 
 
@@ -207,14 +166,15 @@ void Graphe::afficherallegro(BITMAP*buffer,double x, double y,int proportion) co
     for ( auto& a : vec )
     {
         //Trouver les sommets
-        auto s1 = composantesConnexes.find ( a.second->gets1 ( ) );
-        auto s2 = composantesConnexes.find ( a.second->gets2 ( ) );
+        auto s1 = composantesConnexes.find ( a->gets1 ( ) );
+        auto s2 = composantesConnexes.find ( a->gets2 ( ) );
 
         //S'ils ne sont pas sur la meme composante connexe
         if ( *( s1->second ) != *( s2->second ) )
         {
             //Inserer l'arete
-            solution.insert ( { a.first, a.second } );
+            solution.push_back ( a );
+
 
             //Mettre à jour pour que les sommets sont sur la meme composante connexe
             if ( s1->second.use_count ( ) < s2->second.use_count ( ) )
@@ -231,34 +191,41 @@ void Graphe::afficherallegro(BITMAP*buffer,double x, double y,int proportion) co
         }
     }
 
+    return solution;
+}
+
+std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec )
+{
+    std::vector<Graphe*> solution;
+    for ( auto a : vec )
+    {
+        solution.push_back ( new Graphe ( *this , a ) );
+    }
+    auto sortFunction = [ = ] ( Graphe * g1 , Graphe * g2 )
+    {
+        return g1 < g2;
+    };
+    std::sort ( solution.begin ( ) , solution.end ( ) , sortFunction );
+
+
+    return solution;
+}
+
 std::vector<std::vector<bool>> Graphe::bruteforce ( )
 {
+    Timer t ( "brute force" );
+    std::vector<std::vector<bool>> solution;
 
-    std::vector<Arrete*> Arretesvec;
-    for ( auto it : solution )
-    {
-        Arretesvec.push_back ( it.second );
-    }
-    return Arretesvec;
-}**/
-
-std::vector<Graphe*> Graphe::bruteforce ( )
-{
     std::vector<Sommet*> Sommetsmap = m_sommets;
     std::vector<Arrete*> Arretesvec = m_arretes;
     std::vector<Graphe*> TtGraphes;
     std::vector<Arrete*> ArretesN;
 
-    std::vector<int> compteur;
-
-    for ( size_t i = 0; i <= Arretesvec.size ( ); i++ )
-    {
-        compteur.push_back ( 0 );
-    }
+    std::vector<int> compteur ( Arretesvec.size ( ) , 0 );
 
     while ( true )
     {
-        for ( size_t i = 0; i < Arretesvec.size ( ); i++ )
+        for ( unsigned int i = 0; i < Arretesvec.size ( ); i++ )
         {
             if ( compteur [ i ] == 2 )
             {
@@ -270,33 +237,28 @@ std::vector<Graphe*> Graphe::bruteforce ( )
         {
             break;
         }
-        for ( size_t i = 0; i < Arretesvec.size ( ); i++ )
+        for ( unsigned int i = 0; i < Arretesvec.size ( ); i++ )
         {
             if ( compteur [ i ] == 1 )
             {
-                ArretesN.push_back ( Arretesvec [ i ]  );
+                ArretesN.push_back ( Arretesvec [ i ] );
             }
-            std::cout << compteur [ i ];
+            // std::cout << compteur [ i ];
         }
-        Graphe* a = new Graphe ( Sommetsmap , ArretesN );
-        TtGraphes.push_back ( a );
-        //a->afficher();
+        // Graphe* a = new Graphe ( Sommetsmap , ArretesN );
+     //    TtGraphes.push_back ( a );
+         //a->afficher();
 
         compteur [ 0 ] += 1;
-        std::cout << std::endl;
-        //system("pause");
+        // std::cout << std::endl;
+         //system("pause");
     }
-
-    std::cout << "fin";
-    return std::vector<std::vector<bool>> ( );
+    return solution;
 }
-
 float Graphe::distanceEuclidienne ( int s1 , int s2 )
 {
-    auto _s1 = m_sommets.find ( s1 );
-    auto _s2 = m_sommets.find ( s2 );
-    auto x = _s1->second->getx ( ) - _s2->second->getx ( );
-    auto y = _s1->second->gety ( ) - _s2->second->gety ( );
+    auto x = m_sommets [ s1 ]->getx ( ) - m_sommets [ s2 ]->getx ( );
+    auto y = m_sommets [ s2 ]->gety ( ) - m_sommets [ s2 ]->gety ( );
     auto dist = ( x * x ) + ( y * y );
     dist = sqrt ( dist );
     return ( float ) dist;
@@ -309,7 +271,7 @@ std::vector<float> Graphe::poidsTotaux ( )
     {
         float total = 0.0f;
         for ( auto& a : m_arretes ) {
-            total += a.second->getcout ( ).at ( i );
+            total += a->getcout ( ).at ( i );
         }
         solution.push_back ( total );
     }
