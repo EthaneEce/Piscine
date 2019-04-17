@@ -1,15 +1,5 @@
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <allegro.h>
-#include <time.h>
-#include <string.h>
-#include <iomanip>
 #include "Graphe.h"
-
-void lancerToutAllegro(int largeur, int hauteur);
-
-std::vector<Graphe*> bruteforce(Graphe b);
 
 int main ( )
 {
@@ -74,108 +64,10 @@ int main ( )
     for ( auto& a : vec )
         a.second->afficherData ( );
     b.afficher ( );
-    std::cin.get ( ); */
-
-
+    auto sol = b.bruteforce ( );
     return 0;
-}END_OF_MAIN();
-
-void lancerToutAllegro(int largeur, int hauteur)
-{
-    /// initialisation g�n�rale
-    allegro_init();
-    /// pour utiliser le clavier
-    install_keyboard();
-    /// pour utiliser la souris
-    install_mouse();
-    /// initialisation du MODE GRAPHIQUE
-    //on fixe le mode couleur (8, 16, 24 ou 32 bits)
-    set_color_depth(desktop_color_depth());
-    // on essaie d�ouvrir une fen�tre de largeur*hauteur pixels
-    // si l�ouverture �choue on quitte
-    if (set_gfx_mode(GFX_AUTODETECT_WINDOWED,largeur,hauteur,0,0)!=0)
-    {
-        allegro_message("probleme mode graphique : %s", allegro_error);
-        allegro_exit();
-        exit(EXIT_FAILURE);
-    }
-    /// si on veut afficher le pointeur de souris
-    show_mouse(screen);
+    */
 }
 
-std::vector<Graphe*> bruteforce(Graphe b)
-{
-    std::unordered_map<int,Sommet*> Sommetsmap = b.getsommets();
-    std::unordered_map<int,Arrete*> Arretesmap = b.getarretes();
-    std::vector<Arrete*> Arretesvec;
-    std::vector<Graphe*> TtGraphes;
-
-    for(auto it: Arretesmap)
-    {
-        Arretesvec.push_back(it.second);
-    }
-
-    std::unordered_map<int,Arrete*> ArretesN;
-
-    std::vector<int> compteur;
-
-    for (int i=0;i <= Arretesvec.size();i++)
-    {
-        compteur.push_back(0);
-    }
-
-    while(true)
-    {
-        for(int i=0;i<Arretesvec.size();i++)
-        {
-            if(compteur[i] == 2)
-            {
-                compteur[i]=0;
-                compteur[i+1]+=1;
-            }
-        }
-        if((compteur[compteur.size()-1] == 1) )
-         {
-             break;
-         }
-        for(int i=0;i<Arretesvec.size();i++)
-        {
-            if(compteur[i] == 1)
-            {
-                ArretesN.insert( {Arretesvec[i]->getid(),Arretesvec[i]} );
-            }
-            std::cout<<compteur[i];
-        }
-        Graphe *a =  new Graphe(Sommetsmap,ArretesN);
-        TtGraphes.push_back(a);
-        a->afficher();
-
-        compteur[0]+=1;
-         std::cout<<std::endl;
-         //system("pause");
-         ArretesN.clear();
-    }
-
-    /**for (i;i<Arretesvec.size();i++)
-    {
-        j=i+1;
-        ArretesN.insert( {Arretesvec[i]->getid(),Arretesvec[i]} );
-        Graphe *a =  new Graphe(Sommetsmap,ArretesN);
-        a->afficher();
-        TtGraphes.push_back(a);
-        for(j;j<Arretesvec.size();j++)
-        {
-            ArretesN.insert( {Arretesvec[j]->getid(),Arretesvec[j]} );
-            Graphe *b =  new Graphe(Sommetsmap,ArretesN);
-            b->afficher();
-            TtGraphes.push_back(b);
-        }
-        ArretesN.clear();
-    }**/
-
-    std::cout<<"fin";
-
-    return TtGraphes;
-}
 
 

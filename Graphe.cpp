@@ -2,15 +2,12 @@
 #include "Graphe.h"
 #include <functional>
 #include <algorithm>
+#include <unordered_set>
 #include <memory>
 
-
-Graphe::Graphe ( std::unordered_map<int , Sommet*> mS , std::unordered_map<int , Arrete*> mA )
+Graphe::Graphe ( std::unordered_map<int , Sommet*> mS , std::unordered_map<int , Arrete*> mA ) : m_sommets ( mS ) , m_arretes ( mA )
 {
-    m_sommets = mS;
-    m_arretes = mA;
 }
-
 
 Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 )
 {
@@ -163,34 +160,136 @@ void Graphe::afficherallegro(BITMAP*buffer,double x, double y,int proportion) co
 
 std::unordered_map<int , Arrete*> Graphe::Kruskal ( size_t cout_id ) const
 {
-    std::unordered_map<int , Arrete*>solution;
+
+    //Map Solution
+    std::unordered_map<int , Arrete*> solution;
+
+    //Associer un sommet et sa composante connexe
     std::unordered_map<int , std::shared_ptr<int>> composantesConnexes;
+
+    //Au déput chaque sommet est sur une composante connexe
     int i = 0;
     for ( auto& a : m_sommets )
     {
         composantesConnexes.insert ( { a.second->getid ( ), std::make_shared<int> ( i ) } );
         i++;
     }
+
+    //Vector dans lequel on va mettre notre map d'aretes
     std::vector<std::pair<int , Arrete*>> vec;
     std::copy ( m_arretes.begin ( ) , m_arretes.end ( ) ,
         std::back_inserter<std::vector<std::pair<int , Arrete*>>> ( vec ) );
+
+
+    //trier le vector en fonction du cout reçu en parametre
     auto sortFunction = [ = ] ( const std::pair<int , Arrete*> & p1 , const std::pair<int , Arrete*> & p2 ) {
-        return p1.second->getcout ( ) < p2.second->getcout ( );
+        return p1.second->getcout ( ).at ( cout_id ) < p2.second->getcout ( ).at ( cout_id );
     };
     std::sort ( vec.begin ( ) , vec.end ( ) , sortFunction );
 
-    for ( auto& a : vec ) {
+
+
+    //Algo de Kruskal
+//pour chaque arete
+    for ( auto& a : vec )
+    {
+        //Trouver les sommets
         auto s1 = composantesConnexes.find ( a.second->gets1 ( ) );
         auto s2 = composantesConnexes.find ( a.second->gets2 ( ) );
-        if ( *( s1->second ) != *( s2->second ) ) {
-            solution.insert ( { a.first,a.second } );
+
+        //S'ils ne sont pas sur la meme composante connexe
+        if ( *( s1->second ) != *( s2->second ) )
+        {
+            //Inserer l'arete
+            solution.insert ( { a.first, a.second } );
+
+            //Mettre à jour pour que les sommets sont sur la meme composante connexe
             if ( s1->second.use_count ( ) < s2->second.use_count ( ) )
                 s1->second = s2->second;
-            else if ( s2->second.use_count ( ) == 1 ) s2->second = s1->second;
-            else *( s1->second ) = *( s2->second );
+            else if ( s2->second.use_count ( ) == 1 )
+                s2->second = s1->second;
+            else
+                *( s1->second ) = *( s2->second );
+
+
+            //Si on a inséré ordre_graphe - 1 aretes, on stop la boucle
             if ( solution.size ( ) == m_sommets.size ( ) - 1 )
                 break;
         }
     }
     return solution;
+}
+
+std::vector<Graphe*> Graphe::bruteforce ( )
+{
+    std::unordered_map<int , Sommet*> Sommetsmap = m_sommets;
+    std::unordered_map<int , Arrete*> Arretesmap = m_arretes;
+    std::vector<Arrete*> Arretesvec;
+    std::vector<Graphe*> TtGraphes;
+
+    for ( auto it : Arretesmap )
+    {
+        Arretesvec.push_back ( it.second );
+    }
+
+    std::unordered_map<int , Arrete*> ArretesN;
+
+    std::vector<int> compteur;
+
+    for ( int i = 0; i <= Arretesvec.size ( ); i++ )
+    {
+        compteur.push_back ( 0 );
+    }
+
+    while ( true )
+    {
+        for ( int i = 0; i < Arretesvec.size ( ); i++ )
+        {
+            if ( compteur [ i ] == 2 )
+            {
+                compteur [ i ] = 0;
+                compteur [ i + 1 ] += 1;
+            }
+        }
+        if ( ( compteur [ compteur.size ( ) - 1 ] == 1 ) )
+        {
+            break;
+        }
+        for ( int i = 0; i < Arretesvec.size ( ); i++ )
+        {
+            if ( compteur [ i ] == 1 )
+            {
+                ArretesN.insert ( { Arretesvec [ i ]->getid ( ),Arretesvec [ i ] } );
+            }
+            std::cout << compteur [ i ];
+        }
+        Graphe* a = new Graphe ( Sommetsmap , ArretesN );
+        TtGraphes.push_back ( a );
+        //a->afficher();
+
+        compteur [ 0 ] += 1;
+        std::cout << std::endl;
+        //system("pause");
+    }
+
+    /**for (i;i<Arretesvec.size();i++)
+    {
+        j=i+1;
+        ArretesN.insert( {Arretesvec[i]->getid(),Arretesvec[i]} );
+        Graphe *a =  new Graphe(Sommetsmap,ArretesN);
+        a->afficher();
+        TtGraphes.push_back(a);
+        for(j;j<Arretesvec.size();j++)
+        {
+            ArretesN.insert( {Arretesvec[j]->getid(),Arretesvec[j]} );
+            Graphe *b =  new Graphe(Sommetsmap,ArretesN);
+            b->afficher();
+            TtGraphes.push_back(b);
+        }
+        ArretesN.clear();
+    }**/
+
+    std::cout << "fin";
+
+    return TtGraphes;
 }

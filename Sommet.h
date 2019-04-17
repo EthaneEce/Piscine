@@ -4,25 +4,25 @@
 
 class Sommet
 {
-    public:
-        ///constructeur qui reçoit en params les données du sommet
-        Sommet(int,double,double);
-        void afficherData() const;
+public:
+    ///constructeur qui reçoit en params les données du sommet
+    Sommet ( int , double , double );
+    void afficherData ( ) const;
 
-        /// Retourne l'id du sommet et ses différents voisins
-        int getid()const ;
-        double getx()const ;
-        double gety()const ;
+    /// Retourne l'id du sommet et ses différents voisins
+    int getid ( )const;
+    double getx ( )const;
+    double gety ( )const;
 
-        ~Sommet();
+    ~Sommet ( );
 
-    protected:
+protected:
 
-    private:
+private:
 
-        /// Données spécifiques du sommet
-        int m_id; // Identifiant
-        double m_x, m_y; // Position
+    /// Données spécifiques du sommet
+    int m_id; // Identifiant
+    double m_x , m_y; // Position
 
 };
 

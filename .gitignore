@@ -7,7 +7,24 @@
 *.layout
 *.depend
 *.cbp
-<<<<<<< HEAD
+*.sln
+*.ipch
+*.db
+.vs/Piscine/v16/.suo
+*.opendb
+*.obj
+*.log
+*.tlog
+.vs/Piscine/v16/.suo
+*.db
+*.opendb
+*.ipch
+*.obj
+*.tlog
+*.log
+*.idb
+*.pdb
+*.ilk
 .vs/Piscine/v16/.suo
 *.db
 *.ipch
@@ -18,11 +35,9 @@
 *.pdb
 *.ilk
 *.sln
-=======
 *.depend
 *.layout
 *.layout
 Piscine.layout
->>>>>>> Bruteforce
 *.depend
 *.opendb
