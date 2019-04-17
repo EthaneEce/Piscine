@@ -16,7 +16,7 @@ class Graphe
         std::unordered_map<int,Sommet*> getsommets(){return m_sommets;};
         std::unordered_map<int,Arrete*> getarretes(){return m_arretes;};
         void afficher() const;
-        void afficherallegro(double x, double y,int proportion) const;
+        void afficherallegro(BITMAP*buffer,double x, double y,int proportion) const;
         std::unordered_map<int,Arrete*> Kruskal(size_t cout_id)const;
         std::unordered_map<int,Sommet*> getSommets(){return m_sommets;};
 

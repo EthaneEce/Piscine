@@ -119,11 +119,11 @@ void Graphe::afficher ( ) const
 }
 
 
-void Graphe::afficherallegro(double x, double y,int proportion) const
+void Graphe::afficherallegro(BITMAP*buffer,double x, double y,int proportion) const
 {
     for ( auto it : m_arretes )
     {
-        BITMAP* buffer = create_bitmap ( SCREEN_W , SCREEN_H );
+
         int sommet1id = it.second->gets1 ( );
         int sommet2id = it.second->gets2 ( );
 
@@ -133,21 +133,21 @@ void Graphe::afficherallegro(double x, double y,int proportion) const
         {
             for ( int i = -5; i <= 5; i++ )
             {
-                line ( screen , (x + n1->getx ( ) + i)/proportion , (y + n1->gety ( ) + i)/proportion , (x + n2->getx ( ) + j)/proportion , (y + n2->gety ( ) + j)/proportion , makecol ( 255 , 255 , 255 ) );
+                line ( buffer , (x + n1->getx ( ) + i)/proportion , (y + n1->gety ( ) + i)/proportion , (x + n2->getx ( ) + j)/proportion , (y + n2->gety ( ) + j)/proportion , makecol ( 255 , 255 , 255 ) );
             }
         }
-        textprintf_centre_ex ( screen , font , (x + ( n1->getx ( ) + n2->getx ( ) ) / 2)/proportion , (y + ( n1->gety ( ) + n2->gety ( ) ) / 2)/proportion , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "%d" , it.second->getid ( ) );
+        textprintf_centre_ex ( buffer , font , (x + ( n1->getx ( ) + n2->getx ( ) ) / 2)/proportion , (y + ( n1->gety ( ) + n2->gety ( ) ) / 2)/proportion , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "%d" , it.second->getid ( ) );
     }
     int texte1 = 0;
     for ( auto it : m_arretes )
     {
         std::vector<float> couts;
         couts = it.second->getcout ( );
-        textprintf_centre_ex ( screen , font , x + SCREEN_W - 300 , y + 100 + texte1 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "Cout de %d --> " , it.second->getid ( ) );
+        textprintf_centre_ex ( buffer , font , x + SCREEN_W - 300 , y + 100 + texte1 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "Cout de %d --> " , it.second->getid ( ) );
         int texte2 = 0;
         for ( auto it2 : couts )
         {
-            textprintf_centre_ex ( screen , font , x + SCREEN_W - 200 + texte2 , y + 100 + texte1 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "%f " , it2 );
+            textprintf_centre_ex ( buffer , font , x + SCREEN_W - 200 + texte2 , y + 100 + texte1 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "%f " , it2 );
             texte2 += 100;
         }
         texte1 += 10;
@@ -155,8 +155,8 @@ void Graphe::afficherallegro(double x, double y,int proportion) const
 
     for ( auto it : m_sommets )
     {
-        circlefill ( screen , (x + it.second->getx ( ))/proportion , (y + it.second->gety ( ))/proportion , 100/(proportion*10) , makecol ( 255 , 0 , 0 ) );
-        textprintf_centre_ex ( screen , font , (x + it.second->getx ( ))/proportion , (y + it.second->gety ( ) )/proportion, makecol ( 255 , 255 , 0 ) , makecol ( 255 , 0 , 0 ) , "%d" , it.second->getid ( ) );
+        circlefill ( buffer , (x + it.second->getx ( ))/proportion , (y + it.second->gety ( ))/proportion , 100/(proportion*10) , makecol ( 255 , 0 , 0 ) );
+        textprintf_centre_ex ( buffer , font , (x + it.second->getx ( ))/proportion , (y + it.second->gety ( ) )/proportion, makecol ( 255 , 255 , 0 ) , makecol ( 255 , 0 , 0 ) , "%d" , it.second->getid ( ) );
     }
 }
 

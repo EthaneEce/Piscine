@@ -14,8 +14,10 @@ std::vector<Graphe*> bruteforce(Graphe b);
 int main ( )
 {
 
-
-    lancerToutAllegro(1900,1000);
+    size_t lng = 1200,lrg =800;
+    lancerToutAllegro(lng,lrg);
+    BITMAP*buffer;
+    buffer=create_bitmap(lng,lrg);
 
     Graphe b("txt/broadway.txt","txt/broadway_weights_0.txt");
     //b.afficherallegro(100,100,2);
@@ -23,7 +25,7 @@ int main ( )
     int i=0,j=0;
     for(auto it:Ttgraphes)
     {
-        it->afficherallegro(i,j,2);
+        it->afficherallegro(buffer,i,j,2);
         i+=150;
         if (i >= 1500)
         {
@@ -31,6 +33,7 @@ int main ( )
             i=0;
         }
     }
+    draw_sprite(screen,buffer,0,0);
     do{}while(!key[KEY_ESC]);
 
     /**BITMAP*perso;
