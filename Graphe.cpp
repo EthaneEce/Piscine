@@ -2,7 +2,7 @@
 #include "Graphe.h"
 #include <functional>
 #include <algorithm>
-#include <unordered_set>
+#include <set>
 #include <memory>
 #include "Timer.h"
 Graphe::Graphe ( std::vector<Sommet*> mS , std::vector<Arrete*> mA )
@@ -10,6 +10,7 @@ Graphe::Graphe ( std::vector<Sommet*> mS , std::vector<Arrete*> mA )
 {
     nbCouts = m_arretes [ 0 ]->getcout ( ).size ( );
 }
+
 
 Graphe::Graphe ( const Graphe& src , const std::vector<bool>& vec )
 {
@@ -203,7 +204,9 @@ std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec
     }
     auto sortFunction = [ = ] ( Graphe * g1 , Graphe * g2 )
     {
-        return g1 < g2;
+        auto v1 = g1->poidsTotaux ( );
+        auto v2 = g2->poidsTotaux ( );
+        return v1.at ( 0 ) < v2.at ( 0 );
     };
     std::sort ( solution.begin ( ) , solution.end ( ) , sortFunction );
 

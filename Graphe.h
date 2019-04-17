@@ -24,6 +24,7 @@ public:
     std::vector<Arrete*> Kruskal ( size_t cout_id = 0 ) const;
     std::vector<Graphe*> Pareto ( const std::vector<std::vector<bool>>& vec );
 private:
+
     size_t nbCouts = 0;
     std::vector<Sommet*> m_sommets;
     std::vector<Arrete*> m_arretes;
