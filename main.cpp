@@ -11,12 +11,12 @@ int main ( )
     BITMAP*buffer;
     buffer=create_bitmap(lng,lrg);
 
-    Graphe b("txt/broadway.txt","txt/broadway_weights_0.txt");
+    Graphe b("txt/cubetown.txt","txt/cubetown_weights_0.txt");
     //b.afficherallegro(100,100,2);
     std::vector<std::vector<bool>> Ttgraphes = b.bruteforce(1);
     //int k=0,l=0;
 
-    b.afficherallegrotout(buffer,0, 0,2) ;
+    b.afficherallegrotout(buffer,0, 0,7) ;
 
 
     /**for(auto it:Ttgraphes)
