@@ -11,36 +11,12 @@ int main ( )
     BITMAP*buffer;
     buffer=create_bitmap(lng,lrg);
 
-    Graphe b("txt/cubetown.txt","txt/cubetown_weights_0.txt");
+    Graphe b("txt/broadway.txt","txt/broadway_weights_0.txt");
     //b.afficherallegro(100,100,2);
     std::vector<std::vector<bool>> Ttgraphes = b.bruteforce();
     int k=0,l=0;
 
-
-
-    std::vector<Arrete*> ArretesN;
-
-    for(unsigned int i = 0; i < Ttgraphes.size ( ); i++)
-    {
-        for ( unsigned int j = 0; j < Ttgraphes[i].size ( ); j++ )
-        {
-            //std::cout<<Ttgraphes[i][j];
-            if ( Ttgraphes [ i ] [ j ] == true )
-            {
-                ArretesN.push_back ( b.getarretes() [ j ]  );
-            }
-        }
-        //std::cout<<std::endl;
-        Graphe* a = new Graphe ( b.getsommets() , ArretesN );
-        a->afficherallegro(buffer,k,l,8);
-        k+=500;
-        if (k >= 1500)
-        {
-            l+=500;
-            k=0;
-        }
-        ArretesN.clear();
-    }
+    b.afficherallegrotout(buffer,0, 0,2) ;
 
 
     /**for(auto it:Ttgraphes)

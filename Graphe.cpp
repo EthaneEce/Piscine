@@ -170,6 +170,35 @@ void Graphe::afficherallegro(BITMAP*buffer,double x, double y,int proportion) co
     }
 }
 
+void Graphe::afficherallegrotout(BITMAP*buffer,double x, double y,int proportion) const
+{
+    std::vector<std::vector<bool>> Ttgraphes;
+    Graphe b(m_sommets,m_arretes);
+    Ttgraphes=b.bruteforce();
+    int k=x,l=y;
+    std::vector<Arrete*> ArretesN;
+
+    for(unsigned int i = 0; i < Ttgraphes.size ( ); i++)
+    {
+        for ( unsigned int j = 0; j < Ttgraphes[i].size ( ); j++ )
+        {
+            if ( Ttgraphes [ i ] [ j ] == true )
+            {
+                ArretesN.push_back ( b.getarretes() [ j ]  );
+            }
+        }
+        Graphe* a = new Graphe ( b.getsommets() , ArretesN );
+        a->afficherallegro(buffer,k,l,proportion);
+        k+=150;
+        if (k >= 1500)
+        {
+            //l+=500;
+            l+=150;
+            k=0;
+        }
+        ArretesN.clear();
+    }
+}
 
 /**std::vector<Arrete*> Graphe::Kruskal ( size_t cout_id ) const
 {
@@ -254,7 +283,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( )
 
     while ( compteur [ compteur.size ( ) - 1 ] != 1 )
     {
-        compteurs.push_back(compteur);
+
         int j = 0;
         for ( unsigned int i = 0; i < compteur.size ( ); i++ )
         {
@@ -263,9 +292,11 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( )
             {
                 j++;
             }
-
         }
-
+        if(j==Arretesvec.size()-2)
+        {
+            compteurs.push_back(compteur);
+        }
         for ( unsigned int i = 0; i < compteur.size ( ); i++ )
         {
             if ( compteur [ i ] == 1 )
