@@ -5,7 +5,8 @@
 #include <unordered_set>
 #include <memory>
 
-Graphe::Graphe ( std::unordered_map<int , Sommet*> mS , std::unordered_map<int , Arrete*> mA ) : m_sommets ( mS ) , m_arretes ( mA )
+Graphe::Graphe ( std::vector<Sommet*> mS , std::vector<Arrete*> mA )
+: m_sommets ( mS ) , m_arretes ( mA )
 {
     nbCouts = m_arretes.begin ( )->second->getcout ( ).size ( );
 }
@@ -39,7 +40,7 @@ Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 )
         ifs1 >> y1;
         if ( ifs1.fail ( ) )
             throw std::runtime_error ( "Probleme lecture donnees sommet" );
-        m_sommets.insert ( { id1, new Sommet{id1, x1, y1} } );
+        m_sommets.push_back ( new Sommet{id1, x1, y1});
     }
 
     int taille , taille2;
@@ -87,7 +88,7 @@ Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 )
                 throw std::runtime_error ( "Probleme lecture donn�es arrete" );
             Cout.push_back ( coutnbr );
         }
-        m_arretes.insert ( { id2, new Arrete{id2, x2, y2, Cout} } );
+        m_arretes.push_back( new Arrete{id2, x2, y2, Cout}  );
     }
 }
 
@@ -103,21 +104,74 @@ void Graphe::afficher ( ) const
     for ( auto it : m_sommets )
     {
         std::cout << "->";
-        it.second->afficherData ( );
+        it->afficherData ( );
         std::cout << std::endl;
     }
     std::cout << "taille : " << m_arretes.size ( ) << std::endl;
     for ( auto it : m_arretes )
     {
         std::cout << "->";
-        it.second->afficherData ( );
+        it->afficherData ( );
         std::cout << std::endl;
     }
 }
 
 
+void Graphe::afficherallegro(BITMAP*buffer,double x, double y,int proportion) const
+{
+    for ( auto it : m_arretes )
+    {
 
-std::unordered_map<int , Arrete*> Graphe::Kruskal ( size_t cout_id ) const
+        int sommet1id = it->gets1 ( );
+        int sommet2id = it->gets2 ( );
+
+        Sommet* n1;
+        Sommet* n2;
+        for ( auto it2 : m_sommets )
+        {
+            if(sommet1id == it2->getid())
+            {
+                n1 = it2;
+            }
+            if(sommet2id == it2->getid())
+            {
+                n2 = it2;
+            }
+        }
+
+        for ( int j = 5; j >= -5; j-- )
+        {
+            for ( int i = -5; i <= 5; i++ )
+            {
+                line ( buffer , (x + n1->getx ( ) + i)/proportion , (y + n1->gety ( ) + i)/proportion , (x + n2->getx ( ) + j)/proportion , (y + n2->gety ( ) + j)/proportion , makecol ( 255 , 255 , 255 ) );
+            }
+        }
+        textprintf_centre_ex ( buffer , font , (x + ( n1->getx ( ) + n2->getx ( ) ) / 2)/proportion , (y + ( n1->gety ( ) + n2->gety ( ) ) / 2)/proportion , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "%d" , it->getid ( ) );
+    }
+    int texte1 = 0;
+    for ( auto it : m_arretes )
+    {
+        std::vector<float> couts;
+        couts = it->getcout ( );
+        textprintf_centre_ex ( buffer , font , x + SCREEN_W - 300 , y + 100 + texte1 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "Cout de %d --> " , it->getid ( ) );
+        int texte2 = 0;
+        for ( auto it2 : couts )
+        {
+            textprintf_centre_ex ( buffer , font , x + SCREEN_W - 200 + texte2 , y + 100 + texte1 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "%f " , it2 );
+            texte2 += 100;
+        }
+        texte1 += 10;
+    }
+
+    for ( auto it : m_sommets )
+    {
+        circlefill ( buffer , (x + it->getx ( ))/proportion , (y + it->gety ( ))/proportion , 100/(proportion*10) , makecol ( 255 , 0 , 0 ) );
+        textprintf_centre_ex ( buffer , font , (x + it->getx ( ))/proportion , (y + it->gety ( ) )/proportion, makecol ( 255 , 255 , 0 ) , makecol ( 255 , 0 , 0 ) , "%d" , it->getid ( ) );
+    }
+}
+
+
+/**std::vector<Arrete*> Graphe::Kruskal ( size_t cout_id ) const
 {
 
     //Map Solution
@@ -130,7 +184,7 @@ std::unordered_map<int , Arrete*> Graphe::Kruskal ( size_t cout_id ) const
     int i = 0;
     for ( auto& a : m_sommets )
     {
-        composantesConnexes.insert ( { a.second->getid ( ), std::make_shared<int> ( i ) } );
+        composantesConnexes.insert ( { a->getid ( ), std::make_shared<int> ( i ) } );
         i++;
     }
 
@@ -176,22 +230,24 @@ std::unordered_map<int , Arrete*> Graphe::Kruskal ( size_t cout_id ) const
                 break;
         }
     }
-    return solution;
-}
 
 std::vector<std::vector<bool>> Graphe::bruteforce ( )
 {
-    std::unordered_map<int , Sommet*> Sommetsmap = m_sommets;
-    std::unordered_map<int , Arrete*> Arretesmap = m_arretes;
-    std::vector<Arrete*> Arretesvec;
-    std::vector<Graphe*> TtGraphes;
 
-    for ( auto it : Arretesmap )
+    std::vector<Arrete*> Arretesvec;
+    for ( auto it : solution )
     {
         Arretesvec.push_back ( it.second );
     }
+    return Arretesvec;
+}**/
 
-    std::unordered_map<int , Arrete*> ArretesN;
+std::vector<Graphe*> Graphe::bruteforce ( )
+{
+    std::vector<Sommet*> Sommetsmap = m_sommets;
+    std::vector<Arrete*> Arretesvec = m_arretes;
+    std::vector<Graphe*> TtGraphes;
+    std::vector<Arrete*> ArretesN;
 
     std::vector<int> compteur;
 
@@ -218,7 +274,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( )
         {
             if ( compteur [ i ] == 1 )
             {
-                ArretesN.insert ( { Arretesvec [ i ]->getid ( ),Arretesvec [ i ] } );
+                ArretesN.push_back ( Arretesvec [ i ]  );
             }
             std::cout << compteur [ i ];
         }
@@ -230,23 +286,6 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( )
         std::cout << std::endl;
         //system("pause");
     }
-
-    /**for (i;i<Arretesvec.size();i++)
-    {
-        j=i+1;
-        ArretesN.insert( {Arretesvec[i]->getid(),Arretesvec[i]} );
-        Graphe *a =  new Graphe(Sommetsmap,ArretesN);
-        a->afficher();
-        TtGraphes.push_back(a);
-        for(j;j<Arretesvec.size();j++)
-        {
-            ArretesN.insert( {Arretesvec[j]->getid(),Arretesvec[j]} );
-            Graphe *b =  new Graphe(Sommetsmap,ArretesN);
-            b->afficher();
-            TtGraphes.push_back(b);
-        }
-        ArretesN.clear();
-    }**/
 
     std::cout << "fin";
     return std::vector<std::vector<bool>> ( );
