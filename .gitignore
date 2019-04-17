@@ -41,3 +41,5 @@
 Piscine.layout
 *.depend
 *.opendb
+*.iobj
+*.ipdb
