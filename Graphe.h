@@ -20,7 +20,7 @@ public:
     void afficher() const;
     void afficherallegro(BITMAP *buffer, double x, double y, int proportion) const;
     std::vector<Arrete*> Kruskal(size_t cout_id = 0) const;
-    std::vector<Graphe *> bruteforce();
+    std::vector<std::vector<bool>> bruteforce();
     inline int distanceEuclidienne(int s1, int s2)
     {
         Sommet* _s1;

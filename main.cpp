@@ -11,11 +11,39 @@ int main ( )
     BITMAP*buffer;
     buffer=create_bitmap(lng,lrg);
 
-    Graphe b("txt/broadway.txt","txt/broadway_weights_0.txt");
+    Graphe b("txt/cubetown.txt","txt/cubetown_weights_0.txt");
     //b.afficherallegro(100,100,2);
-    std::vector<Graphe*> Ttgraphes = b.bruteforce();
-    int i=0,j=0;
-    for(auto it:Ttgraphes)
+    std::vector<std::vector<bool>> Ttgraphes = b.bruteforce();
+    int k=0,l=0;
+
+
+
+    std::vector<Arrete*> ArretesN;
+
+    for(unsigned int i = 0; i < Ttgraphes.size ( ); i++)
+    {
+        for ( unsigned int j = 0; j < Ttgraphes[i].size ( ); j++ )
+        {
+            //std::cout<<Ttgraphes[i][j];
+            if ( Ttgraphes [ i ] [ j ] == true )
+            {
+                ArretesN.push_back ( b.getarretes() [ j ]  );
+            }
+        }
+        //std::cout<<std::endl;
+        Graphe* a = new Graphe ( b.getsommets() , ArretesN );
+        a->afficherallegro(buffer,k,l,8);
+        k+=500;
+        if (k >= 1500)
+        {
+            l+=500;
+            k=0;
+        }
+        ArretesN.clear();
+    }
+
+
+    /**for(auto it:Ttgraphes)
     {
         it->afficherallegro(buffer,i,j,2);
         i+=150;
@@ -24,9 +52,10 @@ int main ( )
             j+=150;
             i=0;
         }
-    }
+    }**/
+
     draw_sprite(screen,buffer,0,0);
-    do{}while(!key[KEY_ESC]);
+    //do{}while(!key[KEY_ESC]);
 
     /**BITMAP*perso;
     perso=load_bitmap("persotest.bmp",NULL);
@@ -47,7 +76,7 @@ int main ( )
     //b.afficher();
     //b.afficherallegro();
 
-    //do{}while(!key[KEY_ESC]);
+
 
     //std::vector<Graphe*> Ttgraphes = bruteforce(b);
 
@@ -69,6 +98,10 @@ int main ( )
     auto sol = b.bruteforce ( );
     return 0;
     */
+
+    std::cout << Ttgraphes.size();
+    do{}while(!key[KEY_ESC]);
+
     return 0;
 }END_OF_MAIN();
 

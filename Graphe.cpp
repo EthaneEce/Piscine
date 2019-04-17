@@ -239,52 +239,50 @@ void Graphe::afficherallegro(BITMAP*buffer,double x, double y,int proportion) co
     return Arretesvec;
 }**/
 
-std::vector<Graphe*> Graphe::bruteforce ( )
+std::vector<std::vector<bool>> Graphe::bruteforce ( )
 {
     std::vector<Sommet*> Sommetsmap = m_sommets;
     std::vector<Arrete*> Arretesvec = m_arretes;
-    std::vector<Graphe*> TtGraphes;
-    std::vector<Arrete*> ArretesN;
 
-    std::vector<int> compteur;
+    std::vector<bool> compteur(Arretesvec.size ( )+1, 0);
+    std::vector<std::vector<bool>> compteurs;
 
-    for ( unsigned int i = 0; i <= Arretesvec.size ( ); i++ )
+    /**for ( unsigned int i = 0; i <= Arretesvec.size ( ); i++ )
     {
         compteur.push_back ( 0 );
-    }
+    }**/
 
-    while ( true )
+    while ( compteur [ compteur.size ( ) - 1 ] != 1 )
     {
-        for ( unsigned int i = 0; i < Arretesvec.size ( ); i++ )
+        compteurs.push_back(compteur);
+        int j = 0;
+        for ( unsigned int i = 0; i < compteur.size ( ); i++ )
         {
-            if ( compteur [ i ] == 2 )
+            //std::cout<<compteur[i];
+            if ( compteur [ i ] == 1 )
             {
-                compteur [ i ] = 0;
-                compteur [ i + 1 ] += 1;
+                j++;
             }
+
         }
-        if ( ( compteur [ compteur.size ( ) - 1 ] == 1 ) )
-        {
-            break;
-        }
-        for ( unsigned int i = 0; i < Arretesvec.size ( ); i++ )
+
+        for ( unsigned int i = 0; i < compteur.size ( ); i++ )
         {
             if ( compteur [ i ] == 1 )
             {
-                ArretesN.push_back ( Arretesvec [ i ]  );
+                compteur [ i ] = 0;
             }
-            std::cout << compteur [ i ];
+            else
+            {
+                compteur [ i ] = 1;
+                break;
+            }
         }
-        Graphe* a = new Graphe ( Sommetsmap , ArretesN );
-        TtGraphes.push_back ( a );
-        //a->afficher();
-
-        compteur [ 0 ] += 1;
-        std::cout << std::endl;
-        //system("pause");
+        for ( unsigned int i = 0; i < compteur.size ( ); i++ )
+        {
+            //std::cout<<compteur[i];
+        }
+        //std::cout<<std::endl;
     }
-
-    std::cout << "fin";
-
-    return TtGraphes;
+    return compteurs;
 }
