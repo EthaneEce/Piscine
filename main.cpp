@@ -6,7 +6,7 @@ int main ( )
 
     Graphe b ( "txt/broadway.txt" , "txt/broadway_weights_0.txt" );
     b.afficher ( );
-    auto sol = b.bruteforce ( );
+    std::cin.get ( );
     return 0;
 }
 

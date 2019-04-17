@@ -7,6 +7,7 @@
 
 Graphe::Graphe ( std::unordered_map<int , Sommet*> mS , std::unordered_map<int , Arrete*> mA ) : m_sommets ( mS ) , m_arretes ( mA )
 {
+    nbCouts = m_arretes.begin ( )->second->getcout ( ).size ( );
 }
 
 Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 )
@@ -51,8 +52,7 @@ Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 )
     if ( taille != taille2 )
         throw std::runtime_error ( "Probleme de taille des arretes, elles ne coincident pas" );
 
-    int nombrecout;
-    ifs2 >> nombrecout;
+    ifs2 >> nbCouts;
     //std::cout<<nombrecout<<"aze"<<std::endl;
     if ( ifs2.fail ( ) )
         throw std::runtime_error ( "Probleme lecture nombre des couts du graphe2" );
@@ -79,7 +79,7 @@ Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 )
             throw std::runtime_error ( "Probleme lecture donn�es arrete" );
         if ( arreteid != id2 )
             throw std::runtime_error ( "Probleme de id des arretes, elles ne coincident pas" );
-        for ( int i = 0; i < nombrecout; ++i )
+        for ( size_t j = 0; j < nbCouts; ++j )
         {
             float coutnbr;
             ifs2 >> coutnbr;
@@ -179,7 +179,7 @@ std::unordered_map<int , Arrete*> Graphe::Kruskal ( size_t cout_id ) const
     return solution;
 }
 
-std::vector<Graphe*> Graphe::bruteforce ( )
+std::vector<std::vector<bool>> Graphe::bruteforce ( )
 {
     std::unordered_map<int , Sommet*> Sommetsmap = m_sommets;
     std::unordered_map<int , Arrete*> Arretesmap = m_arretes;
@@ -195,14 +195,14 @@ std::vector<Graphe*> Graphe::bruteforce ( )
 
     std::vector<int> compteur;
 
-    for ( int i = 0; i <= Arretesvec.size ( ); i++ )
+    for ( size_t i = 0; i <= Arretesvec.size ( ); i++ )
     {
         compteur.push_back ( 0 );
     }
 
     while ( true )
     {
-        for ( int i = 0; i < Arretesvec.size ( ); i++ )
+        for ( size_t i = 0; i < Arretesvec.size ( ); i++ )
         {
             if ( compteur [ i ] == 2 )
             {
@@ -214,7 +214,7 @@ std::vector<Graphe*> Graphe::bruteforce ( )
         {
             break;
         }
-        for ( int i = 0; i < Arretesvec.size ( ); i++ )
+        for ( size_t i = 0; i < Arretesvec.size ( ); i++ )
         {
             if ( compteur [ i ] == 1 )
             {
@@ -249,6 +249,30 @@ std::vector<Graphe*> Graphe::bruteforce ( )
     }**/
 
     std::cout << "fin";
+    return std::vector<std::vector<bool>> ( );
+}
 
-    return TtGraphes;
+float Graphe::distanceEuclidienne ( int s1 , int s2 )
+{
+    auto _s1 = m_sommets.find ( s1 );
+    auto _s2 = m_sommets.find ( s2 );
+    auto x = _s1->second->getx ( ) - _s2->second->getx ( );
+    auto y = _s1->second->gety ( ) - _s2->second->gety ( );
+    auto dist = ( x * x ) + ( y * y );
+    dist = sqrt ( dist );
+    return ( float ) dist;
+}
+
+std::vector<float> Graphe::poidsTotaux ( )
+{
+    std::vector<float>solution;
+    for ( size_t i = 0; i < nbCouts; i++ )
+    {
+        float total = 0.0f;
+        for ( auto& a : m_arretes ) {
+            total += a.second->getcout ( ).at ( i );
+        }
+        solution.push_back ( total );
+    }
+    return solution;
 }
