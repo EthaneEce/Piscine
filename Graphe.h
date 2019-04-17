@@ -21,7 +21,7 @@ public:
         );
     Graphe ( ) = default;
     ~Graphe ( );
-    std::vector<std::vector<bool>> bruteforce ( );
+    std::vector<std::vector<bool>> bruteforce (bool tri = true );
     float distanceEuclidienne ( int s1 , int s2 );
     std::vector<float> poidsTotaux ( );
     std::vector<Sommet*> getsommets ( ) { return m_sommets; };
