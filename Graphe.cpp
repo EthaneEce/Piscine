@@ -221,62 +221,48 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( )
 
     std::vector<Sommet*> Sommetsmap = m_sommets;
     std::vector<Arrete*> Arretesvec = m_arretes;
-    std::vector<Graphe*> TtGraphes;
-    std::vector<Arrete*> ArretesN;
 
-    std::vector<int> compteur ( Arretesvec.size ( ) , 0 );
+    std::vector<bool> compteur(Arretesvec.size ( )+1, 0);
+    std::vector<std::vector<bool>> compteurs;
 
-    while ( true )
+    /**for ( unsigned int i = 0; i <= Arretesvec.size ( ); i++ )
     {
-        for ( unsigned int i = 0; i < Arretesvec.size ( ); i++ )
+        compteur.push_back ( 0 );
+    }**/
+
+    while ( compteur [ compteur.size ( ) - 1 ] != 1 )
+    {
+
+        int j = 0;
+        for ( unsigned int i = 0; i < compteur.size ( ); i++ )
         {
-            if ( compteur [ i ] == 2 )
+            //std::cout<<compteur[i];
+            if ( compteur [ i ] == 1 )
             {
-                compteur [ i ] = 0;
-                compteur [ i + 1 ] += 1;
+                j++;
             }
         }
-        if ( ( compteur [ compteur.size ( ) - 1 ] == 1 ) )
+        if(j==Arretesvec.size()-2)
         {
-            break;
+            compteurs.push_back(compteur);
         }
-        for ( unsigned int i = 0; i < Arretesvec.size ( ); i++ )
+        for ( unsigned int i = 0; i < compteur.size ( ); i++ )
         {
             if ( compteur [ i ] == 1 )
             {
-                ArretesN.push_back ( Arretesvec [ i ] );
+                compteur [ i ] = 0;
             }
-            // std::cout << compteur [ i ];
+            else
+            {
+                compteur [ i ] = 1;
+                break;
+            }
         }
-        // Graphe* a = new Graphe ( Sommetsmap , ArretesN );
-     //    TtGraphes.push_back ( a );
-         //a->afficher();
-
-        compteur [ 0 ] += 1;
-        // std::cout << std::endl;
-         //system("pause");
-    }
-    return solution;
-}
-float Graphe::distanceEuclidienne ( int s1 , int s2 )
-{
-    auto x = m_sommets [ s1 ]->getx ( ) - m_sommets [ s2 ]->getx ( );
-    auto y = m_sommets [ s2 ]->gety ( ) - m_sommets [ s2 ]->gety ( );
-    auto dist = ( x * x ) + ( y * y );
-    dist = sqrt ( dist );
-    return ( float ) dist;
-}
-
-std::vector<float> Graphe::poidsTotaux ( )
-{
-    std::vector<float>solution;
-    for ( size_t i = 0; i < nbCouts; i++ )
-    {
-        float total = 0.0f;
-        for ( auto& a : m_arretes ) {
-            total += a->getcout ( ).at ( i );
+        for ( unsigned int i = 0; i < compteur.size ( ); i++ )
+        {
+            //std::cout<<compteur[i];
         }
-        solution.push_back ( total );
+        //std::cout<<std::endl;
     }
-    return solution;
+    return compteurs;
 }
