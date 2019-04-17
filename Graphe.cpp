@@ -174,7 +174,7 @@ void Graphe::afficherallegrotout(BITMAP*buffer,double x, double y,int proportion
 {
     std::vector<std::vector<bool>> Ttgraphes;
     Graphe b(m_sommets,m_arretes);
-    Ttgraphes=b.bruteforce();
+    Ttgraphes=b.bruteforce(1);
     int k=x,l=y;
     std::vector<Arrete*> ArretesN;
 
@@ -268,7 +268,7 @@ void Graphe::afficherallegrotout(BITMAP*buffer,double x, double y,int proportion
     return Arretesvec;
 }**/
 
-std::vector<std::vector<bool>> Graphe::bruteforce ( )
+std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri)
 {
     std::vector<Sommet*> Sommetsmap = m_sommets;
     std::vector<Arrete*> Arretesvec = m_arretes;
@@ -276,27 +276,80 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( )
     std::vector<bool> compteur(Arretesvec.size ( )+1, 0);
     std::vector<std::vector<bool>> compteurs;
 
-    /**for ( unsigned int i = 0; i <= Arretesvec.size ( ); i++ )
-    {
-        compteur.push_back ( 0 );
-    }**/
-
     while ( compteur [ compteur.size ( ) - 1 ] != 1 )
     {
 
-        int j = 0;
-        for ( unsigned int i = 0; i < compteur.size ( ); i++ )
+        /// Tri
+        if (tri == true)
         {
-            //std::cout<<compteur[i];
-            if ( compteur [ i ] == 1 )
+            int j = 0;
+            for ( unsigned int i = 0; i < compteur.size ( ); i++ )
             {
-                j++;
+
+                if ( compteur [ i ] == 1 )
+                {
+                    j++;
+                }
+            }
+            if(j==Sommetsmap.size()-1)
+            {
+                std::vector<Arrete*> ArretesN;
+                for ( unsigned int j = 0; j < compteur.size(); j++ )
+                {
+                    if ( compteur [ j ] == true )
+                    {
+                        ArretesN.push_back ( m_arretes [j]  );
+                    }
+                }
+                Graphe* a = new Graphe ( m_sommets , ArretesN );
+                std::vector<int> connexe;
+                for (int j = 0; j < m_sommets.size( ); j++ )
+                {
+                    connexe.push_back(j);
+
+                }
+                for(auto it: ArretesN)
+                {
+                    int s1 = it->gets1();
+                    int s2 = it->gets2();
+
+                    if(connexe[s1] == connexe[s2])
+                    {
+                        break;
+                    }
+
+                    for ( unsigned int j = 0; j < connexe.size(); j++ )
+                    {
+                        if(connexe[j] == connexe[s2])
+                        {
+                            connexe[j] = connexe[s1];
+                        }
+                    }
+                    connexe[s2] = connexe[s1];
+                }
+                int temp=0;
+                for (int j = 0; j < m_sommets.size( ); j++ )
+                {
+                    if(connexe[j] == connexe[0])
+                    {
+                        temp++;
+                    }
+                }
+
+                if(temp==m_sommets.size())
+                {
+                    compteurs.push_back(compteur);
+                }
             }
         }
-        if(j==Arretesvec.size()-2)
+        else
         {
             compteurs.push_back(compteur);
         }
+
+
+        /// Compteur
+
         for ( unsigned int i = 0; i < compteur.size ( ); i++ )
         {
             if ( compteur [ i ] == 1 )
@@ -309,11 +362,6 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( )
                 break;
             }
         }
-        for ( unsigned int i = 0; i < compteur.size ( ); i++ )
-        {
-            //std::cout<<compteur[i];
-        }
-        //std::cout<<std::endl;
     }
     return compteurs;
 }

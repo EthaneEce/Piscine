@@ -13,8 +13,8 @@ int main ( )
 
     Graphe b("txt/broadway.txt","txt/broadway_weights_0.txt");
     //b.afficherallegro(100,100,2);
-    std::vector<std::vector<bool>> Ttgraphes = b.bruteforce();
-    int k=0,l=0;
+    std::vector<std::vector<bool>> Ttgraphes = b.bruteforce(1);
+    //int k=0,l=0;
 
     b.afficherallegrotout(buffer,0, 0,2) ;
 
@@ -31,7 +31,7 @@ int main ( )
     }**/
 
     draw_sprite(screen,buffer,0,0);
-    //do{}while(!key[KEY_ESC]);
+    do{}while(!key[KEY_ESC]);
 
     /**BITMAP*perso;
     perso=load_bitmap("persotest.bmp",NULL);
@@ -76,7 +76,7 @@ int main ( )
     */
 
     std::cout << Ttgraphes.size();
-    do{}while(!key[KEY_ESC]);
+    //do{}while(!key[KEY_ESC]);
 
     return 0;
 }END_OF_MAIN();
