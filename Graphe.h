@@ -7,12 +7,18 @@
 #include "Arrete.h"
 #include <cmath>
 
+
 class Graphe
 {
 public:
     Graphe ( std::string nomFichier1 , std::string nomFichier2 );
-    Graphe ( std::vector<Sommet*> , std::vector<Arrete*> );
-    Graphe ( const Graphe& src , const std::vector<bool>& vec );
+    Graphe ( const std::vector<Sommet*>& sommets_src ,
+        const std::vector<Arrete*>& aretes_src ,
+        const std::string& nom_graphe = "" );
+    Graphe ( const Graphe& src , 
+        const std::vector<bool>& vec,
+        const std::string& nom_graphe = ""
+        );
     Graphe ( ) = default;
     ~Graphe ( );
     std::vector<std::vector<bool>> bruteforce ( );
@@ -28,6 +34,7 @@ private:
     size_t nbCouts = 0;
     std::vector<Sommet*> m_sommets;
     std::vector<Arrete*> m_arretes;
+    std::string graphName;
 };
 
 #endif // GRAPHE_H

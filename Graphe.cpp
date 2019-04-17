@@ -5,14 +5,19 @@
 #include <set>
 #include <memory>
 #include "Timer.h"
-Graphe::Graphe ( std::vector<Sommet*> mS , std::vector<Arrete*> mA )
-    : m_sommets ( mS ) , m_arretes ( mA )
+#include <limits>
+Graphe::Graphe ( const std::vector<Sommet*>& mS ,
+    const std::vector<Arrete*>& mA ,
+    const std::string& nom_graphe )
+    : m_sommets ( mS ) , m_arretes ( mA ) , graphName ( nom_graphe )
 {
     nbCouts = m_arretes [ 0 ]->getcout ( ).size ( );
 }
 
 
-Graphe::Graphe ( const Graphe& src , const std::vector<bool>& vec )
+Graphe::Graphe ( const Graphe& src ,
+    const std::vector<bool>& vec ,
+    const std::string& nom_graph ) : graphName ( nom_graph )
 {
     std::vector<Arrete*> temp;
     for ( size_t i = 0; i < vec.size ( ); i++ )
@@ -24,7 +29,7 @@ Graphe::Graphe ( const Graphe& src , const std::vector<bool>& vec )
     *this = Graphe ( src.m_sommets , temp );
 }
 
-Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 )
+Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 ) : graphName ( nomFichier1 )
 {
     std::ifstream ifs1 { nomFichier1 };
     if ( !ifs1 )
@@ -134,7 +139,7 @@ void Graphe::afficher ( ) const
 
 std::vector<Arrete*> Graphe::Kruskal ( size_t cout_id ) const
 {
-    Timer t ( "Kruskal" );
+    Timer t ( "Kruskal a partir du graphe " + graphName );
     //Map Solution
     std::vector<Arrete*> solution;
 
@@ -195,44 +200,58 @@ std::vector<Arrete*> Graphe::Kruskal ( size_t cout_id ) const
     return solution;
 }
 
+
 std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec )
 {
+    Timer t ( "Pareto a partir du graphe " + graphName );
+    const constexpr float infini = std::numeric_limits<float>::max ( );
     std::vector<Graphe*> solution;
     for ( auto a : vec )
     {
         solution.push_back ( new Graphe ( *this , a ) );
     }
-    auto sortFunction = [ = ] ( Graphe * g1 , Graphe * g2 )
+
+
+    size_t poidsCourant = 0;
+    while ( poidsCourant < nbCouts - 1 )
     {
-        auto v1 = g1->poidsTotaux ( );
-        auto v2 = g2->poidsTotaux ( );
-        return v1.at ( 0 ) < v2.at ( 0 );
-    };
-    std::sort ( solution.begin ( ) , solution.end ( ) , sortFunction );
-
-
+        auto sortFunction = [ = ] ( Graphe * g1 , Graphe * g2 )
+        {
+            auto v1 = g1->poidsTotaux ( );
+            auto v2 = g2->poidsTotaux ( );
+            return v1.at ( poidsCourant ) < v2.at ( poidsCourant );
+        };
+        std::sort ( solution.begin ( ) , solution.end ( ) , sortFunction );
+        float pivot = infini;
+        for ( auto a = solution.begin ( ); a != solution.end ( ); )
+        {
+            float cout = ( *a )->poidsTotaux ( ).at ( poidsCourant + 1 );
+            if ( cout < pivot )
+            {
+                pivot = cout;
+                a++;
+            }
+            else {
+                a = solution.erase ( a );
+            }
+        }
+        poidsCourant++;
+    }
     return solution;
 }
 
+
+
 std::vector<std::vector<bool>> Graphe::bruteforce ( )
 {
-    Timer t ( "brute force" );
-    std::vector<std::vector<bool>> solution;
-
+    Timer t ( "Brute Force" );
     std::vector<Sommet*> Sommetsmap = m_sommets;
     std::vector<Arrete*> Arretesvec = m_arretes;
 
-    std::vector<bool> compteur(Arretesvec.size ( )+1, 0);
+    std::vector<bool> compteur ( Arretesvec.size ( ) + 1 , 0 );
     std::vector<std::vector<bool>> compteurs;
-
-    /**for ( unsigned int i = 0; i <= Arretesvec.size ( ); i++ )
+    while ( compteur.back ( ) != 1 )
     {
-        compteur.push_back ( 0 );
-    }**/
-
-    while ( compteur [ compteur.size ( ) - 1 ] != 1 )
-    {
-
         int j = 0;
         for ( unsigned int i = 0; i < compteur.size ( ); i++ )
         {
@@ -242,10 +261,12 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( )
                 j++;
             }
         }
-        if(j==Arretesvec.size()-2)
+        if ( j == Arretesvec.size ( ) - 2 )
         {
-            compteurs.push_back(compteur);
+            compteurs.push_back ( compteur );
         }
+
+
         for ( unsigned int i = 0; i < compteur.size ( ); i++ )
         {
             if ( compteur [ i ] == 1 )
@@ -258,11 +279,32 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( )
                 break;
             }
         }
-        for ( unsigned int i = 0; i < compteur.size ( ); i++ )
-        {
-            //std::cout<<compteur[i];
-        }
-        //std::cout<<std::endl;
     }
     return compteurs;
+}
+
+
+
+
+float Graphe::distanceEuclidienne ( int s1 , int s2 )
+{
+    auto x = m_sommets [ s1 ]->getx ( ) - m_sommets [ s2 ]->getx ( );
+    auto y = m_sommets [ s2 ]->gety ( ) - m_sommets [ s2 ]->gety ( );
+    auto dist = ( x * x ) + ( y * y );
+    dist = sqrt ( dist );
+    return ( float ) dist;
+}
+
+std::vector<float> Graphe::poidsTotaux ( )
+{
+    std::vector<float>solution;
+    for ( size_t i = 0; i < nbCouts; i++ )
+    {
+        float total = 0.0f;
+        for ( auto& a : m_arretes ) {
+            total += a->getcout ( ).at ( i );
+        }
+        solution.push_back ( total );
+    }
+    return solution;
 }
