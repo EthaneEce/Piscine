@@ -47,43 +47,39 @@
 1555366534 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\arrete.cpp
 	"Arrete.h"
 
-1555452975 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\arrete.cpp
+1555501421 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\arrete.cpp
 	"Arrete.h"
 
-1555452975 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\arrete.h
+1555502419 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\arrete.h
 	<iostream>
 	<vector>
 
-1555454805 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\graphe.cpp
+1555506033 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\graphe.cpp
 	<fstream>
 	"Graphe.h"
 	<functional>
 	<algorithm>
+	<unordered_set>
 	<memory>
 
-1555454014 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\graphe.h
+1555505977 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\graphe.h
 	<string>
 	<unordered_map>
 	<iomanip>
 	"allegro.h"
 	"Sommet.h"
 	"Arrete.h"
+	<cmath>
 
-1555452975 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\sommet.h
+1555501421 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\sommet.h
 	<iostream>
 
-1555452975 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\sommet.cpp
+1555501421 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\sommet.cpp
 	"sommet.h"
 	"iomanip"
 
-1555456071 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\main.cpp
+1555506033 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\main.cpp
 	<iostream>
-	<stdio.h>
-	<stdlib.h>
-	<allegro.h>
-	<time.h>
-	<string.h>
-	<iomanip>
 	"Graphe.h"
 	<iomanip>
 
