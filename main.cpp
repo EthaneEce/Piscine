@@ -4,8 +4,9 @@
 int main ( )
 {
 
-    Graphe b ( "txt/cubetown.txt" , "txt/cubetown_weights_0.txt" );
+    Graphe b ( "txt/broadway.txt" , "txt/broadway_weights_0.txt" );
     b.afficher ( );
+    auto sol = b.bruteforce ( );
     return 0;
 }
 

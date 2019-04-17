@@ -115,6 +115,8 @@ void Graphe::afficher ( ) const
     }
 }
 
+
+
 std::unordered_map<int , Arrete*> Graphe::Kruskal ( size_t cout_id ) const
 {
 
@@ -145,8 +147,8 @@ std::unordered_map<int , Arrete*> Graphe::Kruskal ( size_t cout_id ) const
     std::sort ( vec.begin ( ) , vec.end ( ) , sortFunction );
 
 
-    //Algo de Kruskal
 
+    //Algo de Kruskal
 //pour chaque arete
     for ( auto& a : vec )
     {
@@ -177,7 +179,7 @@ std::unordered_map<int , Arrete*> Graphe::Kruskal ( size_t cout_id ) const
     return solution;
 }
 
-std::vector<Graphe*> Graphe::bruteforce ( Graphe b )
+std::vector<Graphe*> Graphe::bruteforce ( )
 {
     std::unordered_map<int , Sommet*> Sommetsmap = m_sommets;
     std::unordered_map<int , Arrete*> Arretesmap = m_arretes;

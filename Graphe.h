@@ -11,12 +11,12 @@ class Graphe
 {
 public:
     Graphe ( std::string nomFichier1 , std::string nomFichier2 );
-    Graphe(std::unordered_map<int,Sommet*>,std::unordered_map<int,Arrete*>);
-    Graphe ( );
+    Graphe ( std::unordered_map<int , Sommet*> , std::unordered_map<int , Arrete*> );
+    Graphe ( ) = default;
     ~Graphe ( );
     void afficher ( ) const;
-    std::unordered_map<int , Arrete*> Kruskal ( size_t cout_id  = 0) const;
-    std::vector<Graphe*> bruteforce ( Graphe b );
+    std::unordered_map<int , Arrete*> Kruskal ( size_t cout_id = 0 ) const;
+    std::vector<Graphe*> bruteforce ( );
     inline int distanceEuclidienne ( int s1 , int s2 )
     {
         auto _s1 = m_sommets.find ( s1 );
