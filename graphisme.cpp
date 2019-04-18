@@ -32,28 +32,46 @@ int menu(BITMAP* buffer, Graphe& a, FONT* font1)
     while(!key[KEY_ESC]);
     free(font1);
 }
-int choixPoids(BITMAP* buffer,BITMAP* fond, FONT* font1,std::string fichier1, Graphe& b)
+void choixPoids(BITMAP* buffer,BITMAP* fond, FONT* font1,std::string fichier1, Graphe& b)
 {
     int poids1 = 0, poids2 = 0, poids3= 0;
+    std::string fichier2 = fichier1;
+    for(size_t i =0;i<4;i++;)
+        fichier1.pop_back();
+    bool quit = false;
     rest(100);
     do
     {
         draw_sprite(buffer,fond,0,0);
-        poids1 = draw_bouton(1.75*SCREEN_W/10,6*SCREEN_H/10,3.25*SCREEN_W/10,6*SCREEN_H/10+50,makecol(29,240,17),makecol(20,186,12),3,"Poids 1",font1,buffer);
-        poids2 = draw_bouton(4.25*SCREEN_W/10,6*SCREEN_H/10,5.75*SCREEN_W/10,6*SCREEN_H/10+50,makecol(29,240,17),makecol(20,186,12),3,"Poids 2",font1,buffer);
-        poids3 = draw_bouton(6.75*SCREEN_W/10,6*SCREEN_H/10,8.25*SCREEN_W/10,6*SCREEN_H/10+50,makecol(29,240,17),makecol(20,186,12),3,"Poids 3",font1,buffer);
+        poids1 = draw_bouton(1.75*SCREEN_W/10,6*SCREEN_H/10,3.25*SCREEN_W/10,6*SCREEN_H/10+50,makecol(43,105,200),makecol(30,73,138),3,"Poids 1",font1,buffer);
+        poids2 = draw_bouton(4.25*SCREEN_W/10,6*SCREEN_H/10,5.75*SCREEN_W/10,6*SCREEN_H/10+50,makecol(43,105,200),makecol(30,73,138),3,"Poids 2",font1,buffer);
+        poids3 = draw_bouton(6.75*SCREEN_W/10,6*SCREEN_H/10,8.25*SCREEN_W/10,6*SCREEN_H/10+50,makecol(43,105,200),makecol(30,73,138),3,"Poids 3",font1,buffer);
         draw_sprite(screen,buffer,0,0);
-/*
+
         if(poids1==1)
-            return 1;
+        {
+            quit=true;
+            b = Graphe (fichier2,fichier1+"_weights_"+"0");
+        }
         else if(poids2==1)
-            return 2;
+        {
+            quit=true;
+            b = Graphe (fichier2,fichier1+"_weights_"+"1");
+        }
         else if(poids3==1)
-            return 3;
-        else
-            return 0;*/
+        {
+            quit=true;
+            b = Graphe (fichier2,fichier1+"_weights_"+"2");
+        }
     }
-    while(!key[KEY_ESC]);
+    while(quit==false);
+
+    choixUtilisationGraph(buffer,fond,font1,b);
+
+}
+void choixUtilisationGraph(BITMAP* buffer, BITMAP* fond, FONT* font1, Graphe& b)
+{
+
 }
 
 /* ****************************************************************************************************
