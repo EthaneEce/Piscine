@@ -15,11 +15,12 @@ int menu(BITMAP* buffer, Graphe& a, FONT* font1, FONT* titre)
         manhattan= draw_bouton(5*SCREEN_W/10,6*SCREEN_H/10,6.5*SCREEN_W/10,6*SCREEN_H/10+50,makecol(29,240,17),makecol(20,186,12),3,"Manhattan",font1,buffer);
         triville = draw_bouton(7*SCREEN_W/10,6*SCREEN_H/10,8.5*SCREEN_W/10,6*SCREEN_H/10+50,makecol(29,240,17),makecol(20,186,12),3,"Triville",font1,buffer);
 
+        draw_sprite(screen,buffer,0,0);
 
         if (broadway == 1)
         {
             choixPoids(buffer,fond,font1,titre,"txt/broadway.txt",a,3);
-            //draw_sprite(screen,fond,0,0);
+            draw_sprite(screen,fond,0,0);
         }
         if (cubetown == 1)
         {
@@ -36,7 +37,6 @@ int menu(BITMAP* buffer, Graphe& a, FONT* font1, FONT* titre)
             choixPoids(buffer,fond,font1,titre,"txt/triville.txt",a,2);
             draw_sprite(screen,fond,0,0);
         }
-        draw_sprite(screen,buffer,0,0);
     }
     while(!key[KEY_ESC]);
 
@@ -93,7 +93,7 @@ void choixUtilisationGraph(BITMAP* buffer, BITMAP* fond, FONT* font1, FONT* titr
     draw_sprite(screen,fond,0,0);
     for(size_t i =0;i<4;i++)
         nom.erase(0,1);
-    int kruskal = 0, pareto = 0, brutforce = 0, base = 0, quitter =0;
+    int kruskal = 0, pareto = 0, brutforce = 0, base = 0, quitter =0,quitter2 = 0;
     bool quit = false;
     std::string titr = "Traitement de "+nom;
     const char* ouai = titr.c_str();
@@ -114,7 +114,15 @@ void choixUtilisationGraph(BITMAP* buffer, BITMAP* fond, FONT* font1, FONT* titr
 
         if(base==1)
         {
-            //b.afficherallegro(buffer,);
+            clear_bitmap(buffer);
+            do
+            {
+                draw_sprite(buffer,fond,0,0);
+                b.afficherallegro(buffer,0,0,2);
+
+                quitter2 =   draw_bouton(4.5*SCREEN_W/10,9.4*SCREEN_H/10,5.5*SCREEN_W/10,9.9*SCREEN_H/10,makecol(43,105,200),makecol(30,73,138),3,"Quitter",font1,buffer);
+                draw_sprite(screen,buffer,0,0);
+            }while(quitter2 == 0);
         }
         else if(kruskal==1)
         {
@@ -134,7 +142,6 @@ void choixUtilisationGraph(BITMAP* buffer, BITMAP* fond, FONT* font1, FONT* titr
         }
     }
     while(quit==false);
-    draw_sprite(screen,fond,0,0);
 
     free((char*)ouai);
 }
