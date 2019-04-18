@@ -24,7 +24,7 @@ public:
 
     void afficher() const;
     void afficherallegro(BITMAP *buffer, double x, double y, int proportion) const;
-    void afficherallegrotout(BITMAP*buffer,double x, double y,int proportion) const;
+    void afficherallegrotout(BITMAP*buffer,double x, double y,double xp,double yp, double xmax,int proportion) const;
 
     std::vector<Arrete*> Kruskal(size_t cout_id = 0) const;
     std::vector<Graphe*> Pareto ( const std::vector<std::vector<bool>>& vec );

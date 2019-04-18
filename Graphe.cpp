@@ -188,7 +188,7 @@ void Graphe::afficherallegro(BITMAP*buffer,double x, double y,int proportion) co
     }
 }
 
-void Graphe::afficherallegrotout(BITMAP*buffer,double x, double y,int proportion) const
+void Graphe::afficherallegrotout(BITMAP*buffer,double x, double y,double xp,double yp ,double xmax,int proportion) const
 {
     std::vector<std::vector<bool>> Ttgraphes;
     Graphe b(m_sommets,m_arretes);
@@ -207,11 +207,11 @@ void Graphe::afficherallegrotout(BITMAP*buffer,double x, double y,int proportion
         }
         Graphe* a = new Graphe ( b.getsommets() , ArretesN );
         a->afficherallegro(buffer,k,l,proportion);
-        k+=500;
-        if (k >= 5000)
+        k+=xp;
+        if (k >= xmax)
         {
             //l+=500;
-            l+=500;
+            l+=yp;
             k=0;
         }
         ArretesN.clear();
