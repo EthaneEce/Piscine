@@ -38,6 +38,7 @@
 		<Unit filename="Graphe.h" />
 		<Unit filename="Sommet.cpp" />
 		<Unit filename="Sommet.h" />
+		<Unit filename="Timer.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="types.cpp" />
 		<Unit filename="types.h" />

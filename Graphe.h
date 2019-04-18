@@ -13,9 +13,9 @@ class Graphe
 {
 public:
     Graphe(std::string nomFichier1,std::string nomFichier2);
-    Graphe(std::vector<Sommet*>,std::vector<Arrete*>);
-    Graphe ( const std::vector<Sommet*>& sommets_src , const std::vector<Arrete*>& aretes_src , const std::string& nom_graphe = "" );
-    Graphe ( const Graphe& src , const std::vector<bool>& vec, const std::string& nom_graphe = "");
+    //Graphe ( const std::vector<Sommet*> mS , const std::vector<Arrete*> mA );
+    Graphe ( const std::vector<Sommet*>& sommets_src , const std::vector<Arrete*>& aretes_src);
+    Graphe ( const Graphe& src , const std::vector<bool>& vec);
     Graphe() = default;
     ~Graphe();
 
@@ -41,7 +41,6 @@ private:
     size_t nbCouts = 0;
     std::vector<Sommet*> m_sommets;
     std::vector<Arrete*> m_arretes;
-    std::string graphName;
 };
 
 #endif // GRAPHE_H

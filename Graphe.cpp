@@ -6,18 +6,16 @@
 #include <memory>
 #include "Timer.h"
 #include <limits>
-Graphe::Graphe ( const std::vector<Sommet*>& mS ,
-    const std::vector<Arrete*>& mA ,
-    const std::string& nom_graphe )
-    : m_sommets ( mS ) , m_arretes ( mA ) , graphName ( nom_graphe )
+Graphe::Graphe ( const std::vector<Sommet*>& mS , const std::vector<Arrete*>& mA) : m_sommets ( mS ) , m_arretes ( mA )
 {
     nbCouts = m_arretes [ 0 ]->getcout ( ).size ( );
 }
 
+//Graphe::Graphe ( const std::vector<Sommet*> mS , const std::vector<Arrete*> mA ) : m_sommets ( mS ) , m_arretes ( mA )
+//{}
 
-Graphe::Graphe ( const Graphe& src ,
-    const std::vector<bool>& vec ,
-    const std::string& nom_graph ) : graphName ( nom_graph )
+
+Graphe::Graphe ( const Graphe& src , const std::vector<bool>& vec )
 {
     std::vector<Arrete*> temp;
     for ( size_t i = 0; i < vec.size ( ); i++ )
@@ -29,7 +27,7 @@ Graphe::Graphe ( const Graphe& src ,
     *this = Graphe ( src.m_sommets , temp );
 }
 
-Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 ) : graphName ( nomFichier1 )
+Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 )
 {
     std::ifstream ifs1 { nomFichier1 };
     if ( !ifs1 )
@@ -223,7 +221,7 @@ void Graphe::afficherallegrotout(BITMAP*buffer,double x, double y,int proportion
 
 std::vector<Arrete*> Graphe::Kruskal ( size_t cout_id ) const
 {
-    Timer t ( "Kruskal a partir du graphe " + graphName );
+    //Timer t ( "Kruskal a partir du graphe " + graphName );
     //Map Solution
     std::vector<Arrete*> solution;
 
@@ -287,7 +285,7 @@ std::vector<Arrete*> Graphe::Kruskal ( size_t cout_id ) const
 
 std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec )
 {
-    Timer t ( "Pareto pour le graphe " + graphName );
+    //Timer t ( "Pareto pour le graphe " + graphName );
     const constexpr float infini = std::numeric_limits<float>::max ( );
     std::vector<Graphe*> solution;
     for ( auto a : vec )
@@ -329,7 +327,7 @@ std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec
 
 std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )
 {
-    Timer t ( "Brute force pour le graphe : " + graphName );
+    //Timer t ( "Brute force pour le graphe : " + graphName );
     std::vector<Sommet*> Sommetsmap = m_sommets;
     std::vector<Arrete*> Arretesvec = m_arretes;
 
@@ -431,7 +429,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )
             //std::cout<<compteur[i];
         }//std::cout<<std::endl;
     }
-    std::cout<<compteurs.size();
+    std::cout<<compteurs.size()<<std::endl;
     return compteurs;
 }
 

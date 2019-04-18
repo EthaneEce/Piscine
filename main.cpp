@@ -21,33 +21,10 @@ int main()
             circlefill ( buffer , 1000, 100 , 100 , makecol ( 255 , 0 , 0 ) );
 
 
-    Graphe b("txt/triville.txt","txt/triville_weights_0.txt");
+    Graphe b("txt/manhattan.txt","txt/manhattan_weights_0.txt");
     //b.afficherallegro(buffer,100,100,2);
-    //std::vector<std::vector<bool>> Ttgraphes = b.bruteforce(1);
-    //int k=0,l=0;
 
     b.afficherallegrotout(buffer,0, 0,5) ;
-
-    /**for ( int j = 5; j >= -5; j-- )
-    {
-            for ( int i = -5; i <= 5; i++ )
-            {
-                fastline ( buffer , (100 - i) , (100 - i), (200 + j) , (200 + j) , makecol ( 255 , 255 , 255 ) );
-                fastline ( buffer , (200 + j) , (200 + j) ,(100 - i) , (100 - i) , makecol ( 255 , 255 , 255 ) );
-            }
-    }**/
-
-
-    /**for(auto it:Ttgraphes)
-    {
-        it->afficherallegro(buffer,i,j,2);
-        i+=150;
-        if (i >= 1500)
-        {
-            j+=150;
-            i=0;
-        }
-    }**/
 
     int x=0;
     int y=0;
@@ -59,7 +36,7 @@ int main()
     {
 
             y+=800;
-            std::cout << y<<",";
+            std::cout << y<<","<<std::endl;
             blit(buffer,screen,x,y,0,0,lng,lrg);
             rest(100);
 
@@ -68,64 +45,21 @@ int main()
     {
 
             y-=800;
-            std::cout << y<<",";
+            std::cout << y<<","<<std::endl;
             blit(buffer,screen,x,y,0,0,lng,lrg);
             rest(100);
 
     }
 
-    Graphe b ( "txt/triville.txt" , "txt/triville_weights_0.txt" );
-    auto par = b.Pareto ( b.bruteforce ( 1 ) );
-    for ( auto& a : par )
-    std::cout << a->poidsTotaux ( ) << std::endl;
-    system("pause");
+
 
     }while(!key[KEY_ESC]);
 
-    /**BITMAP*perso;
-    perso=load_bitmap("persotest.bmp",NULL);
-    do{
-        draw_#include <iostream>
-#include <iomanip>sprite(screen,perso,0,0);
+    auto par = b.Pareto ( b.bruteforce ( 1 ) );
+    for ( auto& a : par )
+    std::cout << a->poidsTotaux ( ) << std::endl;
+    //system("pause");
 
-    }while(a==0);
-    while(!key[KEY_0])
-    {int j = 300;
-    textprintf_centre_ex(screen,font,100,100,makecol(255,255,0),0,"Valeur de j : %d",j);}
-    void line(BITMAP *bmp, int x1, int y1, int x2, int y2, int color);
-    void rectfill(BITMAP *bmp, int x1, int y1, int x2, int y2, int color);
-    void circlefill(BITMAP *bmp, int x, int y, int radius, int color);
-    **/
-
-    //Graphe b("txt/cubetown.txt","txt/cubetown_weights_0.txt");
-    //b.afficher();
-    //b.afficherallegro();
-
-
-
-    //std::vector<Graphe*> Ttgraphes = bruteforce(b);
-
-
-    /**Graphe p (b.getSommets(),b.Kruskal(0));
-    p.afficherallegro(500,100,2);
-    do{}while(!key[KEY_ESC]);**/
-
-    //Graphe p (b.getSommets(),b.Kruskal(0));
-    //p.afficherallegro();
-
-/*
-    Graphe c ( "txt/broadway.txt" , "txt/broadway_weights_0.txt" );
-
-    std::unordered_map<int,Arrete*> vec = c.Kruskal ( 0 );
-    for ( auto& a : vec )
-        a.second->afficherData ( );
-    b.afficher ( );
-    auto sol = b.bruteforce ( );
-    return 0;
-    */
-
-    //std::cout << Ttgraphes.size();
-    //do{}while(!key[KEY_ESC]);
 
     return 0;
 }END_OF_MAIN();

@@ -1,4 +1,4 @@
-#pragma once
+/**#pragma once
 #include <chrono>
 #include <iostream>
 
@@ -20,4 +20,4 @@ public:
         auto duree = fin - debut;
         std::cout << "L'execution de la fonction '" << m_functionName << "' a pris : " << duree.count ( ) / 1000000.0 << " ms" << std::endl;
     }
-};
+};**/
