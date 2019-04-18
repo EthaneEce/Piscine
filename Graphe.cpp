@@ -6,6 +6,11 @@
 #include <memory>
 #include "Timer.h"
 #include <limits>
+#include <vector>
+
+
+
+
 Graphe::Graphe ( const std::vector<Sommet*>& mS ,
     const std::vector<Arrete*>& mA ,
     const std::string& nom_graphe )
@@ -220,37 +225,50 @@ std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec
             return v1.at ( IDXpoidsCourant ) < v2.at ( IDXpoidsCourant );
         };
         std::sort ( solution.begin ( ) , solution.end ( ) , sortFunction );
+
+
         float pivot = infini;
         for ( auto a = solution.begin ( ); a != solution.end ( ); )
         {
-            auto it = a;
-            auto nextIt = ( a + 1 );
-            float Cout = ( *it )->poidsTotaux ( ).at ( IDXpoidsCourant + 1 );
-            if ( it != solution.end ( ) ) {
-                float poidsCourant1 = ( *it )->poidsTotaux ( ).at ( IDXpoidsCourant );
-                float poidsCourant2 = ( *it )->poidsTotaux ( ).at ( IDXpoidsCourant );
-                if ( poidsCourant1 == poidsCourant2 ) {
-                    float _CoutNext = ( *nextIt )->poidsTotaux ( ).at ( IDXpoidsCourant );
-                    a = ( _CoutNext > Cout ) ? solution.erase ( nextIt ) : solution.erase ( it );
-                }
-            }
-            else {
-                std::cout << "Fin" << std::endl;
-            }
+            float Cout = ( *a )->poidsTotaux ( ).at ( IDXpoidsCourant + 1 );
+            float pCout = ( *a )->poidsTotaux ( ).at ( IDXpoidsCourant );
 
             if ( Cout < pivot )
             {
                 pivot = Cout;
                 a++;
-            }
-            else {
-                a = solution.erase ( a );
+                auto iterator = std::remove_if ( a , solution.end ( ) ,
+                    [ = ] ( Graphe * g ) {
+                        return g->poidsTotaux ( ).at ( IDXpoidsCourant + 1 ) >= pivot;
+                    } );
+                solution.erase ( iterator , solution.end ( ) );
             }
         }
         IDXpoidsCourant++;
     }
-    std::cout << IDXpoidsCourant << std::endl;
 
+    //Un dernier parcours pour nettoyer les valeurs qui ont 1 cout égal
+    for ( size_t i = 0; i < nbCouts - 1; i++ )
+    {
+        for ( auto a = solution.begin ( ); a < solution.end ( ) - 1; )
+        {
+            auto it = *a;
+            auto nextIt = *( a + 1 );
+            if ( it->poidsTotaux ( ).at ( i ) == nextIt->poidsTotaux ( ).at ( i ) )
+            {
+                if ( it->poidsTotaux ( ).at ( i + 1 ) < nextIt->poidsTotaux ( ).at ( i + 1 ) )
+                {
+                    a = solution.erase ( a + 1 );
+                }
+                else {
+                    a = solution.erase ( a );
+                }
+            }
+            else {
+                a++;
+            }
+        }
+    }
     return solution;
 }
 
