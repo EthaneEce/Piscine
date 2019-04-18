@@ -29,7 +29,7 @@ Graphe::Graphe ( const Graphe& src ,
     *this = Graphe ( src.m_sommets , temp );
 }
 
-Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 ) : graphName ( nomFichier1 )
+Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 ) : graphName ( nomFichier1 + " | " + nomFichier2 )
 {
     std::ifstream ifs1 { nomFichier1 };
     if ( !ifs1 )
@@ -210,33 +210,47 @@ std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec
     {
         solution.push_back ( new Graphe ( *this , a ) );
     }
-
-
-    size_t poidsCourant = 0;
-    while ( poidsCourant < nbCouts - 1 )
+    size_t IDXpoidsCourant = 0;
+    while ( IDXpoidsCourant < nbCouts - 1 )
     {
         auto sortFunction = [ = ] ( Graphe * g1 , Graphe * g2 )
         {
             auto v1 = g1->poidsTotaux ( );
             auto v2 = g2->poidsTotaux ( );
-            return v1.at ( poidsCourant ) < v2.at ( poidsCourant );
+            return v1.at ( IDXpoidsCourant ) < v2.at ( IDXpoidsCourant );
         };
         std::sort ( solution.begin ( ) , solution.end ( ) , sortFunction );
         float pivot = infini;
         for ( auto a = solution.begin ( ); a != solution.end ( ); )
         {
-            float cout = ( *a )->poidsTotaux ( ).at ( poidsCourant + 1 );
-            if ( cout < pivot )
+            auto it = a;
+            auto nextIt = ( a + 1 );
+            float Cout = ( *it )->poidsTotaux ( ).at ( IDXpoidsCourant + 1 );
+            if ( it != solution.end ( ) ) {
+                float poidsCourant1 = ( *it )->poidsTotaux ( ).at ( IDXpoidsCourant );
+                float poidsCourant2 = ( *it )->poidsTotaux ( ).at ( IDXpoidsCourant );
+                if ( poidsCourant1 == poidsCourant2 ) {
+                    float _CoutNext = ( *nextIt )->poidsTotaux ( ).at ( IDXpoidsCourant );
+                    a = ( _CoutNext > Cout ) ? solution.erase ( nextIt ) : solution.erase ( it );
+                }
+            }
+            else {
+                std::cout << "Fin" << std::endl;
+            }
+
+            if ( Cout < pivot )
             {
-                pivot = cout;
+                pivot = Cout;
                 a++;
             }
             else {
                 a = solution.erase ( a );
             }
         }
-        poidsCourant++;
+        IDXpoidsCourant++;
     }
+    std::cout << IDXpoidsCourant << std::endl;
+
     return solution;
 }
 
@@ -258,7 +272,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )
         if ( tri == true )
         {
             int j = 0;
-            for ( unsigned int i = 0; i < compteur.size ( ); i++ )
+            for ( unsigned int i = 0; i < compteur.size ( ) - 1; i++ )
             {
 
                 if ( compteur [ i ] == 1 )
@@ -269,35 +283,37 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )
             if ( j == Sommetsmap.size ( ) - 1 )
             {
                 std::vector<Arrete*> ArretesN;
-                for ( unsigned int j = 0; j < compteur.size ( ); j++ )
+                for ( unsigned int j = 0; j < compteur.size ( ) - 1; j++ )
                 {
-                    if ( compteur [ j ] == true )
+                    if ( compteur [ j ] == 1 )
                     {
                         ArretesN.push_back ( m_arretes [ j ] );
                     }
                 }
-                Graphe* a = new Graphe ( m_sommets , ArretesN );
+
                 std::vector<int> connexe;
                 for ( int j = 0; j < m_sommets.size ( ); j++ )
                 {
                     connexe.push_back ( j );
-
                 }
                 for ( auto it : ArretesN )
                 {
                     int s1 = it->gets1 ( );
                     int s2 = it->gets2 ( );
+                    //std::cout<<s1<<":"<<connexe[s1]<<","<<s2<<":"<<connexe[s2];
 
-                    if ( connexe [ s1 ] == connexe [ s2 ] )
+                    if ( ( connexe [ s1 ] ) == ( connexe [ s2 ] ) )
                     {
+                        //std::cout<<"break : ("<<s1<<","<<s2<<")"<<" ";
                         break;
                     }
-
-                    for ( unsigned int j = 0; j < connexe.size ( ); j++ )
+                    //std::cout<<"non break(";
+                    for ( unsigned int j = 0; j <= connexe.size ( ); j++ )
                     {
-                        if ( connexe [ j ] == connexe [ s2 ] )
+                        if ( ( connexe [ j ] == connexe [ s2 ] ) && ( j != s2 ) )
                         {
                             connexe [ j ] = connexe [ s1 ];
+                            //std::cout<<j<<")"<<" ";
                         }
                     }
                     connexe [ s2 ] = connexe [ s1 ];
@@ -314,6 +330,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )
                 if ( temp == m_sommets.size ( ) )
                 {
                     compteurs.push_back ( compteur );
+
                 }
             }
         }
@@ -340,8 +357,6 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )
     }
     return compteurs;
 }
-
-
 
 float Graphe::distanceEuclidienne ( int s1 , int s2 )
 {

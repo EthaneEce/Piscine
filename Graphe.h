@@ -15,13 +15,13 @@ public:
     Graphe ( const std::vector<Sommet*>& sommets_src ,
         const std::vector<Arrete*>& aretes_src ,
         const std::string& nom_graphe = "" );
-    Graphe ( const Graphe& src , 
-        const std::vector<bool>& vec,
+    Graphe ( const Graphe& src ,
+        const std::vector<bool>& vec ,
         const std::string& nom_graphe = ""
-        );
+    );
     Graphe ( ) = default;
     ~Graphe ( );
-    std::vector<std::vector<bool>> bruteforce (bool tri = true );
+    std::vector<std::vector<bool>> bruteforce ( bool tri = true );
     float distanceEuclidienne ( int s1 , int s2 );
     std::vector<float> poidsTotaux ( );
     std::vector<Sommet*> getsommets ( ) { return m_sommets; };

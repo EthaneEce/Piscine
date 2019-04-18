@@ -10,10 +10,11 @@ std::ostream& operator<<( std::ostream& out , std::vector<float> vec )
 }
 int main ( )
 {
-    Graphe b ( "txt/triville.txt" , "txt/triville_weights_0.txt" );
-    auto par = b.Pareto ( b.bruteforce ( ) );
-    for ( auto& a : par )
-        std::cout << a->poidsTotaux ( ) << std::endl;
+    Graphe b ( "txt/manhattan.txt" , "txt/manhattan_weights_0.txt" );
+    auto brute_force = b.bruteforce ( );
+    auto par = b.Pareto ( brute_force );
+    //for ( auto& a : par )
+    //    std::cout << a->poidsTotaux ( ) << std::endl;
     std::cin.get ( );
 }
 

@@ -18,6 +18,9 @@ public:
     {
         fin = std::chrono::high_resolution_clock::now ( );
         auto duree = fin - debut;
-        std::cout << "L'execution de la fonction '" << m_functionName << "' a pris : " << duree.count ( ) / 1000000.0 << " ms" << std::endl;
+        std::cout
+            << std::endl << "L'execution de la fonction '"
+            << m_functionName << "' a pris : "
+            << duree.count ( ) / 1000000.0 << " ms" << std::endl;
     }
 };
