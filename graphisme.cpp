@@ -126,7 +126,17 @@ void choixUtilisationGraph(BITMAP* buffer, BITMAP* fond, FONT* font1, FONT* titr
         }
         else if(kruskal==1)
         {
+            Graphe a {b.getsommets(),b.Kruskal()};
+            clear_bitmap(buffer);
+            do
+            {
+                draw_sprite(buffer,fond,0,0);
+                a.afficherallegro(buffer,0,0,2);
 
+                quitter2 =   draw_bouton(4.5*SCREEN_W/10,9.4*SCREEN_H/10,5.5*SCREEN_W/10,9.9*SCREEN_H/10,makecol(43,105,200),makecol(30,73,138),3,"Quitter",font1,buffer);
+                draw_sprite(screen,buffer,0,0);
+            }while(quitter2 == 0);
+            draw_sprite(screen,fond,0,0);
         }
         else if(pareto==1)
         {
@@ -134,7 +144,16 @@ void choixUtilisationGraph(BITMAP* buffer, BITMAP* fond, FONT* font1, FONT* titr
         }
         else if(brutforce==1)
         {
-
+            clear_bitmap(buffer);
+            std::vector<std::vector<bool>> t = b.bruteforce(1);
+            do
+            {
+                draw_sprite(buffer,fond,0,0);
+                dessinerBrut(buffer,b,t,0,0,2);
+                quitter2 =   draw_bouton(4.5*SCREEN_W/10,9.4*SCREEN_H/10,5.5*SCREEN_W/10,9.9*SCREEN_H/10,makecol(43,105,200),makecol(30,73,138),3,"Quitter",font1,buffer);
+                draw_sprite(screen,buffer,0,0);
+            }while(quitter2 == 0);
+            rest(200);
         }
         else if(quitter==1)
         {
@@ -144,6 +163,33 @@ void choixUtilisationGraph(BITMAP* buffer, BITMAP* fond, FONT* font1, FONT* titr
     while(quit==false);
 
     free((char*)ouai);
+}
+
+void dessinerBrut(BITMAP*buffer,Graphe b,std::vector<std::vector<bool>> Ttgraphes,double x, double y,int proportion)
+{
+    int k=x,l=y;
+    std::vector<Arrete*> ArretesN;
+
+    for(unsigned int i = 0; i < ((Ttgraphes.size()<20) ? Ttgraphes.size() : 20 ); i++)
+    {
+        for ( unsigned int j = 0; j < Ttgraphes[i].size ( ); j++ )
+        {
+            if ( Ttgraphes [ i ] [ j ] == true )
+            {
+                ArretesN.push_back ( b.getarretes() [ j ]  );
+            }
+        }
+        Graphe a = Graphe ( b.getsommets() , ArretesN );
+        a.afficherallegro(buffer,k,l,proportion);
+        k+=500;
+        if (k >= 5000)
+        {
+            //l+=500;
+            l+=500;
+            k=0;
+        }
+        ArretesN.clear();
+    }
 }
 
 /* ****************************************************************************************************
