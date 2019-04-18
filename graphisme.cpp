@@ -3,8 +3,8 @@
 int menu(BITMAP* buffer, Graphe& a, FONT* font1)
 {
     int choix = 0;
-    std::string fichier1,fichier2;
-    int broadway = 0,cubetown = 0,manhattan = 0,triville = 0;
+    std::string fichier1;
+    int broadway = 0,cubetown = 0,manhattan = 0,triville = 0, poids = 0;
     int weight;
     BITMAP* fond = load_bitmap("Images/fond.bmp",nullptr);
 
@@ -15,26 +15,45 @@ int menu(BITMAP* buffer, Graphe& a, FONT* font1)
         cubetown = draw_bouton(3*SCREEN_W/10,6*SCREEN_H/10,4.5*SCREEN_W/10,6*SCREEN_H/10+50,makecol(29,240,17),makecol(20,186,12),3,"Cubetown",font1,buffer);
         manhattan= draw_bouton(5*SCREEN_W/10,6*SCREEN_H/10,6.5*SCREEN_W/10,6*SCREEN_H/10+50,makecol(29,240,17),makecol(20,186,12),3,"Manhattan",font1,buffer);
         triville = draw_bouton(7*SCREEN_W/10,6*SCREEN_H/10,8.5*SCREEN_W/10,6*SCREEN_H/10+50,makecol(29,240,17),makecol(20,186,12),3,"Triville",font1,buffer);
-        draw_sprite(screen,buffer,0,0);
-    }while(broadway == 0 && cubetown == 0 && manhattan == 0 && triville == 0);
 
+
+        if (broadway == 1)
+            choixPoids(buffer,fond,font1,"txt/broadway.txt",a);
+        if (cubetown == 1)
+            choixPoids(buffer,fond,font1,"txt/cubetown.txt",a);
+        if (manhattan == 1)
+            choixPoids(buffer,fond,font1,"txt/manhattan.txt",a);
+        if (triville == 1)
+            choixPoids(buffer,fond,font1,"txt/triville.txt",a);
+
+
+        draw_sprite(screen,buffer,0,0);
+    }
+    while(!key[KEY_ESC]);
     free(font1);
-    if (broadway == 1)
+}
+int choixPoids(BITMAP* buffer,BITMAP* fond, FONT* font1,std::string fichier1, Graphe& b)
+{
+    int poids1 = 0, poids2 = 0, poids3= 0;
+    rest(100);
+    do
     {
-        fichier1 = "txt/broadway.txt";
+        draw_sprite(buffer,fond,0,0);
+        poids1 = draw_bouton(1.75*SCREEN_W/10,6*SCREEN_H/10,3.25*SCREEN_W/10,6*SCREEN_H/10+50,makecol(29,240,17),makecol(20,186,12),3,"Poids 1",font1,buffer);
+        poids2 = draw_bouton(4.25*SCREEN_W/10,6*SCREEN_H/10,5.75*SCREEN_W/10,6*SCREEN_H/10+50,makecol(29,240,17),makecol(20,186,12),3,"Poids 2",font1,buffer);
+        poids3 = draw_bouton(6.75*SCREEN_W/10,6*SCREEN_H/10,8.25*SCREEN_W/10,6*SCREEN_H/10+50,makecol(29,240,17),makecol(20,186,12),3,"Poids 3",font1,buffer);
+        draw_sprite(screen,buffer,0,0);
+/*
+        if(poids1==1)
+            return 1;
+        else if(poids2==1)
+            return 2;
+        else if(poids3==1)
+            return 3;
+        else
+            return 0;*/
     }
-    if (cubetown == 1)
-    {
-        fichier1 = "txt/cubetown.txt";
-    }
-    if (manhattan == 1)
-    {
-        fichier1 = "txt/manhattan.txt";
-    }
-    if (triville == 1)
-    {
-        fichier1 = "txt/triville.txt";
-    }
+    while(!key[KEY_ESC]);
 }
 
 /* ****************************************************************************************************
