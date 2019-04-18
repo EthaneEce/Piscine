@@ -1,16 +1,15 @@
 #include "graphisme.h"
 
-int menu(BITMAP* buffer, Graphe& a, FONT* font1)
+int menu(BITMAP* buffer, Graphe& a, FONT* font1, FONT* titre)
 {
-    int choix = 0;
     std::string fichier1;
-    int broadway = 0,cubetown = 0,manhattan = 0,triville = 0, poids = 0;
-    int weight;
+    int broadway = 0,cubetown = 0,manhattan = 0,triville = 0;
     BITMAP* fond = load_bitmap("Images/fond.bmp",nullptr);
-
+    draw_sprite(screen,fond,0,0);
     do
     {
         draw_sprite(buffer,fond,0,0);
+        textout_centre_ex(buffer,titre,"Selection du graphe",SCREEN_W/2,3*SCREEN_H/10,makecol(0,0,0),makecol(255,0,255));
         broadway = draw_bouton(  SCREEN_W/10,6*SCREEN_H/10,2.5*SCREEN_W/10,6*SCREEN_H/10+50,makecol(29,240,17),makecol(20,186,12),3,"Broadway",font1,buffer);
         cubetown = draw_bouton(3*SCREEN_W/10,6*SCREEN_H/10,4.5*SCREEN_W/10,6*SCREEN_H/10+50,makecol(29,240,17),makecol(20,186,12),3,"Cubetown",font1,buffer);
         manhattan= draw_bouton(5*SCREEN_W/10,6*SCREEN_H/10,6.5*SCREEN_W/10,6*SCREEN_H/10+50,makecol(29,240,17),makecol(20,186,12),3,"Manhattan",font1,buffer);
@@ -18,60 +17,126 @@ int menu(BITMAP* buffer, Graphe& a, FONT* font1)
 
 
         if (broadway == 1)
-            choixPoids(buffer,fond,font1,"txt/broadway.txt",a);
+        {
+            choixPoids(buffer,fond,font1,titre,"txt/broadway.txt",a,3);
+            //draw_sprite(screen,fond,0,0);
+        }
         if (cubetown == 1)
-            choixPoids(buffer,fond,font1,"txt/cubetown.txt",a);
+        {
+            choixPoids(buffer,fond,font1,titre,"txt/cubetown.txt",a,1);
+            draw_sprite(screen,fond,0,0);
+        }
         if (manhattan == 1)
-            choixPoids(buffer,fond,font1,"txt/manhattan.txt",a);
+        {
+            choixPoids(buffer,fond,font1,titre,"txt/manhattan.txt",a,3);
+            draw_sprite(screen,fond,0,0);
+        }
         if (triville == 1)
-            choixPoids(buffer,fond,font1,"txt/triville.txt",a);
-
-
+        {
+            choixPoids(buffer,fond,font1,titre,"txt/triville.txt",a,2);
+            draw_sprite(screen,fond,0,0);
+        }
         draw_sprite(screen,buffer,0,0);
     }
     while(!key[KEY_ESC]);
+
     free(font1);
 }
-void choixPoids(BITMAP* buffer,BITMAP* fond, FONT* font1,std::string fichier1, Graphe& b)
+void choixPoids(BITMAP* buffer,BITMAP* fond, FONT* font1, FONT* titre,std::string fichier1, Graphe& b,int nbPoids)
 {
+    draw_sprite(screen,fond,0,0);
     int poids1 = 0, poids2 = 0, poids3= 0;
     std::string fichier2 = fichier1;
-    for(size_t i =0;i<4;i++;)
+    for(size_t i =0;i<4;i++)
         fichier1.pop_back();
     bool quit = false;
+    std::string titr = "Fichier de poids de "+fichier1;
+    const char* ouai = titr.c_str();
     rest(100);
     do
     {
         draw_sprite(buffer,fond,0,0);
-        poids1 = draw_bouton(1.75*SCREEN_W/10,6*SCREEN_H/10,3.25*SCREEN_W/10,6*SCREEN_H/10+50,makecol(43,105,200),makecol(30,73,138),3,"Poids 1",font1,buffer);
-        poids2 = draw_bouton(4.25*SCREEN_W/10,6*SCREEN_H/10,5.75*SCREEN_W/10,6*SCREEN_H/10+50,makecol(43,105,200),makecol(30,73,138),3,"Poids 2",font1,buffer);
-        poids3 = draw_bouton(6.75*SCREEN_W/10,6*SCREEN_H/10,8.25*SCREEN_W/10,6*SCREEN_H/10+50,makecol(43,105,200),makecol(30,73,138),3,"Poids 3",font1,buffer);
+        textout_centre_ex(buffer,titre,ouai,SCREEN_W/2,3*SCREEN_H/10,makecol(0,0,0),makecol(255,0,255));
+        if(nbPoids>=1)
+            poids1 = draw_bouton(1.75*SCREEN_W/10,6*SCREEN_H/10,3.25*SCREEN_W/10,6*SCREEN_H/10+50,makecol(43,105,200),makecol(30,73,138),3,"Poids 1",font1,buffer);
+        if(nbPoids>=2)
+            poids2 = draw_bouton(4.25*SCREEN_W/10,6*SCREEN_H/10,5.75*SCREEN_W/10,6*SCREEN_H/10+50,makecol(43,105,200),makecol(30,73,138),3,"Poids 2",font1,buffer);
+        if(nbPoids>=3)
+            poids3 = draw_bouton(6.75*SCREEN_W/10,6*SCREEN_H/10,8.25*SCREEN_W/10,6*SCREEN_H/10+50,makecol(43,105,200),makecol(30,73,138),3,"Poids 3",font1,buffer);
+
         draw_sprite(screen,buffer,0,0);
 
         if(poids1==1)
         {
             quit=true;
-            b = Graphe (fichier2,fichier1+"_weights_"+"0");
+            b = Graphe (fichier2,fichier1+"_weights_0.txt");
         }
         else if(poids2==1)
         {
             quit=true;
-            b = Graphe (fichier2,fichier1+"_weights_"+"1");
+            b = Graphe (fichier2,fichier1+"_weights_1.txt");
         }
         else if(poids3==1)
         {
             quit=true;
-            b = Graphe (fichier2,fichier1+"_weights_"+"2");
+            b = Graphe (fichier2,fichier1+"_weights_2.txt");
         }
     }
     while(quit==false);
 
-    choixUtilisationGraph(buffer,fond,font1,b);
+    free((char*)ouai);
+    choixUtilisationGraph(buffer,fond,font1,titre,b,fichier1);
 
 }
-void choixUtilisationGraph(BITMAP* buffer, BITMAP* fond, FONT* font1, Graphe& b)
+void choixUtilisationGraph(BITMAP* buffer, BITMAP* fond, FONT* font1, FONT* titre, Graphe& b,std::string nom)
 {
+    draw_sprite(screen,fond,0,0);
+    for(size_t i =0;i<4;i++)
+        nom.erase(0,1);
+    int kruskal = 0, pareto = 0, brutforce = 0, base = 0, quitter =0;
+    bool quit = false;
+    std::string titr = "Traitement de "+nom;
+    const char* ouai = titr.c_str();
+    rest(100);
 
+    do
+    {
+        draw_sprite(buffer,fond,0,0);
+
+        base =      draw_bouton(3.7*SCREEN_W/10,  5*SCREEN_H/10,6.3*SCREEN_W/10,5.5*SCREEN_H/10,makecol(43,105,200),makecol(30,73,138),3,"Afficher le Graphe",font1,buffer);
+        kruskal =   draw_bouton(3.7*SCREEN_W/10,5.8*SCREEN_H/10,6.3*SCREEN_W/10,6.3*SCREEN_H/10,makecol(43,105,200),makecol(30,73,138),3,"Appliquer Kruskal",font1,buffer);
+        brutforce = draw_bouton(3.5*SCREEN_W/10,6.6*SCREEN_H/10,6.5*SCREEN_W/10,7.1*SCREEN_H/10,makecol(43,105,200),makecol(30,73,138),3,"Solutions du BrutForce",font1,buffer);
+        pareto =    draw_bouton(3.7*SCREEN_W/10,7.4*SCREEN_H/10,6.3*SCREEN_W/10,7.9*SCREEN_H/10,makecol(43,105,200),makecol(30,73,138),3,"Frontiere de Pareto",font1,buffer);
+        quitter =   draw_bouton(3.7*SCREEN_W/10,8.2*SCREEN_H/10,6.3*SCREEN_W/10,8.7*SCREEN_H/10,makecol(43,105,200),makecol(30,73,138),3,"Changer de Graphe",font1,buffer);
+        textout_centre_ex(buffer,titre,ouai,SCREEN_W/2,3*SCREEN_H/10,makecol(0,0,0),makecol(255,0,255));
+
+        draw_sprite(screen,buffer,0,0);
+
+        if(base==1)
+        {
+            //b.afficherallegro(buffer,);
+        }
+        else if(kruskal==1)
+        {
+
+        }
+        else if(pareto==1)
+        {
+
+        }
+        else if(brutforce==1)
+        {
+
+        }
+        else if(quitter==1)
+        {
+            quit = true;
+        }
+    }
+    while(quit==false);
+    draw_sprite(screen,fond,0,0);
+
+    free((char*)ouai);
 }
 
 /* ****************************************************************************************************
