@@ -2,15 +2,34 @@
 #include "Graphe.h"
 #include <functional>
 #include <algorithm>
-#include <unordered_set>
+#include <set>
 #include <memory>
-
-Graphe::Graphe ( std::vector<Sommet*> mS , std::vector<Arrete*> mA )
-: m_sommets ( mS ) , m_arretes ( mA )
+#include "Timer.h"
+#include <limits>
+Graphe::Graphe ( const std::vector<Sommet*>& mS ,
+    const std::vector<Arrete*>& mA ,
+    const std::string& nom_graphe )
+    : m_sommets ( mS ) , m_arretes ( mA ) , graphName ( nom_graphe )
 {
+    nbCouts = m_arretes [ 0 ]->getcout ( ).size ( );
 }
 
-Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 )
+
+Graphe::Graphe ( const Graphe& src ,
+    const std::vector<bool>& vec ,
+    const std::string& nom_graph ) : graphName ( nom_graph )
+{
+    std::vector<Arrete*> temp;
+    for ( size_t i = 0; i < vec.size ( ); i++ )
+    {
+        if ( vec.at ( i ) & true ) {
+            temp.push_back ( src.m_arretes.at ( i ) );
+        }
+    }
+    *this = Graphe ( src.m_sommets , temp );
+}
+
+Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 ) : graphName ( nomFichier1 )
 {
     std::ifstream ifs1 { nomFichier1 };
     if ( !ifs1 )
@@ -39,7 +58,7 @@ Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 )
         ifs1 >> y1;
         if ( ifs1.fail ( ) )
             throw std::runtime_error ( "Probleme lecture donnees sommet" );
-        m_sommets.push_back ( new Sommet{id1, x1, y1});
+        m_sommets.push_back ( new Sommet { id1, x1, y1 } );
     }
 
     int taille , taille2;
@@ -52,8 +71,7 @@ Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 )
     if ( taille != taille2 )
         throw std::runtime_error ( "Probleme de taille des arretes, elles ne coincident pas" );
 
-    int nombrecout;
-    ifs2 >> nombrecout;
+    ifs2 >> nbCouts;
     //std::cout<<nombrecout<<"aze"<<std::endl;
     if ( ifs2.fail ( ) )
         throw std::runtime_error ( "Probleme lecture nombre des couts du graphe2" );
@@ -80,7 +98,7 @@ Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 )
             throw std::runtime_error ( "Probleme lecture donn�es arrete" );
         if ( arreteid != id2 )
             throw std::runtime_error ( "Probleme de id des arretes, elles ne coincident pas" );
-        for ( int i = 0; i < nombrecout; ++i )
+        for ( size_t j = 0; j < nbCouts; ++j )
         {
             float coutnbr;
             ifs2 >> coutnbr;
@@ -88,7 +106,7 @@ Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 )
                 throw std::runtime_error ( "Probleme lecture donn�es arrete" );
             Cout.push_back ( coutnbr );
         }
-        m_arretes.push_back( new Arrete{id2, x2, y2, Cout}  );
+        m_arretes.push_back ( new Arrete { id2, x2, y2, Cout } );
     }
 }
 
@@ -202,11 +220,12 @@ void Graphe::afficherallegrotout(BITMAP*buffer,double x, double y,int proportion
     }
 }
 
-/**std::vector<Arrete*> Graphe::Kruskal ( size_t cout_id ) const
-{
 
+std::vector<Arrete*> Graphe::Kruskal ( size_t cout_id ) const
+{
+    Timer t ( "Kruskal a partir du graphe " + graphName );
     //Map Solution
-    std::unordered_map<int , Arrete*> solution;
+    std::vector<Arrete*> solution;
 
     //Associer un sommet et sa composante connexe
     std::unordered_map<int , std::shared_ptr<int>> composantesConnexes;
@@ -220,15 +239,14 @@ void Graphe::afficherallegrotout(BITMAP*buffer,double x, double y,int proportion
     }
 
     //Vector dans lequel on va mettre notre map d'aretes
-    std::vector<std::pair<int , Arrete*>> vec;
-    std::copy ( m_arretes.begin ( ) , m_arretes.end ( ) ,
-        std::back_inserter<std::vector<std::pair<int , Arrete*>>> ( vec ) );
+    std::vector<Arrete*> vec ( m_arretes );
 
 
     //trier le vector en fonction du cout reçu en parametre
-    auto sortFunction = [ = ] ( const std::pair<int , Arrete*> & p1 , const std::pair<int , Arrete*> & p2 ) {
-        return p1.second->getcout ( ).at ( cout_id ) < p2.second->getcout ( ).at ( cout_id );
+    auto sortFunction = [ & ] ( Arrete * a1 , Arrete * a2 ) {
+        return a1->getcout ( ).at ( cout_id ) < a2->getcout ( ).at ( cout_id );
     };
+
     std::sort ( vec.begin ( ) , vec.end ( ) , sortFunction );
 
 
@@ -238,14 +256,15 @@ void Graphe::afficherallegrotout(BITMAP*buffer,double x, double y,int proportion
     for ( auto& a : vec )
     {
         //Trouver les sommets
-        auto s1 = composantesConnexes.find ( a.second->gets1 ( ) );
-        auto s2 = composantesConnexes.find ( a.second->gets2 ( ) );
+        auto s1 = composantesConnexes.find ( a->gets1 ( ) );
+        auto s2 = composantesConnexes.find ( a->gets2 ( ) );
 
         //S'ils ne sont pas sur la meme composante connexe
         if ( *( s1->second ) != *( s2->second ) )
         {
             //Inserer l'arete
-            solution.insert ( { a.first, a.second } );
+            solution.push_back ( a );
+
 
             //Mettre à jour pour que les sommets sont sur la meme composante connexe
             if ( s1->second.use_count ( ) < s2->second.use_count ( ) )
@@ -262,20 +281,59 @@ void Graphe::afficherallegrotout(BITMAP*buffer,double x, double y,int proportion
         }
     }
 
-    std::vector<Arrete*> Arretesvec;
-    for ( auto it : solution )
-    {
-        Arretesvec.push_back ( it.second );
-    }
-    return Arretesvec;
-}**/
+    return solution;
+}
 
-std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri)
+
+std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec )
 {
+    Timer t ( "Pareto pour le graphe " + graphName );
+    const constexpr float infini = std::numeric_limits<float>::max ( );
+    std::vector<Graphe*> solution;
+    for ( auto a : vec )
+    {
+        solution.push_back ( new Graphe ( *this , a ) );
+    }
+
+
+    size_t poidsCourant = 0;
+    while ( poidsCourant < nbCouts - 1 )
+    {
+        auto sortFunction = [ = ] ( Graphe * g1 , Graphe * g2 )
+        {
+            auto v1 = g1->poidsTotaux ( );
+            auto v2 = g2->poidsTotaux ( );
+            return v1.at ( poidsCourant ) < v2.at ( poidsCourant );
+        };
+        std::sort ( solution.begin ( ) , solution.end ( ) , sortFunction );
+        float pivot = infini;
+        for ( auto a = solution.begin ( ); a != solution.end ( ); )
+        {
+            float cout = ( *a )->poidsTotaux ( ).at ( poidsCourant + 1 );
+            if ( cout < pivot )
+            {
+                pivot = cout;
+                a++;
+            }
+            else {
+                a = solution.erase ( a );
+            }
+        }
+        poidsCourant++;
+    }
+    return solution;
+}
+
+
+
+
+std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )
+{
+    Timer t ( "Brute force pour le graphe : " + graphName );
     std::vector<Sommet*> Sommetsmap = m_sommets;
     std::vector<Arrete*> Arretesvec = m_arretes;
 
-    std::vector<bool> compteur(Arretesvec.size ( )+1, 0);
+    std::vector<bool> compteur ( Arretesvec.size ( ) + 1 , 0 );
     std::vector<std::vector<bool>> compteurs;
 
     while ( compteur [ compteur.size ( ) - 1 ] != 1 )
@@ -350,7 +408,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri)
         }
         else
         {
-            compteurs.push_back(compteur);
+            compteurs.push_back ( compteur );
         }
 
 
@@ -375,4 +433,29 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri)
     }
     std::cout<<compteurs.size();
     return compteurs;
+}
+
+
+
+float Graphe::distanceEuclidienne ( int s1 , int s2 )
+{
+    auto x = m_sommets [ s1 ]->getx ( ) - m_sommets [ s2 ]->getx ( );
+    auto y = m_sommets [ s2 ]->gety ( ) - m_sommets [ s2 ]->gety ( );
+    auto dist = ( x * x ) + ( y * y );
+    dist = sqrt ( dist );
+    return ( float ) dist;
+}
+
+std::vector<float> Graphe::poidsTotaux ( )
+{
+    std::vector<float>solution;
+    for ( size_t i = 0; i < nbCouts; i++ )
+    {
+        float total = 0.0f;
+        for ( auto& a : m_arretes ) {
+            total += a->getcout ( ).at ( i );
+        }
+        solution.push_back ( total );
+    }
+    return solution;
 }

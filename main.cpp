@@ -3,9 +3,8 @@
 
 void lancerToutAllegro(int largeur, int hauteur);
 
-int main ( )
+std::ostream& operator<<( std::ostream& out , std::vector<float> vec )
 {
-
     size_t lng = 1200,lrg =800;
     lancerToutAllegro(lng,lrg);
     BITMAP*buffer;
@@ -66,6 +65,13 @@ int main ( )
             rest(100);
 
     }
+
+    Graphe b ( "txt/triville.txt" , "txt/triville_weights_0.txt" );
+    auto par = b.Pareto ( b.bruteforce ( 1 ) );
+    for ( auto& a : par )
+    std::cout << a->poidsTotaux ( ) << std::endl;
+    system("pause");
+
     }while(!key[KEY_ESC]);
 
     /**BITMAP*perso;
