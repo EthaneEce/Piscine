@@ -139,13 +139,15 @@ void Graphe::afficherallegro(BITMAP*buffer,double x, double y,int proportion) co
             }
         }
 
-        for ( int j = 5; j >= -5; j-- )
+        /**for ( int j = 5; j >= -5; j-- )
         {
             for ( int i = -5; i <= 5; i++ )
             {
                 line ( buffer , (x + n1->getx ( ) + i)/proportion , (y + n1->gety ( ) + i)/proportion , (x + n2->getx ( ) + j)/proportion , (y + n2->gety ( ) + j)/proportion , makecol ( 255 , 255 , 255 ) );
             }
-        }
+        }**/
+        triangle(buffer, (x + n1->getx ( ) -5 )/proportion , (y + n1->gety ( ) - 5)/proportion , (x + n2->getx ( ) - 5)/proportion , (y + n2->gety ( ) - 5)/proportion,(x + n1->getx ( ) + 5)/proportion , (y + n1->gety ( ) + 5)/proportion , makecol ( 255 , 255 , 255 ));
+        triangle(buffer, (x + n1->getx ( ) +5 )/proportion , (y + n1->gety ( ) + 5)/proportion , (x + n2->getx ( ) - 5)/proportion , (y + n2->gety ( ) - 5)/proportion,(x + n2->getx ( ) + 5)/proportion , (y + n2->gety ( ) + 5)/proportion , makecol ( 255 , 255 , 255 ));
         textprintf_centre_ex ( buffer , font , (x + ( n1->getx ( ) + n2->getx ( ) ) / 2)/proportion , (y + ( n1->gety ( ) + n2->gety ( ) ) / 2)/proportion , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "%d" , it->getid ( ) );
     }
     int texte1 = 0;
@@ -283,7 +285,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri)
         if (tri == true)
         {
             int j = 0;
-            for ( unsigned int i = 0; i < compteur.size ( ); i++ )
+            for ( unsigned int i = 0; i < compteur.size ( )-1; i++ )
             {
 
                 if ( compteur [ i ] == 1 )
@@ -294,35 +296,37 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri)
             if(j==Sommetsmap.size()-1)
             {
                 std::vector<Arrete*> ArretesN;
-                for ( unsigned int j = 0; j < compteur.size(); j++ )
+                for ( unsigned int j = 0; j < compteur.size()-1; j++ )
                 {
-                    if ( compteur [ j ] == true )
+                    if ( compteur [ j ] == 1 )
                     {
                         ArretesN.push_back ( m_arretes [j]  );
                     }
                 }
-                Graphe* a = new Graphe ( m_sommets , ArretesN );
+
                 std::vector<int> connexe;
                 for (int j = 0; j < m_sommets.size( ); j++ )
                 {
                     connexe.push_back(j);
-
                 }
                 for(auto it: ArretesN)
                 {
                     int s1 = it->gets1();
                     int s2 = it->gets2();
+                    //std::cout<<s1<<":"<<connexe[s1]<<","<<s2<<":"<<connexe[s2];
 
-                    if(connexe[s1] == connexe[s2])
+                    if((connexe[s1]) == (connexe[s2]))
                     {
+                        //std::cout<<"break : ("<<s1<<","<<s2<<")"<<" ";
                         break;
                     }
-
-                    for ( unsigned int j = 0; j < connexe.size(); j++ )
+                    //std::cout<<"non break(";
+                    for ( unsigned int j = 0; j <= connexe.size(); j++ )
                     {
-                        if(connexe[j] == connexe[s2])
+                        if((connexe[j] == connexe[s2])&&(j!=s2))
                         {
                             connexe[j] = connexe[s1];
+                            //std::cout<<j<<")"<<" ";
                         }
                     }
                     connexe[s2] = connexe[s1];
@@ -334,12 +338,14 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri)
                     {
                         temp++;
                     }
+                    //std::cout<<connexe[j];
                 }
 
                 if(temp==m_sommets.size())
                 {
                     compteurs.push_back(compteur);
-                }
+                    //std::cout<<"oui";
+                }//std::cout<<std::endl;
             }
         }
         else
@@ -362,6 +368,11 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri)
                 break;
             }
         }
+        for ( unsigned int i = 0; i < compteur.size ( ); i++ )
+        {
+            //std::cout<<compteur[i];
+        }//std::cout<<std::endl;
     }
+    std::cout<<compteurs.size();
     return compteurs;
 }

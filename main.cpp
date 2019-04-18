@@ -9,14 +9,26 @@ int main ( )
     size_t lng = 1200,lrg =800;
     lancerToutAllegro(lng,lrg);
     BITMAP*buffer;
-    buffer=create_bitmap(lng,lrg);
+    buffer=create_bitmap(lng,lrg+10000);
 
-    Graphe b("txt/cubetown.txt","txt/cubetown_weights_0.txt");
-    //b.afficherallegro(100,100,2);
-    std::vector<std::vector<bool>> Ttgraphes = b.bruteforce(1);
+            circlefill ( buffer , 1000, 100 , 100 , makecol ( 255 , 0 , 0 ) );
+
+
+    Graphe b("txt/triville.txt","txt/triville_weights_0.txt");
+    //b.afficherallegro(buffer,100,100,2);
+    //std::vector<std::vector<bool>> Ttgraphes = b.bruteforce(1);
     //int k=0,l=0;
 
-    b.afficherallegrotout(buffer,0, 0,7) ;
+    b.afficherallegrotout(buffer,0, 0,5) ;
+
+    /**for ( int j = 5; j >= -5; j-- )
+    {
+            for ( int i = -5; i <= 5; i++ )
+            {
+                fastline ( buffer , (100 - i) , (100 - i), (200 + j) , (200 + j) , makecol ( 255 , 255 , 255 ) );
+                fastline ( buffer , (200 + j) , (200 + j) ,(100 - i) , (100 - i) , makecol ( 255 , 255 , 255 ) );
+            }
+    }**/
 
 
     /**for(auto it:Ttgraphes)
@@ -30,8 +42,31 @@ int main ( )
         }
     }**/
 
+    int x=0;
+    int y=0;
+
+
     draw_sprite(screen,buffer,0,0);
-    do{}while(!key[KEY_ESC]);
+    do{
+    if((key[KEY_DOWN]))
+    {
+
+            y+=800;
+            std::cout << y<<",";
+            blit(buffer,screen,x,y,0,0,lng,lrg);
+            rest(100);
+
+    }
+    if((key[KEY_UP]))
+    {
+
+            y-=800;
+            std::cout << y<<",";
+            blit(buffer,screen,x,y,0,0,lng,lrg);
+            rest(100);
+
+    }
+    }while(!key[KEY_ESC]);
 
     /**BITMAP*perso;
     perso=load_bitmap("persotest.bmp",NULL);
@@ -75,7 +110,7 @@ int main ( )
     return 0;
     */
 
-    std::cout << Ttgraphes.size();
+    //std::cout << Ttgraphes.size();
     //do{}while(!key[KEY_ESC]);
 
     return 0;
