@@ -3,7 +3,15 @@
 
 void lancerToutAllegro(int largeur, int hauteur);
 
+
 std::ostream& operator<<( std::ostream& out , std::vector<float> vec )
+{
+    for ( auto& a : vec )
+        out << a << " ";
+    return out;
+}
+
+int main()
 {
     size_t lng = 1200,lrg =800;
     lancerToutAllegro(lng,lrg);
