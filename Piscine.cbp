@@ -39,6 +39,8 @@
 		<Unit filename="Sommet.cpp" />
 		<Unit filename="Sommet.h" />
 		<Unit filename="Timer.h" />
+		<Unit filename="graphisme.cpp" />
+		<Unit filename="graphisme.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="types.cpp" />
 		<Unit filename="types.h" />

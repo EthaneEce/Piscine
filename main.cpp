@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Graphe.h"
+#include "graphisme.h"
 
 void lancerToutAllegro(int largeur, int hauteur);
 
@@ -11,14 +12,37 @@ std::ostream& operator<<( std::ostream& out , std::vector<float> vec )
     return out;
 }
 
+
 int main()
 {
-    size_t lng = 1200,lrg =800;
-    lancerToutAllegro(lng,lrg);
+    lancerToutAllegro(1200,800);
     BITMAP*buffer;
-    buffer=create_bitmap(lng,lrg+10000);
+    buffer=create_bitmap(SCREEN_W,SCREEN_H);
+    circlefill ( buffer , 1000, 100 , 100 , makecol ( 255 , 0 , 0 ) );
+    Graphe b("txt/broadway.txt","txt/broadway_weights_0.txt");
+    FONT* font1= load_font("font/font3.pcx",nullptr,nullptr);
+    FONT* titre = load_font("font/Peignot.pcx",nullptr,nullptr);
 
-            circlefill ( buffer , 1000, 100 , 100 , makecol ( 255 , 0 , 0 ) );
+    int choix = menu(buffer,b,font1,titre);
+
+
+    /*
+    //b.afficherallegro(100,100,2);
+    std::vector<Graphe*> Ttgraphes = bruteforce(b);
+    int i=0,j=0;
+    for(auto it:Ttgraphes)
+    {
+        it->afficherallegro(buffer,i,j,2);
+        i+=150;
+        if (i >= 1500)
+        {
+            j+=150;
+            i=0;
+        }
+    }
+    draw_sprite(screen,buffer,0,0);
+    do{}while(!key[KEY_ESC]);*/
+
 
 
     Graphe b("txt/manhattan.txt","txt/manhattan_weights_0.txt");
