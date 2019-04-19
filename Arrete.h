@@ -2,6 +2,7 @@
 #define ARRETE_H
 #include <iostream>
 #include <vector>
+#include "svgfile.h"
 class Arrete
 {
 public:

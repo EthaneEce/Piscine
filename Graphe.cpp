@@ -149,14 +149,12 @@ std::vector<Arrete*> Graphe::Kruskal ( size_t cout_id ) const
     std::vector<Arrete*> solution;
 
     //Associer un sommet et sa composante connexe
-    std::unordered_map<int , std::shared_ptr<int>> composantesConnexes;
+    std::vector<int> composantesConnexes;
 
     //Au déput chaque sommet est sur une composante connexe
-    int i = 0;
-    for ( auto& a : m_sommets )
+    for ( size_t i = 0; i < m_sommets.size ( ); i++ )
     {
-        composantesConnexes.insert ( { a->getid ( ), std::make_shared<int> ( i ) } );
-        i++;
+        composantesConnexes.push_back ( i );
     }
 
     //Vector dans lequel on va mettre notre map d'aretes
@@ -177,24 +175,21 @@ std::vector<Arrete*> Graphe::Kruskal ( size_t cout_id ) const
     for ( auto& a : vec )
     {
         //Trouver les sommets
-        auto s1 = composantesConnexes.find ( a->gets1 ( ) );
-        auto s2 = composantesConnexes.find ( a->gets2 ( ) );
+        auto s1 = composantesConnexes.at ( a->gets1 ( ) );
+        auto s2 = composantesConnexes.at ( a->gets2 ( ) );
 
         //S'ils ne sont pas sur la meme composante connexe
-        if ( *( s1->second ) != *( s2->second ) )
+        if ( s1 != s2 )
         {
             //Inserer l'arete
             solution.push_back ( a );
 
 
             //Mettre à jour pour que les sommets sont sur la meme composante connexe
-            if ( s1->second.use_count ( ) < s2->second.use_count ( ) )
-                s1->second = s2->second;
-            else if ( s2->second.use_count ( ) == 1 )
-                s2->second = s1->second;
-            else
-                *( s1->second ) = *( s2->second );
-
+            for ( auto& b : composantesConnexes ) {
+                if ( b == s1 )
+                    b = s2;
+            }
 
             //Si on a inséré ordre_graphe - 1 aretes, on stop la boucle
             if ( solution.size ( ) == m_sommets.size ( ) - 1 )
@@ -270,6 +265,33 @@ std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec
         }
     }
     return solution;
+}
+
+void Graphe::dessiner ( Svgfile & svgout )
+{
+    for ( auto& a : m_sommets )
+    {
+        svgout.addDisk ( a->getx ( ) , a->gety ( ) , 10 );
+        svgout.addText ( a->getx ( ) - 15 , a->gety ( ) - 15 , a->getid ( ) );
+    }
+    for ( auto& a : m_arretes ) {
+        int s1 = a->gets1 ( );
+        int s2 = a->gets2 ( );
+        double x1 = m_sommets.at ( a->gets1 ( ) )->getx ( );
+        double y1 = m_sommets.at ( a->gets1 ( ) )->gety ( );
+        double x2 = m_sommets.at ( a->gets2 ( ) )->getx ( );
+        double y2 = m_sommets.at ( a->gets2 ( ) )->gety ( );
+        svgout.addLine ( x1 , y1 , x2 , y2 );
+    }
+
+    auto poidstot = poidsTotaux ( );
+    std::string str;
+    for ( auto& a : poidstot )
+    {
+        str += std::to_string ( a );
+        str += "; ";
+    }
+    svgout.addText ( 500 , 500 , str );
 }
 
 

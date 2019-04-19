@@ -37,3 +37,4 @@ std::vector<float> Arrete::getcout ( )const
     return m_Couts;
 }
 
+

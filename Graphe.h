@@ -29,6 +29,9 @@ public:
     void afficher ( ) const;
     std::vector<Arrete*> Kruskal ( size_t cout_id = 0 ) const;
     std::vector<Graphe*> Pareto ( const std::vector<std::vector<bool>>& vec );
+
+    void dessiner ( Svgfile& svgout );
+
 private:
 
     size_t nbCouts = 0;
