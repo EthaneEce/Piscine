@@ -41,6 +41,7 @@ int menu(BITMAP* buffer, Graphe& a, FONT* font1, FONT* titre)
     while(!key[KEY_ESC]);
 
     free(font1);
+
 }
 void choixPoids(BITMAP* buffer,BITMAP* fond, FONT* font1, FONT* titre,std::string fichier1, Graphe& b,int nbPoids)
 {
@@ -133,7 +134,6 @@ void choixUtilisationGraph(BITMAP* buffer, BITMAP* fond, FONT* font1, FONT* titr
             {
                 draw_sprite(buffer,fond,0,0);
                 a.afficherallegro(buffer,0,0,1 );
-
                 quitter2 =   draw_bouton(4.5*SCREEN_W/10,9.4*SCREEN_H/10,5.5*SCREEN_W/10,9.9*SCREEN_H/10,makecol(43,105,200),makecol(30,73,138),3,"Quitter",font1,buffer);
                 draw_sprite(screen,buffer,0,0);
             }while(quitter2 == 0);
@@ -141,7 +141,15 @@ void choixUtilisationGraph(BITMAP* buffer, BITMAP* fond, FONT* font1, FONT* titr
         }
         else if(pareto==1)
         {
-
+            std::vector<std::vector<bool>> t = b.bruteforce(0);
+            std::vector<Graphe*> p = b.Pareto(b.bruteforce(1));
+            draw_sprite(buffer,fond,0,0);
+            dessinerPareto(buffer,b,100,600,t,p);
+            do
+            {
+                quitter2 =   draw_bouton(4.5*SCREEN_W/10,9.4*SCREEN_H/10,5.5*SCREEN_W/10,9.9*SCREEN_H/10,makecol(43,105,200),makecol(30,73,138),3,"Quitter",font1,buffer);
+                draw_sprite(screen,buffer,0,0);
+            }while(quitter2 == 0);
         }
         else if(brutforce==1)
         {
@@ -192,6 +200,37 @@ void dessinerBrut(BITMAP*buffer,Graphe b,std::vector<std::vector<bool>> Ttgraphe
             k=0;
         }
         ArretesN.clear();
+    }
+}
+
+void dessinerPareto(BITMAP*buffer,Graphe b,double x, double y,std::vector<std::vector<bool>> Ttgraphes,std::vector<Graphe*> Pareto)
+{
+    std::vector<Arrete*> ArretesN;
+
+    for(int i=0; i<=10 ; i++ )
+    {
+        line ( buffer , x , y +i , x+500 , y +i , makecol ( 255 , 255 , 255 ) );
+        line ( buffer , x + i, y , x+i , y-500 , makecol ( 255 , 255 , 255 ) );
+    }
+    for(unsigned int i = 1; i < Ttgraphes.size() ; i++)
+    {
+        for ( unsigned int j = 0; j < Ttgraphes[i].size ( )-1; j++ )
+        {
+            std::cout<<Ttgraphes[i][j];
+            if ( Ttgraphes [ i ] [ j ] == true )
+            {
+                ArretesN.push_back ( b.getarretes() [ j ]  );
+            }
+        }
+        Graphe a ( b.getsommets() , ArretesN );
+        circlefill ( buffer , x+a.poidsTotaux()[0]+10 , y-a.poidsTotaux()[1]-10 , 1 , makecol ( 0 , 0 , 255 ) );
+        std::cout<<a.poidsTotaux().at(0)<<","<<a.poidsTotaux()[1]<<std::endl;
+        ArretesN.clear();
+    }
+
+    for ( auto it2 : Pareto )
+    {
+        circlefill ( buffer , x+it2->poidsTotaux()[0]+10 , y-it2->poidsTotaux()[1]-10 , 2 , makecol ( 255 , 0 , 0 ) );
     }
 }
 

@@ -297,18 +297,20 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )
     while ( compteur [ compteur.size ( ) - 1 ] != 1 )
     {
 
+        /// Compteur
+        int j = 0;
+        for ( unsigned int i = 0; i < compteur.size ( )-1; i++ )
+        {
+
+            if ( compteur [ i ] == 1 )
+            {
+                j++;
+            }
+        }
+
         /// Tri
         if (tri == true)
         {
-            int j = 0;
-            for ( unsigned int i = 0; i < compteur.size ( )-1; i++ )
-            {
-
-                if ( compteur [ i ] == 1 )
-                {
-                    j++;
-                }
-            }
             if(j==Sommetsmap.size()-1)
             {
                 std::vector<Arrete*> ArretesN;
@@ -368,6 +370,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )
         {
             compteurs.push_back ( compteur );
         }
+
 
 
         /// Compteur
