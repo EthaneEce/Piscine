@@ -3,8 +3,8 @@
 #include <string>
 #include <queue>
 #include <vector>
-
-_Sommet::_Sommet ( int id ) : m_id ( id )
+#include "svgfile.h"
+_Sommet::_Sommet ( int id , double x , double y ) : m_id ( id ) , m_x ( x ) , m_y ( y )
 {
 }
 
@@ -30,6 +30,14 @@ void _Sommet::afficher ( ) const
     }
 }
 
+void _Sommet::dessiner ( Svgfile& svgout )
+{
+    svgout.addDisk ( m_x , m_y , 10 );
+    for ( auto& a : m_voisins ) {
+        svgout.addLine ( m_x , m_y , a.first->m_x , a.first->m_y );
+    }
+}
+
 
 class myComparator
 {
@@ -42,16 +50,13 @@ public:
 };
 
 //retourne un vector de string qui représentent le chemin à prendre
-std::vector<std::string> _Sommet::dijsktra ( std::unordered_map<int , float>& map )const
+std::unordered_map<int , float> _Sommet::dijsktra ( std::unordered_map<int , float>& map )const
 {
     //map qui associe un _Sommet à son meilleur prédecesseur
-    std::unordered_map<int , int> l_pred;
-
-    std::vector<std::string> solution;
+    std::unordered_map<int , float> l_pred;
 
     //Associer un sommet à une distance
-    std::priority_queue<
-        std::pair<float , const _Sommet*> ,
+    std::priority_queue<std::pair<float , const _Sommet*> ,
         std::vector<std::pair<float , const _Sommet*>> ,
         myComparator>pq;
 
@@ -67,17 +72,13 @@ std::vector<std::string> _Sommet::dijsktra ( std::unordered_map<int , float>& ma
                 it->second = a.second + u.first;
                 pq.push ( std::make_pair ( it->second , a.first ) );
 
-
                 //mettre a jour le meilleur predecesseur pour un _Sommet 
-                l_pred [ a.first->m_id ] = u.second->m_id;
+                l_pred [ a.first->m_id ] = it->second;
             }
         }
     }
+    return l_pred;
 
-
-
-
-    return solution;
 }
 
 

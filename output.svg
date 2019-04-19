@@ -1,36 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1000" height="800">
 
-<circle cx="85" cy="225" r="10" fill="black" />
-<text x="70" y="210" fill="black" >0</text>
-<circle cx="170" cy="175" r="10" fill="black" />
-<text x="155" y="160" fill="black" >1</text>
-<circle cx="170" cy="275" r="10" fill="black" />
-<text x="155" y="260" fill="black" >2</text>
-<circle cx="255" cy="125" r="10" fill="black" />
-<text x="240" y="110" fill="black" >3</text>
-<circle cx="255" cy="225" r="10" fill="black" />
-<text x="240" y="210" fill="black" >4</text>
-<circle cx="255" cy="325" r="10" fill="black" />
-<text x="240" y="310" fill="black" >5</text>
-<circle cx="340" cy="75" r="10" fill="black" />
-<text x="325" y="60" fill="black" >6</text>
-<circle cx="340" cy="175" r="10" fill="black" />
-<text x="325" y="160" fill="black" >7</text>
-<circle cx="340" cy="275" r="10" fill="black" />
-<text x="325" y="260" fill="black" >8</text>
-<circle cx="340" cy="375" r="10" fill="black" />
-<text x="325" y="360" fill="black" >9</text>
-<line x1="255" y1="225" x2="340" y2="275" stroke="black" />
-<line x1="85" y1="225" x2="170" y2="275" stroke="black" />
-<line x1="340" y1="275" x2="340" y2="375" stroke="black" />
-<line x1="170" y1="175" x2="170" y2="275" stroke="black" />
-<line x1="340" y1="75" x2="340" y2="175" stroke="black" />
-<line x1="255" y1="225" x2="255" y2="325" stroke="black" />
-<line x1="255" y1="225" x2="340" y2="175" stroke="black" />
-<line x1="170" y1="275" x2="255" y2="225" stroke="black" />
-<line x1="255" y1="125" x2="255" y2="225" stroke="black" />
-<text x="500" y="500" fill="black" >30.000000; 48.000000; </text>
 
 
 </svg>

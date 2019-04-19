@@ -11,12 +11,12 @@ int Sommet::getid ( )const
 
 double Sommet::gety ( )const
 {
-    return m_x;
+    return m_y;
 }
 
 double Sommet::getx ( )const
 {
-    return m_y;
+    return m_x;
 }
 
 void Sommet::afficherData ( ) const {

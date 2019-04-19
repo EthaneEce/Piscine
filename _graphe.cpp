@@ -4,7 +4,7 @@
 #include <iostream>
 #include <limits>
 #include "Graphe.h"
-
+#include "svgfile.h"
 //Constructeur 
 _Graphe::_Graphe ( const Graphe& g )
 {
@@ -15,7 +15,9 @@ _Graphe::_Graphe ( const Graphe& g )
     for ( auto& a : sommets )
     {
         int id = a->getid ( );
-        m__Sommets.insert ( { id, new _Sommet ( id ) } );
+        double x = a->getx ( );
+        double y = a->gety ( );
+        m__Sommets.insert ( { id, new _Sommet ( id,x,y ) } );
     }
 
     //Lecture des arretes
@@ -55,14 +57,14 @@ std::ostream& operator<<( std::ostream& out , const std::vector<std::string>& ve
 }
 
 
-void _Graphe::dijkstra ( const int depart ) const
+std::unordered_map<int , float> _Graphe::dijkstra ( const int depart ) const
 {
-
     float infini = std::numeric_limits<float>::max ( );
 
     //trouver le _Sommet de départ dans la map
     auto it = m__Sommets.find ( depart );
-
+    if ( depart >= m__Sommets.size ( ) )
+        throw std::exception ( "Impossible de trouver la valeur de depart" );
     //map avec laquelle on va faire le boulot (on va éviter de bidouiller les valeurs de la map m__Sommets)
     std::unordered_map<int , float>map;
 
@@ -72,7 +74,15 @@ void _Graphe::dijkstra ( const int depart ) const
     }
 
     //faire dijkstra a partir du _Sommet de depart
-    it->second->dijsktra ( map );
+    auto sol = it->second->dijsktra ( map );
+    sol [ depart ] = 0;
+    return sol;
+}
+
+void _Graphe::dessiner ( Svgfile & svgout ) const
+{
+    for ( auto& a : m__Sommets )
+        a.second->dessiner ( svgout );
 }
 
 

@@ -2,6 +2,7 @@
 #include "Graphe.h"
 #include <fstream>
 #include "svgfile.h"
+#include "_graphe.h"
 std::ostream& operator<<( std::ostream& out , std::vector<float> vec )
 {
     for ( auto& a : vec )
@@ -11,11 +12,19 @@ std::ostream& operator<<( std::ostream& out , std::vector<float> vec )
 
 int main ( )
 {
-    Svgfile svg;
-    Graphe g ( "txt\\triville.txt" , "txt\\triville_weights_1.txt" );
-    Graphe b ( g.getsommets ( ) , g.Kruskal ( 0 ) );
-    b.dessiner ( svg );
+    try
+    {
+        Svgfile svg;
+        Graphe g ( "txt\\cubetown.txt" , "txt\\cubetown_weights_0.txt" );
+        _Graphe b ( g );
+        for ( auto& a : b.dijkstra ( 1 ) ) {
+            std::cout << "Sommet " << a.first << ", distance " << a.second << std::endl;
+        }
+
+    }
+    catch ( const std::exception & e )
+    {
+        std::cerr << e.what ( ) << std::endl;
+    }
     std::cin.get ( );
 }
-
-

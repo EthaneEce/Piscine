@@ -7,7 +7,7 @@
 #include "Timer.h"
 #include <limits>
 #include <vector>
-
+#include "_graphe.h"
 
 
 
@@ -201,7 +201,7 @@ std::vector<Arrete*> Graphe::Kruskal ( size_t cout_id ) const
 }
 
 
-std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec )
+std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec ) const
 {
     Timer t ( "Pareto pour le graphe " + graphName );
     const constexpr float infini = std::numeric_limits<float>::max ( );
@@ -267,7 +267,17 @@ std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec
     return solution;
 }
 
-void Graphe::dessiner ( Svgfile & svgout )
+std::vector<Graphe*> Graphe::optDistance ( ) const
+{
+    _Graphe G ( *this );
+    std::vector<std::unordered_map<int , float>>vec;
+    for ( size_t i = 0; i < m_sommets.size ( ); i++ )
+        vec.push_back ( G.dijkstra ( i ) );
+
+    return std::vector<Graphe*> ( );
+}
+
+void Graphe::dessiner ( Svgfile & svgout ) const
 {
     for ( auto& a : m_sommets )
     {
@@ -296,7 +306,7 @@ void Graphe::dessiner ( Svgfile & svgout )
 
 
 
-std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )
+std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )  const
 {
     Timer t ( "Brute force pour le graphe : " + graphName );
     std::vector<Sommet*> Sommetsmap = m_sommets;
@@ -332,7 +342,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )
                 }
 
                 std::vector<int> connexe;
-                for ( int j = 0; j < m_sommets.size ( ); j++ )
+                for ( size_t j = 0; j < m_sommets.size ( ); j++ )
                 {
                     connexe.push_back ( j );
                 }
@@ -382,7 +392,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )
 
         /// Compteur
 
-        for ( unsigned int i = 0; i < compteur.size ( ); i++ )
+        for ( size_t i = 0; i < compteur.size ( ); i++ )
         {
             if ( compteur [ i ] == 1 )
             {
@@ -398,16 +408,16 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )
     return compteurs;
 }
 
-float Graphe::distanceEuclidienne ( int s1 , int s2 )
+float Graphe::distanceEuclidienne ( int s1 , int s2 )  const
 {
     auto x = m_sommets [ s1 ]->getx ( ) - m_sommets [ s2 ]->getx ( );
-    auto y = m_sommets [ s2 ]->gety ( ) - m_sommets [ s2 ]->gety ( );
+    auto y = m_sommets [ s1 ]->gety ( ) - m_sommets [ s2 ]->gety ( );
     auto dist = ( x * x ) + ( y * y );
     dist = sqrt ( dist );
     return ( float ) dist;
 }
 
-std::vector<float> Graphe::poidsTotaux ( )
+std::vector<float> Graphe::poidsTotaux ( ) const
 {
     std::vector<float>solution;
     for ( size_t i = 0; i < nbCouts; i++ )
