@@ -6,11 +6,11 @@
 #include <memory>
 #include "Timer.h"
 #include <limits>
-Graphe::Graphe ( const std::vector<Sommet*>& mS , const std::vector<Arrete*>& mA) : m_sommets ( mS ) , m_arretes ( mA )
-{
-    nbCouts = m_arretes [ 0 ]->getcout ( ).size ( );
-}
 
+
+Graphe::Graphe ( const std::vector<Sommet*>& mS , const std::vector<Arrete*>& mA)
+: m_sommets ( mS ) , m_arretes ( mA )
+{}
 
 Graphe::Graphe ( const Graphe& src , const std::vector<bool>& vec )
 {
@@ -247,37 +247,100 @@ std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec
 {
     //Timer t ( "Pareto pour le graphe " + graphName );
     const constexpr float infini = std::numeric_limits<float>::max ( );
+
+    //Vector solution
     std::vector<Graphe*> solution;
+
+    //Remplir le vector avec toutes les solutions admissibles
     for ( auto a : vec )
     {
         solution.push_back ( new Graphe ( *this , a ) );
     }
 
+    size_t IDXpoidsCourant = 0;
 
-    size_t poidsCourant = 0;
-    while ( poidsCourant < nbCouts - 1 )
+    //Pour chaque poids allant de 0 à nombre de couts totaux - 1
+    while ( IDXpoidsCourant < nbCouts - 1 )
     {
+
+        //Tronquer les éléments qui seront certainement dominées
+        {
+            //Initialiser nos comparateurs
+            float min = infini;           //Cout minimal courant
+            float nMinCout = infini;      //Cout suivant du graphe qui la cout minimal
+
+
+            //Récupérer le cout minimal (ce sera le premier élément du vector quand on le trie)
+            for ( auto& a : solution )
+            {
+                if ( a->poidsTotaux ( ).at ( IDXpoidsCourant ) < min ) {
+                    min = a->poidsTotaux ( ).at ( IDXpoidsCourant );
+                    nMinCout = a->poidsTotaux ( ).at ( IDXpoidsCourant + 1 );
+                }
+            }
+
+            //Supprimer toutes les solutions dominées par celle qu'on vient de trouver
+            solution.erase ( std::remove_if ( solution.begin ( ) , solution.end ( ) ,
+                [ = ] ( Graphe * g ) {
+                    return g->poidsTotaux ( ).at ( IDXpoidsCourant + 1 ) > nMinCout;
+                } ) , solution.end ( ) );
+
+        }
+
+        //Trier le vector solution
         auto sortFunction = [ = ] ( Graphe * g1 , Graphe * g2 )
         {
             auto v1 = g1->poidsTotaux ( );
             auto v2 = g2->poidsTotaux ( );
-            return v1.at ( poidsCourant ) < v2.at ( poidsCourant );
+            return v1.at ( IDXpoidsCourant ) < v2.at ( IDXpoidsCourant );
         };
         std::sort ( solution.begin ( ) , solution.end ( ) , sortFunction );
+
+
+        //Pour chaque élément, l'enlever s'il est dominé par une autre solution
         float pivot = infini;
         for ( auto a = solution.begin ( ); a != solution.end ( ); )
         {
-            float cout = ( *a )->poidsTotaux ( ).at ( poidsCourant + 1 );
-            if ( cout < pivot )
+            float Cout = ( *a )->poidsTotaux ( ).at ( IDXpoidsCourant + 1 );
+            float pCout = ( *a )->poidsTotaux ( ).at ( IDXpoidsCourant );
+
+            if ( Cout < pivot )
             {
-                pivot = cout;
+                pivot = Cout;
                 a++;
-            }
-            else {
-                a = solution.erase ( a );
+                auto iterator = std::remove_if ( a , solution.end ( ) ,
+                    [ = ] ( Graphe * g ) {
+                        return g->poidsTotaux ( ).at ( IDXpoidsCourant + 1 ) >= pivot;
+                    } );
+                solution.erase ( iterator , solution.end ( ) );
             }
         }
-        poidsCourant++;
+
+
+        IDXpoidsCourant++;
+    }
+
+    //Un dernier parcours pour nettoyer les valeurs qui ont 1 cout égal
+    for ( size_t i = 0; i < nbCouts - 1; i++ )
+    {
+        for ( auto a = solution.begin ( ); a < solution.end ( ) - 1; )
+        {
+            auto it = *a;
+            auto nextIt = *( a + 1 );
+            if ( it->poidsTotaux ( ).at ( i ) == nextIt->poidsTotaux ( ).at ( i ) )
+            {
+                if ( it->poidsTotaux ( ).at ( i + 1 ) < nextIt->poidsTotaux ( ).at ( i + 1 ) )
+                {
+                    a = solution.erase ( a + 1 );
+                }
+                else {
+                    a = solution.erase ( a );
+                }
+            }
+            else {
+                a++;
+            }
+        }
     }
     return solution;
 }
@@ -302,6 +365,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )
         for ( unsigned int i = 0; i < compteur.size ( )-1; i++ )
         {
 
+
             if ( compteur [ i ] == 1 )
             {
                 j++;
@@ -325,14 +389,13 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )
                 std::vector<int> connexe;
                 for (int j = 0; j < m_sommets.size( ); j++ )
                 {
-                    connexe.push_back(j);
+                    connexe.push_back ( j );
                 }
                 for(auto it: ArretesN)
                 {
                     int s1 = it->gets1();
                     int s2 = it->gets2();
                     //std::cout<<s1<<":"<<connexe[s1]<<","<<s2<<":"<<connexe[s2];
-
                     if((connexe[s1]) == (connexe[s2]))
                     {
                         //std::cout<<"break : ("<<s1<<","<<s2<<")"<<" ";
@@ -396,9 +459,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )
     return compteurs;
 }
 
-
-
-float Graphe::distanceEuclidienne ( int s1 , int s2 )
+float Graphe::distanceEuclidienne ( int s1 , int s2 )const
 {
     auto x = m_sommets [ s1 ]->getx ( ) - m_sommets [ s2 ]->getx ( );
     auto y = m_sommets [ s2 ]->gety ( ) - m_sommets [ s2 ]->gety ( );

@@ -27,7 +27,7 @@ public:
     std::vector<Arrete*> Kruskal(size_t cout_id = 0) const;
     std::vector<Graphe*> Pareto ( const std::vector<std::vector<bool>>& vec );
 
-    float distanceEuclidienne ( int s1 , int s2 );
+    float distanceEuclidienne ( int s1 , int s2 )const;
     std::vector<float> poidsTotaux ( );
     std::vector<std::vector<bool>> bruteforce(bool tri);
 

@@ -4,13 +4,13 @@
 
 void lancerToutAllegro(int largeur, int hauteur);
 
-
 std::ostream& operator<<( std::ostream& out , std::vector<float> vec )
 {
     for ( auto& a : vec )
         out << a << " ";
     return out;
 }
+
 
 
 int main()
@@ -22,12 +22,6 @@ int main()
     FONT* titre = load_font("font/Peignot.pcx",nullptr,nullptr);
 
     int choix = menu(buffer,b,font1,titre);
-
-    /**auto par = b.Pareto ( b.bruteforce ( 1 ) );
-    for ( auto& a : par )
-    std::cout << a->poidsTotaux ( ) << std::endl;
-    //system("pause");
-**/
 
     return 0;
 }END_OF_MAIN();
