@@ -6,7 +6,7 @@ class Graphe;
 class _Graphe
 {
 public:
-    _Graphe ( const Graphe& g );
+    _Graphe ( const Graphe& g , const size_t idxPoidsTranspose );
     void afficher ( ) const;
     std::unordered_map<int , float> dijkstra ( const int depart ) const;
     void dessiner ( Svgfile& svgout )const;

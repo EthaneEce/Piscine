@@ -29,7 +29,7 @@ public:
     void afficher ( ) const;
     std::vector<Arrete*> Kruskal ( size_t cout_id = 0 ) const;
     std::vector<Graphe*> Pareto ( const std::vector<std::vector<bool>>& vec )const;
-    std::vector<Graphe*> optDistance ( )const;
+    std::vector<Graphe*> optPartielle (const size_t idxPoids )const;
 
     void dessiner ( Svgfile& svgout )const;
 

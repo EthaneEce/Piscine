@@ -15,11 +15,14 @@ int main ( )
     try
     {
         Svgfile svg;
-        Graphe g ( "txt\\cubetown.txt" , "txt\\cubetown_weights_0.txt" );
-        _Graphe b ( g );
-        for ( auto& a : b.dijkstra ( 1 ) ) {
-            std::cout << "Sommet " << a.first << ", distance " << a.second << std::endl;
-        }
+        Graphe g ( "txt\\broadway.txt" , "txt\\broadway_weights_0.txt" );
+        _Graphe b ( g , 1 );
+        float total = 0.0f;
+        for ( int i = 0; i < g.getsommets ( ).size ( ); ++i )
+            for ( auto& a : b.dijkstra ( i ) ) {
+                total += a.second;
+            }
+        std::cout << total;
 
     }
     catch ( const std::exception & e )

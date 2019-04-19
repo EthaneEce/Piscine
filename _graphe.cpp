@@ -6,7 +6,7 @@
 #include "Graphe.h"
 #include "svgfile.h"
 //Constructeur 
-_Graphe::_Graphe ( const Graphe& g )
+_Graphe::_Graphe ( const Graphe& g , size_t idxPoidsTranspose )
 {
 
     //Lecture des _Sommets
@@ -26,7 +26,7 @@ _Graphe::_Graphe ( const Graphe& g )
         int id1 , id2;
         id1 = a->gets1 ( );
         id2 = a->gets2 ( );
-        float poids = g.distanceEuclidienne ( id1 , id2 );
+        float poids = a->getcout ( ).at ( idxPoidsTranspose );
 
         //trouver le _Sommet
         auto s1 = m__Sommets.find ( id1 );

@@ -77,7 +77,6 @@ Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 ) : graphName
         throw std::runtime_error ( "Probleme de taille des arretes, elles ne coincident pas" );
 
     ifs2 >> nbCouts;
-    //std::cout<<nombrecout<<"aze"<<std::endl;
     if ( ifs2.fail ( ) )
         throw std::runtime_error ( "Probleme lecture nombre des couts du graphe2" );
 
@@ -267,12 +266,12 @@ std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec
     return solution;
 }
 
-std::vector<Graphe*> Graphe::optDistance ( ) const
+
+
+std::vector<Graphe*> Graphe::optPartielle ( const size_t idxPoids ) const
 {
-    _Graphe G ( *this );
-    std::vector<std::unordered_map<int , float>>vec;
-    for ( size_t i = 0; i < m_sommets.size ( ); i++ )
-        vec.push_back ( G.dijkstra ( i ) );
+    _Graphe G ( *this , idxPoids );
+    std::vector<float>vec;
 
     return std::vector<Graphe*> ( );
 }
