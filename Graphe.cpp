@@ -187,19 +187,16 @@ void Graphe::afficherallegro(BITMAP*buffer,double x, double y,int proportion) co
 
 std::vector<Arrete*> Graphe::Kruskal ( size_t cout_id ) const
 {
-    //Timer t ( "Kruskal a partir du graphe " + graphName );
-    //Map Solution
+    //Solution
     std::vector<Arrete*> solution;
 
     //Associer un sommet et sa composante connexe
-    std::unordered_map<int , std::shared_ptr<int>> composantesConnexes;
+    std::vector<int> composantesConnexes;
 
     //Au déput chaque sommet est sur une composante connexe
-    int i = 0;
-    for ( auto& a : m_sommets )
+    for ( size_t i = 0; i < m_sommets.size ( ); i++ )
     {
-        composantesConnexes.insert ( { a->getid ( ), std::make_shared<int> ( i ) } );
-        i++;
+        composantesConnexes.push_back ( i );
     }
 
     //Vector dans lequel on va mettre notre map d'aretes
@@ -220,24 +217,21 @@ std::vector<Arrete*> Graphe::Kruskal ( size_t cout_id ) const
     for ( auto& a : vec )
     {
         //Trouver les sommets
-        auto s1 = composantesConnexes.find ( a->gets1 ( ) );
-        auto s2 = composantesConnexes.find ( a->gets2 ( ) );
+        auto s1 = composantesConnexes.at ( a->gets1 ( ) );
+        auto s2 = composantesConnexes.at ( a->gets2 ( ) );
 
         //S'ils ne sont pas sur la meme composante connexe
-        if ( *( s1->second ) != *( s2->second ) )
+        if ( s1 != s2 )
         {
             //Inserer l'arete
             solution.push_back ( a );
 
 
             //Mettre à jour pour que les sommets sont sur la meme composante connexe
-            if ( s1->second.use_count ( ) < s2->second.use_count ( ) )
-                s1->second = s2->second;
-            else if ( s2->second.use_count ( ) == 1 )
-                s2->second = s1->second;
-            else
-                *( s1->second ) = *( s2->second );
-
+            for ( auto& b : composantesConnexes ) {
+                if ( b == s1 )
+                    b = s2;
+            }
 
             //Si on a inséré ordre_graphe - 1 aretes, on stop la boucle
             if ( solution.size ( ) == m_sommets.size ( ) - 1 )
