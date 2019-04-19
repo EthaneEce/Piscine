@@ -161,19 +161,19 @@ void Graphe::afficherallegro(BITMAP*buffer,double x, double y,int proportion) co
         }**/
         triangle(buffer, (x + n1->getx ( ) -5 )/proportion , (y + n1->gety ( ) - 5)/proportion , (x + n2->getx ( ) - 5)/proportion , (y + n2->gety ( ) - 5)/proportion,(x + n1->getx ( ) + 5)/proportion , (y + n1->gety ( ) + 5)/proportion , makecol ( 255 , 255 , 255 ));
         triangle(buffer, (x + n1->getx ( ) +5 )/proportion , (y + n1->gety ( ) + 5)/proportion , (x + n2->getx ( ) - 5)/proportion , (y + n2->gety ( ) - 5)/proportion,(x + n2->getx ( ) + 5)/proportion , (y + n2->gety ( ) + 5)/proportion , makecol ( 255 , 255 , 255 ));
-        textprintf_centre_ex ( buffer , font , (x + ( n1->getx ( ) + n2->getx ( ) ) / 2)/proportion , (y + ( n1->gety ( ) + n2->gety ( ) ) / 2)/proportion , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "%d" , it->getid ( ) );
+        textprintf_centre_ex ( buffer , font , (x + ( n1->getx ( ) + n2->getx ( ) ) / 2)/proportion , (y + ( n1->gety ( ) + n2->gety ( ) ) / 2)/proportion , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 0 , 255 ) , "%d" , it->getid ( ) );
     }
     int texte1 = 0;
     for ( auto it : m_arretes )
     {
         std::vector<float> couts;
         couts = it->getcout ( );
-        textprintf_centre_ex ( buffer , font , x + SCREEN_W - 300 , y + 100 + texte1 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "Cout de %d --> " , it->getid ( ) );
+        textprintf_centre_ex ( buffer , font , x + SCREEN_W - 170 , y + 100 + texte1 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 0 , 255 ) , "Cout de %d --> " , it->getid ( ) );
         int texte2 = 0;
         for ( auto it2 : couts )
         {
-            textprintf_centre_ex ( buffer , font , x + SCREEN_W - 200 + texte2 , y + 100 + texte1 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "%f " , it2 );
-            texte2 += 100;
+            textprintf_centre_ex ( buffer , font , x + SCREEN_W - 100 + texte2 , y + 100 + texte1 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 0 , 255 ) , "%.02f " , it2 );
+            texte2 += 60;
         }
         texte1 += 10;
     }
@@ -184,37 +184,6 @@ void Graphe::afficherallegro(BITMAP*buffer,double x, double y,int proportion) co
         textprintf_centre_ex ( buffer , font , (x + it->getx ( ))/proportion , (y + it->gety ( ) )/proportion, makecol ( 255 , 255 , 0 ) , makecol ( 255 , 0 , 0 ) , "%d" , it->getid ( ) );
     }
 }
-
-void Graphe::afficherallegrotout(BITMAP*buffer,double x, double y,double xp,double yp ,double xmax,int proportion) const
-{
-    std::vector<std::vector<bool>> Ttgraphes;
-    Graphe b(m_sommets,m_arretes);
-    Ttgraphes=b.bruteforce(1);
-    int k=x,l=y;
-    std::vector<Arrete*> ArretesN;
-
-    for(unsigned int i = 0; i < Ttgraphes.size ( ); i++)
-    {
-        for ( unsigned int j = 0; j < Ttgraphes[i].size ( ); j++ )
-        {
-            if ( Ttgraphes [ i ] [ j ] == true )
-            {
-                ArretesN.push_back ( b.getarretes() [ j ]  );
-            }
-        }
-        Graphe* a = new Graphe ( b.getsommets() , ArretesN );
-        a->afficherallegro(buffer,k,l,proportion);
-        k+=xp;
-        if (k >= xmax)
-        {
-            //l+=500;
-            l+=yp;
-            k=0;
-        }
-        ArretesN.clear();
-    }
-}
-
 
 std::vector<Arrete*> Graphe::Kruskal ( size_t cout_id ) const
 {

@@ -93,7 +93,7 @@ void choixUtilisationGraph(BITMAP* buffer, BITMAP* fond, FONT* font1, FONT* titr
     draw_sprite(screen,fond,0,0);
     for(size_t i =0;i<4;i++)
         nom.erase(0,1);
-    int kruskal = 0, pareto = 0, brutforce = 0, base = 0, quitter =0,quitter2 = 0;
+    int kruskal1 = 0,kruskal2 = 0, pareto = 0, brutforce = 0, base = 0, quitter =0,quitter2 = 0;
     bool quit = false;
     std::string titr = "Traitement de "+nom;
     const char* ouai = titr.c_str();
@@ -104,7 +104,8 @@ void choixUtilisationGraph(BITMAP* buffer, BITMAP* fond, FONT* font1, FONT* titr
         draw_sprite(buffer,fond,0,0);
 
         base =      draw_bouton(3.7*SCREEN_W/10,  5*SCREEN_H/10,6.3*SCREEN_W/10,5.5*SCREEN_H/10,makecol(43,105,200),makecol(30,73,138),3,"Afficher le Graphe",font1,buffer);
-        kruskal =   draw_bouton(3.7*SCREEN_W/10,5.8*SCREEN_H/10,6.3*SCREEN_W/10,6.3*SCREEN_H/10,makecol(43,105,200),makecol(30,73,138),3,"Appliquer Kruskal",font1,buffer);
+        kruskal1 =   draw_bouton(1.7*SCREEN_W/10,5.8*SCREEN_H/10,4.5*SCREEN_W/10,6.3*SCREEN_H/10,makecol(43,105,200),makecol(30,73,138),3,"Appliquer Kruskal 1",font1,buffer);
+        kruskal2 =   draw_bouton(5.5*SCREEN_W/10,5.8*SCREEN_H/10,8.3*SCREEN_W/10,6.3*SCREEN_H/10,makecol(43,105,200),makecol(30,73,138),3,"Appliquer Kruskal 2",font1,buffer);
         brutforce = draw_bouton(3.5*SCREEN_W/10,6.6*SCREEN_H/10,6.5*SCREEN_W/10,7.1*SCREEN_H/10,makecol(43,105,200),makecol(30,73,138),3,"Solutions du BrutForce",font1,buffer);
         pareto =    draw_bouton(3.7*SCREEN_W/10,7.4*SCREEN_H/10,6.3*SCREEN_W/10,7.9*SCREEN_H/10,makecol(43,105,200),makecol(30,73,138),3,"Frontiere de Pareto",font1,buffer);
         quitter =   draw_bouton(3.7*SCREEN_W/10,8.2*SCREEN_H/10,6.3*SCREEN_W/10,8.7*SCREEN_H/10,makecol(43,105,200),makecol(30,73,138),3,"Changer de Graphe",font1,buffer);
@@ -118,20 +119,20 @@ void choixUtilisationGraph(BITMAP* buffer, BITMAP* fond, FONT* font1, FONT* titr
             do
             {
                 draw_sprite(buffer,fond,0,0);
-                b.afficherallegro(buffer,0,0,2);
-
+                b.afficherallegro(buffer,0,0,1);
                 quitter2 =   draw_bouton(4.5*SCREEN_W/10,9.4*SCREEN_H/10,5.5*SCREEN_W/10,9.9*SCREEN_H/10,makecol(43,105,200),makecol(30,73,138),3,"Quitter",font1,buffer);
                 draw_sprite(screen,buffer,0,0);
             }while(quitter2 == 0);
+            draw_sprite(screen,fond,0,0);
         }
-        else if(kruskal==1)
+        else if(kruskal1==1||kruskal2==1)
         {
-            Graphe a {b.getsommets(),b.Kruskal()};
+            Graphe a {b.getsommets(),((kruskal1 == 1) ? b.Kruskal(0) : b.Kruskal(1))};
             clear_bitmap(buffer);
             do
             {
                 draw_sprite(buffer,fond,0,0);
-                a.afficherallegro(buffer,0,0,2);
+                a.afficherallegro(buffer,0,0,1 );
 
                 quitter2 =   draw_bouton(4.5*SCREEN_W/10,9.4*SCREEN_H/10,5.5*SCREEN_W/10,9.9*SCREEN_H/10,makecol(43,105,200),makecol(30,73,138),3,"Quitter",font1,buffer);
                 draw_sprite(screen,buffer,0,0);
@@ -144,16 +145,18 @@ void choixUtilisationGraph(BITMAP* buffer, BITMAP* fond, FONT* font1, FONT* titr
         }
         else if(brutforce==1)
         {
+            draw_sprite(screen,fond,0,0);
             clear_bitmap(buffer);
             std::vector<std::vector<bool>> t = b.bruteforce(1);
             do
             {
                 draw_sprite(buffer,fond,0,0);
-                dessinerBrut(buffer,b,t,0,0,2);
+                dessinerBrut(buffer,b,t,0,0,(nom == "manhattan" || nom == "triville") ? 3  : 2  );
                 quitter2 =   draw_bouton(4.5*SCREEN_W/10,9.4*SCREEN_H/10,5.5*SCREEN_W/10,9.9*SCREEN_H/10,makecol(43,105,200),makecol(30,73,138),3,"Quitter",font1,buffer);
                 draw_sprite(screen,buffer,0,0);
             }while(quitter2 == 0);
             rest(200);
+            draw_sprite(screen,fond,0,0);
         }
         else if(quitter==1)
         {
@@ -182,7 +185,7 @@ void dessinerBrut(BITMAP*buffer,Graphe b,std::vector<std::vector<bool>> Ttgraphe
         Graphe a = Graphe ( b.getsommets() , ArretesN );
         a.afficherallegro(buffer,k,l,proportion);
         k+=500;
-        if (k >= 5000)
+        if (k >= 2500)
         {
             //l+=500;
             l+=500;
