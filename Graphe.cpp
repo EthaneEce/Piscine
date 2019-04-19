@@ -8,8 +8,8 @@
 #include <limits>
 
 
-Graphe::Graphe ( const std::vector<Sommet*>& mS , const std::vector<Arrete*>& mA)
-: m_sommets ( mS ) , m_arretes ( mA )
+Graphe::Graphe ( const std::vector<Sommet*>& mS , const std::vector<Arrete*>& mA )
+    : m_sommets ( mS ) , m_arretes ( mA )
 {}
 
 Graphe::Graphe ( const Graphe& src , const std::vector<bool>& vec )
@@ -130,7 +130,7 @@ void Graphe::afficher ( ) const
 }
 
 
-void Graphe::afficherallegro(BITMAP*buffer,double x, double y,int proportion) const
+void Graphe::afficherallegro ( BITMAP* buffer , double x , double y , int proportion ) const
 {
     for ( auto it : m_arretes )
     {
@@ -142,11 +142,11 @@ void Graphe::afficherallegro(BITMAP*buffer,double x, double y,int proportion) co
         Sommet* n2;
         for ( auto it2 : m_sommets )
         {
-            if(sommet1id == it2->getid())
+            if ( sommet1id == it2->getid ( ) )
             {
                 n1 = it2;
             }
-            if(sommet2id == it2->getid())
+            if ( sommet2id == it2->getid ( ) )
             {
                 n2 = it2;
             }
@@ -159,9 +159,9 @@ void Graphe::afficherallegro(BITMAP*buffer,double x, double y,int proportion) co
                 line ( buffer , (x + n1->getx ( ) + i)/proportion , (y + n1->gety ( ) + i)/proportion , (x + n2->getx ( ) + j)/proportion , (y + n2->gety ( ) + j)/proportion , makecol ( 255 , 255 , 255 ) );
             }
         }**/
-        triangle(buffer, (x + n1->getx ( ) -5 )/proportion , (y + n1->gety ( ) - 5)/proportion , (x + n2->getx ( ) - 5)/proportion , (y + n2->gety ( ) - 5)/proportion,(x + n1->getx ( ) + 5)/proportion , (y + n1->gety ( ) + 5)/proportion , makecol ( 255 , 255 , 255 ));
-        triangle(buffer, (x + n1->getx ( ) +5 )/proportion , (y + n1->gety ( ) + 5)/proportion , (x + n2->getx ( ) - 5)/proportion , (y + n2->gety ( ) - 5)/proportion,(x + n2->getx ( ) + 5)/proportion , (y + n2->gety ( ) + 5)/proportion , makecol ( 255 , 255 , 255 ));
-        textprintf_centre_ex ( buffer , font , (x + ( n1->getx ( ) + n2->getx ( ) ) / 2)/proportion , (y + ( n1->gety ( ) + n2->gety ( ) ) / 2)/proportion , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 0 , 255 ) , "%d" , it->getid ( ) );
+        triangle ( buffer , ( x + n1->getx ( ) - 5 ) / proportion , ( y + n1->gety ( ) - 5 ) / proportion , ( x + n2->getx ( ) - 5 ) / proportion , ( y + n2->gety ( ) - 5 ) / proportion , ( x + n1->getx ( ) + 5 ) / proportion , ( y + n1->gety ( ) + 5 ) / proportion , makecol ( 255 , 255 , 255 ) );
+        triangle ( buffer , ( x + n1->getx ( ) + 5 ) / proportion , ( y + n1->gety ( ) + 5 ) / proportion , ( x + n2->getx ( ) - 5 ) / proportion , ( y + n2->gety ( ) - 5 ) / proportion , ( x + n2->getx ( ) + 5 ) / proportion , ( y + n2->gety ( ) + 5 ) / proportion , makecol ( 255 , 255 , 255 ) );
+        textprintf_centre_ex ( buffer , font , ( x + ( n1->getx ( ) + n2->getx ( ) ) / 2 ) / proportion , ( y + ( n1->gety ( ) + n2->gety ( ) ) / 2 ) / proportion , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 0 , 255 ) , "%d" , it->getid ( ) );
     }
     int texte1 = 0;
     for ( auto it : m_arretes )
@@ -180,8 +180,8 @@ void Graphe::afficherallegro(BITMAP*buffer,double x, double y,int proportion) co
 
     for ( auto it : m_sommets )
     {
-        circlefill ( buffer , (x + it->getx ( ))/proportion , (y + it->gety ( ))/proportion , 100/(proportion*10) , makecol ( 255 , 0 , 0 ) );
-        textprintf_centre_ex ( buffer , font , (x + it->getx ( ))/proportion , (y + it->gety ( ) )/proportion, makecol ( 255 , 255 , 0 ) , makecol ( 255 , 0 , 0 ) , "%d" , it->getid ( ) );
+        circlefill ( buffer , ( x + it->getx ( ) ) / proportion , ( y + it->gety ( ) ) / proportion , 100 / ( proportion * 10 ) , makecol ( 255 , 0 , 0 ) );
+        textprintf_centre_ex ( buffer , font , ( x + it->getx ( ) ) / proportion , ( y + it->gety ( ) ) / proportion , makecol ( 255 , 255 , 0 ) , makecol ( 255 , 0 , 0 ) , "%d" , it->getid ( ) );
     }
 }
 
@@ -245,13 +245,12 @@ std::vector<Arrete*> Graphe::Kruskal ( size_t cout_id ) const
 
 std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec )
 {
-    //Timer t ( "Pareto pour le graphe " + graphName );
     const constexpr float infini = std::numeric_limits<float>::max ( );
 
     //Vector solution
     std::vector<Graphe*> solution;
 
-    //Remplir le vector avec toutes les solutions admissibles
+    //Remplir le vector avec toutes les solutions admissibles 
     for ( auto a : vec )
     {
         solution.push_back ( new Graphe ( *this , a ) );
@@ -270,7 +269,7 @@ std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec
             float nMinCout = infini;      //Cout suivant du graphe qui la cout minimal
 
 
-            //Récupérer le cout minimal (ce sera le premier élément du vector quand on le trie)
+            //Récupérer le cout minimal (ce sera le premier élément du vector quand on le trie) 
             for ( auto& a : solution )
             {
                 if ( a->poidsTotaux ( ).at ( IDXpoidsCourant ) < min ) {
@@ -347,7 +346,6 @@ std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec
 
 
 
-
 std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )
 {
     //Timer t ( "Brute force pour le graphe : " + graphName );
@@ -362,7 +360,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )
 
         /// Compteur
         int j = 0;
-        for ( unsigned int i = 0; i < compteur.size ( )-1; i++ )
+        for ( unsigned int i = 0; i < compteur.size ( ) - 1; i++ )
         {
 
 
@@ -373,58 +371,58 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )
         }
 
         /// Tri
-        if (tri == true)
+        if ( tri == true )
         {
-            if(j==Sommetsmap.size()-1)
+            if ( j == Sommetsmap.size ( ) - 1 )
             {
                 std::vector<Arrete*> ArretesN;
-                for ( unsigned int j = 0; j < compteur.size()-1; j++ )
+                for ( unsigned int j = 0; j < compteur.size ( ) - 1; j++ )
                 {
                     if ( compteur [ j ] == 1 )
                     {
-                        ArretesN.push_back ( m_arretes [j]  );
+                        ArretesN.push_back ( m_arretes [ j ] );
                     }
                 }
 
                 std::vector<int> connexe;
-                for (int j = 0; j < m_sommets.size( ); j++ )
+                for ( int j = 0; j < m_sommets.size ( ); j++ )
                 {
                     connexe.push_back ( j );
                 }
-                for(auto it: ArretesN)
+                for ( auto it : ArretesN )
                 {
-                    int s1 = it->gets1();
-                    int s2 = it->gets2();
+                    int s1 = it->gets1 ( );
+                    int s2 = it->gets2 ( );
                     //std::cout<<s1<<":"<<connexe[s1]<<","<<s2<<":"<<connexe[s2];
-                    if((connexe[s1]) == (connexe[s2]))
+                    if ( ( connexe [ s1 ] ) == ( connexe [ s2 ] ) )
                     {
                         //std::cout<<"break : ("<<s1<<","<<s2<<")"<<" ";
                         break;
                     }
                     //std::cout<<"non break(";
-                    for ( unsigned int j = 0; j <= connexe.size(); j++ )
+                    for ( unsigned int j = 0; j <= connexe.size ( ); j++ )
                     {
-                        if((connexe[j] == connexe[s2])&&(j!=s2))
+                        if ( ( connexe [ j ] == connexe [ s2 ] ) && ( j != s2 ) )
                         {
-                            connexe[j] = connexe[s1];
+                            connexe [ j ] = connexe [ s1 ];
                             //std::cout<<j<<")"<<" ";
                         }
                     }
-                    connexe[s2] = connexe[s1];
+                    connexe [ s2 ] = connexe [ s1 ];
                 }
-                int temp=0;
-                for (int j = 0; j < m_sommets.size( ); j++ )
+                int temp = 0;
+                for ( int j = 0; j < m_sommets.size ( ); j++ )
                 {
-                    if(connexe[j] == connexe[0])
+                    if ( connexe [ j ] == connexe [ 0 ] )
                     {
                         temp++;
                     }
                     //std::cout<<connexe[j];
                 }
 
-                if(temp==m_sommets.size())
+                if ( temp == m_sommets.size ( ) )
                 {
-                    compteurs.push_back(compteur);
+                    compteurs.push_back ( compteur );
                     //std::cout<<"oui";
                 }//std::cout<<std::endl;
             }
@@ -455,7 +453,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )
             //std::cout<<compteur[i];
         }//std::cout<<std::endl;
     }
-    std::cout<<compteurs.size()<<std::endl;
+    std::cout << compteurs.size ( ) << std::endl;
     return compteurs;
 }
 
