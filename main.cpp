@@ -23,65 +23,11 @@ int main()
 
     int choix = menu(buffer,b,font1,titre);
 
-
-    /*
-    //b.afficherallegro(100,100,2);
-    std::vector<Graphe*> Ttgraphes = bruteforce(b);
-    int i=0,j=0;
-    for(auto it:Ttgraphes)
-    {
-        it->afficherallegro(buffer,i,j,2);
-        i+=150;
-        if (i >= 1500)
-        {
-            j+=150;
-            i=0;
-        }
-    }
-    draw_sprite(screen,buffer,0,0);
-    do{}while(!key[KEY_ESC]);*/
-
-
-/*
-    Graphe b("txt/manhattan.txt","txt/manhattan_weights_0.txt");
-    //b.afficherallegro(buffer,100,100,2);
-
-    b.afficherallegrotout(buffer,0, 0,5) ;
-
-    int x=0;
-    int y=0;
-
-
-    draw_sprite(screen,buffer,0,0);
-    do{
-    if((key[KEY_DOWN]))
-    {
-
-            y+=800;
-            std::cout << y<<","<<std::endl;
-            blit(buffer,screen,x,y,0,0,lng,lrg);
-            rest(100);
-
-    }
-    if((key[KEY_UP]))
-    {
-
-            y-=800;
-            std::cout << y<<","<<std::endl;
-            blit(buffer,screen,x,y,0,0,lng,lrg);
-            rest(100);
-
-    }
-
-
-
-    }while(!key[KEY_ESC]);
-
-    auto par = b.Pareto ( b.bruteforce ( 1 ) );
+    /**auto par = b.Pareto ( b.bruteforce ( 1 ) );
     for ( auto& a : par )
     std::cout << a->poidsTotaux ( ) << std::endl;
     //system("pause");
-*/
+**/
 
     return 0;
 }END_OF_MAIN();

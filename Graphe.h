@@ -13,7 +13,6 @@ class Graphe
 {
 public:
     Graphe(std::string nomFichier1,std::string nomFichier2);
-    //Graphe ( const std::vector<Sommet*> mS , const std::vector<Arrete*> mA );
     Graphe ( const std::vector<Sommet*>& sommets_src , const std::vector<Arrete*>& aretes_src);
     Graphe ( const Graphe& src , const std::vector<bool>& vec);
     Graphe() = default;

@@ -11,9 +11,6 @@ Graphe::Graphe ( const std::vector<Sommet*>& mS , const std::vector<Arrete*>& mA
     nbCouts = m_arretes [ 0 ]->getcout ( ).size ( );
 }
 
-//Graphe::Graphe ( const std::vector<Sommet*> mS , const std::vector<Arrete*> mA ) : m_sommets ( mS ) , m_arretes ( mA )
-//{}
-
 
 Graphe::Graphe ( const Graphe& src , const std::vector<bool>& vec )
 {
