@@ -22,10 +22,10 @@ public:
     Graphe ( ) = default;
     ~Graphe ( );
     std::vector<std::vector<bool>> bruteforce ( bool tri = true );
-    float distanceEuclidienne ( int s1 , int s2 );
+    float distanceEuclidienne ( int s1 , int s2 )const;
     std::vector<float> poidsTotaux ( );
-    std::vector<Sommet*> getsommets ( ) { return m_sommets; };
-    std::vector<Arrete*> getarretes ( ) { return m_arretes; };
+    std::vector<Sommet*> getsommets ( )const { return m_sommets; };
+    std::vector<Arrete*> getarretes ( )const { return m_arretes; };
     void afficher ( ) const;
     std::vector<Arrete*> Kruskal ( size_t cout_id = 0 ) const;
     std::vector<Graphe*> Pareto ( const std::vector<std::vector<bool>>& vec );

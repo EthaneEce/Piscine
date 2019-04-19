@@ -408,7 +408,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )
     return compteurs;
 }
 
-float Graphe::distanceEuclidienne ( int s1 , int s2 )
+float Graphe::distanceEuclidienne ( int s1 , int s2 )const
 {
     auto x = m_sommets [ s1 ]->getx ( ) - m_sommets [ s2 ]->getx ( );
     auto y = m_sommets [ s2 ]->gety ( ) - m_sommets [ s2 ]->gety ( );
