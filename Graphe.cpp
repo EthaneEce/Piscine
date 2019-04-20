@@ -31,6 +31,8 @@ Graphe::Graphe ( const Graphe& src ,
             temp.push_back ( src.m_arretes.at ( i ) );
         }
     }
+    if ( temp.empty ( ) )
+        temp.push_back ( new Arrete ( src.nbCouts ) );
     *this = Graphe ( src.m_sommets , temp );
 }
 
@@ -204,14 +206,48 @@ std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec
 {
     Timer t ( "Pareto pour le graphe " + graphName );
     const constexpr float infini = std::numeric_limits<float>::max ( );
+
+    //Vector solution
     std::vector<Graphe*> solution;
+
+    //Remplir le vector avec toutes les solutions admissibles 
     for ( auto a : vec )
     {
         solution.push_back ( new Graphe ( *this , a ) );
+
     }
+
     size_t IDXpoidsCourant = 0;
+
+    //Pour chaque poids allant de 0 à nombre de couts totaux - 1
     while ( IDXpoidsCourant < nbCouts - 1 )
     {
+
+        //Tronquer les éléments qui seront certainement dominées
+        {
+            //Initialiser nos comparateurs
+            float min = infini;           //Cout minimal courant
+            float nMinCout = infini;      //Cout suivant du graphe qui la cout minimal
+
+
+            //Récupérer le cout minimal (ce sera le premier élément du vector quand on le trie) 
+            for ( auto& a : solution )
+            {
+                if ( a->poidsTotaux ( ).at ( IDXpoidsCourant ) < min ) {
+                    min = a->poidsTotaux ( ).at ( IDXpoidsCourant );
+                    nMinCout = a->poidsTotaux ( ).at ( IDXpoidsCourant + 1 );
+                }
+            }
+
+            //Supprimer toutes les solutions dominées par celle qu'on vient de trouver
+            solution.erase ( std::remove_if ( solution.begin ( ) , solution.end ( ) ,
+                [ = ] ( Graphe * g ) {
+                    return g->poidsTotaux ( ).at ( IDXpoidsCourant + 1 ) > nMinCout;
+                } ) , solution.end ( ) );
+
+        }
+
+        //Trier le vector solution
         auto sortFunction = [ = ] ( Graphe * g1 , Graphe * g2 )
         {
             auto v1 = g1->poidsTotaux ( );
@@ -221,6 +257,7 @@ std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec
         std::sort ( solution.begin ( ) , solution.end ( ) , sortFunction );
 
 
+        //Pour chaque élément, l'enlever s'il est dominé par une autre solution
         float pivot = infini;
         for ( auto a = solution.begin ( ); a != solution.end ( ); )
         {
@@ -238,13 +275,15 @@ std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec
                 solution.erase ( iterator , solution.end ( ) );
             }
         }
+
+
         IDXpoidsCourant++;
     }
 
     //Un dernier parcours pour nettoyer les valeurs qui ont 1 cout égal
     for ( size_t i = 0; i < nbCouts - 1; i++ )
     {
-        for ( auto a = solution.begin ( ); a < solution.end ( ) - 1; )
+        for ( auto a = solution.begin ( ); a != solution.end ( ) - 1; )
         {
             auto it = *a;
             auto nextIt = *( a + 1 );
@@ -314,7 +353,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )  const
     std::vector<bool> compteur ( Arretesvec.size ( ) + 1 , 0 );
     std::vector<std::vector<bool>> compteurs;
 
-    while ( compteur [ compteur.size ( ) - 1 ] != 1 )
+    while ( compteur.back ( ) != 1 )
     {
 
         /// Tri
@@ -332,11 +371,11 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )  const
             if ( j == Sommetsmap.size ( ) - 1 )
             {
                 std::vector<Arrete*> ArretesN;
-                for ( unsigned int j = 0; j < compteur.size ( ) - 1; j++ )
+                for ( unsigned int k = 0; k < compteur.size ( ) - 1; k++ )
                 {
-                    if ( compteur [ j ] == 1 )
+                    if ( compteur [ k ] == 1 )
                     {
-                        ArretesN.push_back ( m_arretes [ j ] );
+                        ArretesN.push_back ( m_arretes [ k ] );
                     }
                 }
 
@@ -349,26 +388,22 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )  const
                 {
                     int s1 = it->gets1 ( );
                     int s2 = it->gets2 ( );
-                    //std::cout<<s1<<":"<<connexe[s1]<<","<<s2<<":"<<connexe[s2];
 
                     if ( ( connexe [ s1 ] ) == ( connexe [ s2 ] ) )
                     {
-                        //std::cout<<"break : ("<<s1<<","<<s2<<")"<<" ";
                         break;
                     }
-                    //std::cout<<"non break(";
-                    for ( unsigned int j = 0; j <= connexe.size ( ); j++ )
+                    for ( unsigned int j = 0; j < connexe.size ( ); j++ )
                     {
                         if ( ( connexe [ j ] == connexe [ s2 ] ) && ( j != s2 ) )
                         {
                             connexe [ j ] = connexe [ s1 ];
-                            //std::cout<<j<<")"<<" ";
                         }
                     }
                     connexe [ s2 ] = connexe [ s1 ];
                 }
                 int temp = 0;
-                for ( int j = 0; j < m_sommets.size ( ); j++ )
+                for ( size_t j = 0; j < m_sommets.size ( ); j++ )
                 {
                     if ( connexe [ j ] == connexe [ 0 ] )
                     {

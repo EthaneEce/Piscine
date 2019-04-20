@@ -10,6 +10,7 @@ std::ostream& operator<<( std::ostream& out , std::vector<float> vec )
     return out;
 }
 
+
 int main ( )
 {
     try
