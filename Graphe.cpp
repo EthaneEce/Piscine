@@ -350,7 +350,7 @@ std::vector<float> Graphe::getPoidsTotaux ( ) const
 
 std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
 {
-    Timer t ( "Brute force pour le graphe : " + graphName );
+    //Timer t ( "Brute force pour le graphe : " + graphName );
     std::vector<Sommet*> Sommetsmap = m_sommets;
     std::vector<Arete*> Aretesvec = m_Aretes;
 
@@ -428,30 +428,54 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
         }
         else if ( tri == 2 )
         {
-            std::vector<Arete*> ArretesN;
+            std::vector<Arete*> AretesN;
             for ( unsigned int k = 0; k < compteur.size ( ) - 1; k++ )
             {
                 if ( compteur [ k ] == 1 )
                 {
-                    ArretesN.push_back ( m_Aretes [ k ] );
+                    AretesN.push_back ( m_Aretes [ k ] );
                 }
             }
-            std::vector<Sommet*> sommets = m_sommets;
-            for ( auto it : ArretesN )
-            {
 
-                for ( int i = 0; i < sommets.size ( ); i++ )
+            std::vector<int> connexe;
+            for ( size_t l = 0; l < m_sommets.size ( ); l++ )
+            {
+                connexe.push_back ( l );
+            }
+            for ( auto it : AretesN )
+            {
+                int s1 = it->gets1 ( );
+                int s2 = it->gets2 ( );
+                //std::cout<<s1<<":"<<connexe[s1]<<","<<s2<<":"<<connexe[s2];
+
+                if ( ( connexe [ s1 ] ) == ( connexe [ s2 ] ) )
                 {
-                    if ( ( it->gets1 ( ) == sommets [ i ]->getid ( ) ) || ( it->gets2 ( ) == sommets [ i ]->getid ( ) ) )
+                    //std::cout<<"break : ("<<s1<<","<<s2<<")"<<" ";
+                    break;
+                }
+                for ( unsigned int m = 0; m < connexe.size ( ); m++ )
+                {
+                    if ( ( connexe [ m ] == connexe [ s2 ] ) && ( m != s2 ) )
                     {
-                        sommets.erase ( sommets.begin ( ) + i );
+                        connexe [ m ] = connexe [ s1 ];
                     }
                 }
-
+                connexe [ s2 ] = connexe [ s1 ];
             }
-            if ( sommets.empty ( ) )
+            size_t temp = 0;
+            for ( size_t n = 0; n < m_sommets.size ( ); n++ )
+            {
+                if ( connexe [ n ] == connexe [ 0 ] )
+                {
+                    temp++;
+                }
+                //std::cout<<connexe[j];
+            }
+
+            if ( temp == m_sommets.size ( ) )
             {
                 compteurs.push_back ( compteur );
+                //std::cout<<"oui";
             }
         }
         else
@@ -481,9 +505,9 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
             //std::cout<<compteur[i];
         }//std::cout<<std::endl;
     }
+    std::cout << compteurs.size ( ) << std::endl;
     return compteurs;
 }
-
 float Graphe::distanceEuclidienne ( int s1 , int s2 )  const
 {
     auto x = m_sommets [ s1 ]->getx ( ) - m_sommets [ s2 ]->getx ( );

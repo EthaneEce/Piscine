@@ -16,7 +16,7 @@ int main ( )
         Graphe g ( "txt\\broadway.txt" , "txt\\broadway_weights_0.txt" );
 
         //Optimisation Partielle (Parie 3)
-        auto sol = g.optimPartielle ( g.bruteforce ( ) , 1 );   //Nouveau Brute force à implémenter
+        auto sol = g.optimPartielle ( g.bruteforce ( 1 ) , 1 );   //Nouveau Brute force à implémenter
         for ( auto& a : sol )
             std::cout << a->getPoidsTotaux ( ) << std::endl;
 
