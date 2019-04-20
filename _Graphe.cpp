@@ -62,18 +62,19 @@ std::unordered_map<int , float> _Graphe::dijkstra ( const size_t depart ) const
 
     //trouver le _Sommet de départ dans la map
     auto it = m__Sommets.find ( depart );
-    if ( depart >= m__Sommets.size ( ) )
-        throw std::exception ( "Impossible de trouver la valeur de depart" );
+    //if ( depart >= m__Sommets.size ( ) )
+        //throw std::exception ( "Impossible de trouver la valeur de depart" );
     //map avec laquelle on va faire le boulot (on va éviter de bidouiller les valeurs de la map m__Sommets)
-    std::unordered_map<int , float>map;
+    std::unordered_map<int , float> map2;
 
     //copier la map m__Sommets et initialiser les distances à l'infini
-    for ( auto& a : m__Sommets ) {
-        map.insert ( { a.first,  infini } );
+    for ( auto& a : m__Sommets )
+    {
+        map2.insert ( { a.first,  infini } );
     }
 
     //faire dijkstra a partir du _Sommet de depart
-    auto sol = it->second->dijsktra ( map );
+    auto sol = it->second->dijsktra ( map2 );
     sol [ depart ] = 0;
     return sol;
 }

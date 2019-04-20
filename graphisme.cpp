@@ -152,6 +152,10 @@ void choixUtilisationGraph ( BITMAP * buffer , BITMAP * fond , FONT * font1 , FO
             {
                 p = b.optimPartielle ( b.bruteforce ( 2 ) , 1 );
             }
+            for (auto it:p)
+            {
+                std::cout<<it->poidsTotaux()[0]<<","<<it->poidsTotaux()[1]<<std::endl;
+            }
             draw_sprite ( buffer , fond , 0 , 0 );
             dessinerPareto ( buffer , b , 100 , 600 , t , t2 , p , nom == "manhattan" ? 1 : 0 );
             do
