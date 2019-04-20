@@ -47,7 +47,6 @@ void lancerToutAllegro(int largeur, int hauteur)
     }
     /// si on veut afficher le pointeur de souris
     show_mouse(screen);
-
 }
 
 
