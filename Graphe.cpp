@@ -350,7 +350,7 @@ std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec
 
 
 
-std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )
+std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )
 {
     //Timer t ( "Brute force pour le graphe : " + graphName );
     std::vector<Sommet*> Sommetsmap = m_sommets;
@@ -375,7 +375,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )
         }
 
         /// Tri
-        if ( tri == true )
+        if ( tri == 1 )
         {
             if ( j == Sommetsmap.size ( ) - 1 )
             {
@@ -430,10 +430,39 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )
                 }//std::cout<<std::endl;
             }
         }
+        else if(tri == 2)
+        {
+            std::vector<Arrete*> ArretesN;
+            for ( unsigned int k = 0; k < compteur.size ( ) - 1; k++ )
+            {
+                if ( compteur [ k ] == 1 )
+                {
+                    ArretesN.push_back ( m_arretes [ k ] );
+                }
+            }
+            std::vector<Sommet*> sommets = m_sommets;
+            for(auto it: ArretesN)
+            {
+
+                for(int i=0;i<sommets.size();i++)
+                {
+                    if((it->gets1() == sommets[i]->getid())||(it->gets2() == sommets[i]->getid()))
+                    {
+                        sommets.erase(sommets.begin()+i);
+                    }
+                }
+
+            }
+            if(sommets.empty())
+            {
+                compteurs.push_back ( compteur );
+            }
+        }
         else
         {
             compteurs.push_back ( compteur );
         }
+
 
 
 

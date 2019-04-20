@@ -29,7 +29,7 @@ public:
 
     float distanceEuclidienne ( int s1 , int s2 )const;
     std::vector<float> poidsTotaux ( );
-    std::vector<std::vector<bool>> bruteforce(bool tri);
+    std::vector<std::vector<bool>> bruteforce(int tri);
 
 
 protected:

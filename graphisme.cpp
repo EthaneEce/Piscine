@@ -213,7 +213,7 @@ void dessinerPareto(BITMAP*buffer,Graphe b,double x, double y,std::vector<std::v
         line ( buffer , x , y +i , x+500 , y +i , makecol ( 255 , 255 , 255 ) );
         line ( buffer , x + i, y , x+i , y-500 , makecol ( 255 , 255 , 255 ) );
     }
-    if(dess==1)
+    if(dess==0)
     {
         for(unsigned int i = 1; i < Ttgraphes2.size() ; i++)
         {
