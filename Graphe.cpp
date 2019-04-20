@@ -343,6 +343,11 @@ std::vector<float> Graphe::getPoidsTotaux ( ) const
 
 
 
+Graphe::~Graphe ( )
+{
+    std::cout << "Graphe deleted" << std::endl;
+}
+
 std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
 {
     Timer t ( "Brute force pour le graphe : " + graphName );
@@ -356,7 +361,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
     {
 
         /// Compteur
-        int j = 0;
+        size_t j = 0;
         for ( unsigned int i = 0; i < compteur.size ( ) - 1; i++ )
         {
             if ( compteur [ i ] == 1 )
@@ -386,8 +391,8 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
                 }
                 for ( auto it : AretesN )
                 {
-                    int s1 = it->gets1 ( );
-                    int s2 = it->gets2 ( );
+                    size_t s1 = it->gets1 ( );
+                    size_t s2 = it->gets2 ( );
                     //std::cout<<s1<<":"<<connexe[s1]<<","<<s2<<":"<<connexe[s2];
 
                     if ( ( connexe [ s1 ] ) == ( connexe [ s2 ] ) )
@@ -435,7 +440,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
             for ( auto it : ArretesN )
             {
 
-                for ( int i = 0; i < sommets.size ( ); i++ )
+                for ( size_t i = 0; i < sommets.size ( ); i++ )
                 {
                     if ( ( it->gets1 ( ) == sommets [ i ]->getid ( ) ) || ( it->gets2 ( ) == sommets [ i ]->getid ( ) ) )
                     {
