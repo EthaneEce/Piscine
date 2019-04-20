@@ -309,9 +309,15 @@ std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec
 
 std::vector<Graphe*> Graphe::optPartielle ( const size_t idxPoids ) const
 {
-    _Graphe G ( *this , idxPoids );
-    std::vector<float>vec;
+    std::vector<std::vector<bool>> bruteForce;
 
+    for ( auto& a : bruteForce )
+    {
+        Graphe g ( *this , a );
+        _Graphe _g ( g , 1 );
+        for ( size_t i = 0; i < g.getsommets ( ).size ( ); ++i )
+            auto dijkstra = _g.dijkstra ( i );
+    }
     return std::vector<Graphe*> ( );
 }
 

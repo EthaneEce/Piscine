@@ -57,7 +57,7 @@ std::ostream& operator<<( std::ostream& out , const std::vector<std::string>& ve
 }
 
 
-std::unordered_map<int , float> _Graphe::dijkstra ( const int depart ) const
+std::unordered_map<int , float> _Graphe::dijkstra ( const size_t depart ) const
 {
     float infini = std::numeric_limits<float>::max ( );
 
