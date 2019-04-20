@@ -1,7 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include "_Sommet.h"
-class Svgfile;
+
 class Graphe;
 class _Graphe
 {
