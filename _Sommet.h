@@ -1,6 +1,6 @@
 #pragma once
 #include <unordered_map>
-class Svgfile;
+
 class _Sommet
 {
 private:

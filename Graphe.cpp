@@ -11,7 +11,7 @@
 
 
 Graphe::Graphe ( const std::vector<Sommet*>& mS , const std::vector<Arete*>& mA )
-: m_sommets ( mS ) , m_Aretes ( mA )
+    : m_sommets ( mS ) , m_Aretes ( mA )
 {
     nbCouts = m_Aretes [ 0 ]->getcout ( ).size ( );
     m_poidsTotaux = poidsTotaux ( );
@@ -473,28 +473,28 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
         }
         else if ( tri == 2 )
         {
-            std::vector<Arete*> ArretesN;
+            std::vector<Arete*> AretesN;
             for ( unsigned int k = 0; k < compteur.size ( ) - 1; k++ )
             {
                 if ( compteur [ k ] == 1 )
                 {
-                    ArretesN.push_back ( m_Aretes [ k ] );
+                    AretesN.push_back ( m_Aretes [ k ] );
                 }
             }
             std::vector<Sommet*> sommets = m_sommets;
-            for(auto it: ArretesN)
+            for ( auto it : AretesN )
             {
 
-                for(int i=0;i<sommets.size();i++)
+                for ( int i = 0; i < sommets.size ( ); i++ )
                 {
-                    if((it->gets1() == sommets[i]->getid())||(it->gets2() == sommets[i]->getid()))
+                    if ( ( it->gets1 ( ) == sommets [ i ]->getid ( ) ) || ( it->gets2 ( ) == sommets [ i ]->getid ( ) ) )
                     {
-                        sommets.erase(sommets.begin()+i);
+                        sommets.erase ( sommets.begin ( ) + i );
                     }
                 }
 
             }
-            if(sommets.empty())
+            if ( sommets.empty ( ) )
             {
                 compteurs.push_back ( compteur );
             }
