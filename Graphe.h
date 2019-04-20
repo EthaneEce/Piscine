@@ -29,7 +29,7 @@ public:
     std::vector<Arete*> getAretes ( )const { return m_Aretes; };
     void afficher ( ) const;
     std::vector<Arete*> Kruskal ( size_t cout_id = 0 ) const;
-    std::vector<Graphe*> optimPartielle ( const std::vector<std::vector<bool>>& solutionsAdmissibles, 
+    std::vector<Graphe*> optimPartielle ( const std::vector<std::vector<bool>>& solutionsAdmissibles ,
         const size_t idxPoids = 0 )const;
     std::vector<Graphe*> optimBiObj ( const std::vector<std::vector<bool>>& solutionsAmissibles )const;
     std::vector<float> getPoidsTotaux ( )const;
