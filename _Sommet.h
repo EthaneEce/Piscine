@@ -12,7 +12,6 @@ public:
     _Sommet ( int id, double x, double y );
     void ajouterArete ( _Sommet* s , const float poids );
     void afficher ( ) const;
-    void dessiner ( Svgfile& svgout );
     //on prend en parametre le _Sommet de destination et la map contenant tous les _Sommets du _Graphe
     std::unordered_map<int , float> dijsktra ( std::unordered_map<int , float>& map ) const;
 };

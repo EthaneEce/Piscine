@@ -299,7 +299,7 @@ std::vector<Graphe*> Graphe::Pareto ( std::vector<Graphe*> & solution ) const
 std::vector<Graphe*> Graphe::optimPartielle ( const std::vector<std::vector<bool>> & solutionsAdmissibles ,
     const size_t idxPoids ) const
 {
-
+    Timer t ( "Optimisation partielle, Graphe " + graphName );
     std::vector<Graphe*> solution;
     for ( auto& a : solutionsAdmissibles )
     {
@@ -309,9 +309,9 @@ std::vector<Graphe*> Graphe::optimPartielle ( const std::vector<std::vector<bool
         for ( size_t i = 0; i < m_sommets.size ( ); ++i )
         {
             auto dij = _g.dijkstra ( i );
-            for ( auto& a : dij )
+            for ( auto& b : dij )
             {
-                total += a.second;
+                total += b.second;
             }
         }
         G.m_poidsTotaux.at ( idxPoids ) = total;
@@ -324,7 +324,7 @@ std::vector<Graphe*> Graphe::optimPartielle ( const std::vector<std::vector<bool
 
 std::vector<Graphe*> Graphe::optimBiObj ( const std::vector<std::vector<bool>> & solutionsAmissibles )const
 {
-    Timer ( "Optimisation Bi Obj, Graphe " + graphName );
+    Timer ( "Optimisation bi-objectif, Graphe " + graphName );
     std::vector<Graphe*> solution;
     //Remplir le vector avec toutes les solutions admissibles 
     for ( auto& a : solutionsAmissibles )
@@ -340,30 +340,6 @@ std::vector<float> Graphe::getPoidsTotaux ( ) const
     return m_poidsTotaux;
 }
 
-void Graphe::dessiner ( Svgfile & svgout ) const
-{
-    for ( auto& a : m_sommets )
-    {
-        svgout.addDisk ( a->getx ( ) , a->gety ( ) , 10 );
-        svgout.addText ( a->getx ( ) - 15 , a->gety ( ) - 15 , a->getid ( ) );
-    }
-    for ( auto& a : m_Aretes ) {
-        double x1 = m_sommets.at ( a->gets1 ( ) )->getx ( );
-        double y1 = m_sommets.at ( a->gets1 ( ) )->gety ( );
-        double x2 = m_sommets.at ( a->gets2 ( ) )->getx ( );
-        double y2 = m_sommets.at ( a->gets2 ( ) )->gety ( );
-        svgout.addLine ( x1 , y1 , x2 , y2 );
-    }
-
-    auto poidstot = m_poidsTotaux;
-    std::string str;
-    for ( auto& a : poidstot )
-    {
-        str += std::to_string ( a );
-        str += "; ";
-    }
-    svgout.addText ( 500 , 500 , str );
-}
 
 
 

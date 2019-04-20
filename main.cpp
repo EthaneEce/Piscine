@@ -1,8 +1,7 @@
 #include <iostream>
 #include "Graphe.h"
 #include <fstream>
-#include "svgfile.h"
-#include "_graphe.h"
+#include "_Graphe.h"
 
 std::ostream& operator<<( std::ostream& out , std::vector<float> vec )
 {
@@ -15,9 +14,17 @@ int main ( )
     try
     {
         Graphe g ( "txt\\broadway.txt" , "txt\\broadway_weights_0.txt" );
-        auto sol = g.optimPartielle ( g.bruteforce ( ) , 1 );
+
+        //Optimisation Partielle (Parie 3)
+        auto sol = g.optimPartielle ( g.bruteforce ( ) , 1 );   //Nouveau Brute force à implémenter
         for ( auto& a : sol )
             std::cout << a->getPoidsTotaux ( ) << std::endl;
+
+        //Optimisation Bi Objectif (Partie2)
+        auto sol1 = g.optimBiObj ( g.bruteforce ( ) );
+        for ( auto& a : sol1 )
+            std::cout << a->getPoidsTotaux ( ) << std::endl;
+
     }
     catch ( const std::exception & e )
     {

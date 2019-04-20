@@ -2,7 +2,6 @@
 #define Arete_H
 #include <iostream>
 #include <vector>
-#include "svgfile.h"
 
 class Arete
 {

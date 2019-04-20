@@ -4,7 +4,6 @@
 #include <iostream>
 #include <limits>
 #include "Graphe.h"
-#include "svgfile.h"
 //Constructeur 
 _Graphe::_Graphe ( const Graphe& g , size_t idxPoidsTranspose )
 {
@@ -79,10 +78,5 @@ std::unordered_map<int , float> _Graphe::dijkstra ( const size_t depart ) const
     return sol;
 }
 
-void _Graphe::dessiner ( Svgfile & svgout ) const
-{
-    for ( auto& a : m__Sommets )
-        a.second->dessiner ( svgout );
-}
 
 

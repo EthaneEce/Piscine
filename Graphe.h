@@ -33,7 +33,6 @@ public:
         const size_t idxPoids = 0 )const;
     std::vector<Graphe*> optimBiObj ( const std::vector<std::vector<bool>>& solutionsAmissibles )const;
     std::vector<float> getPoidsTotaux ( )const;
-    void dessiner ( Svgfile& svgout )const;
 
 private:
 
