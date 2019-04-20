@@ -88,52 +88,50 @@
 
 1555445696 D
 
-1555499786 source:c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\arrete.cpp
+1555765326 source:c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\arrete.cpp
 	"Arrete.h"
+	<limits>
 
-1555499786 c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\arrete.h
+1555765326 c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\arrete.h
 	<iostream>
 	<vector>
 
-1555517305 source:c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\main.cpp
+1555765326 source:c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\main.cpp
 	<iostream>
-	<stdio.h>
-	<stdlib.h>
-	<allegro.h>
-	<time.h>
-	<string.h>
-	<iomanip>
 	"Graphe.h"
 	"graphisme.h"
-	<iomanip>
 
-1555499786 c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\graphe.h
+1555765326 c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\graphe.h
 	<string>
 	<unordered_map>
 	<iomanip>
 	"allegro.h"
 	"Sommet.h"
 	"Arrete.h"
+	<cmath>
 
-1555499786 c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\sommet.h
+1555692494 c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\sommet.h
 	<iostream>
 
-1555499786 source:c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\sommet.cpp
+1555692494 source:c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\sommet.cpp
 	"sommet.h"
 	"iomanip"
 
-1555499786 source:c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\types.cpp
+1555692494 source:c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\types.cpp
 	"types.h"
 
-1555499786 c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\types.h
+1555692494 c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\types.h
 	<iostream>
 
-1555499786 source:c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\graphe.cpp
+1555770777 source:c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\graphe.cpp
 	<fstream>
 	"Graphe.h"
 	<functional>
 	<algorithm>
+	<set>
 	<memory>
+	"Timer.h"
+	<limits>
 
 1555423077 >
 
@@ -149,7 +147,7 @@
 	<chrono>
 	<iostream>
 
-1555517305 c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\graphisme.h
+1555765326 c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\graphisme.h
 	<iostream>
 	<stdio.h>
 	<stdlib.h>
@@ -159,7 +157,7 @@
 	<iomanip>
 	"Graphe.h"
 
-1555517600 source:c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\graphisme.cpp
+1555776940 source:c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\graphisme.cpp
 	"graphisme.h"
 
 1555766723 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\graphisme.cpp
@@ -174,4 +172,8 @@
 	<string.h>
 	<iomanip>
 	"Graphe.h"
+
+1555765326 c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\timer.h
+	<chrono>
+	<iostream>
 
