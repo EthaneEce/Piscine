@@ -6,6 +6,7 @@ class Arrete
 {
 public:
     Arrete ( int id , int s1 , int s2 , std::vector<float> Cout );
+    Arrete (const size_t nbCouts );
     ~Arrete ( ) = default;
     void afficherData ( ) const;
     int getid ( ) const;
