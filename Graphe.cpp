@@ -10,7 +10,9 @@
 
 Graphe::Graphe ( const std::vector<Sommet*>& mS , const std::vector<Arrete*>& mA )
     : m_sommets ( mS ) , m_arretes ( mA )
-{}
+{
+    nbCouts = m_arretes [ 0 ]->getcout ( ).size ( );
+}
 
 Graphe::Graphe ( const Graphe& src , const std::vector<bool>& vec )
 {
@@ -247,16 +249,16 @@ std::vector<Arrete*> Graphe::Kruskal ( size_t cout_id ) const
 
 std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec )
 {
+    //Timer t ( "Pareto pour le graphe " + graphName );
     const constexpr float infini = std::numeric_limits<float>::max ( );
-
     //Vector solution
     std::vector<Graphe*> solution;
+    if ( vec.empty ( ) )return solution;
 
     //Remplir le vector avec toutes les solutions admissibles
     for ( auto a : vec )
     {
         solution.push_back ( new Graphe ( *this , a ) );
-
     }
 
     size_t IDXpoidsCourant = 0;
@@ -268,25 +270,23 @@ std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec
         //Tronquer les éléments qui seront certainement dominées
         {
             //Initialiser nos comparateurs
-            float min = infini;           //Cout minimal courant
+            float min_ = infini;           //Cout minimal courant
             float nMinCout = infini;      //Cout suivant du graphe qui la cout minimal
 
 
             //Récupérer le cout minimal (ce sera le premier élément du vector quand on le trie)
             for ( auto& a : solution )
             {
-                if ( a->poidsTotaux ( ).at ( IDXpoidsCourant ) < min ) {
-                    min = a->poidsTotaux ( ).at ( IDXpoidsCourant );
+                if ( a->poidsTotaux ( ).at ( IDXpoidsCourant ) < min_ ) {
+                    min_ = a->poidsTotaux ( ).at ( IDXpoidsCourant );
                     nMinCout = a->poidsTotaux ( ).at ( IDXpoidsCourant + 1 );
                 }
             }
-
             //Supprimer toutes les solutions dominées par celle qu'on vient de trouver
             solution.erase ( std::remove_if ( solution.begin ( ) , solution.end ( ) ,
                 [ = ] ( Graphe * g ) {
                     return g->poidsTotaux ( ).at ( IDXpoidsCourant + 1 ) > nMinCout;
                 } ) , solution.end ( ) );
-
         }
 
         //Trier le vector solution
@@ -321,6 +321,7 @@ std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec
 
         IDXpoidsCourant++;
     }
+
 
     //Un dernier parcours pour nettoyer les valeurs qui ont 1 cout égal
     for ( size_t i = 0; i < nbCouts - 1; i++ )

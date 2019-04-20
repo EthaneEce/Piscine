@@ -143,9 +143,8 @@ void choixUtilisationGraph(BITMAP* buffer, BITMAP* fond, FONT* font1, FONT* titr
         {
             std::vector<std::vector<bool>> t = b.bruteforce(1);
             std::vector<std::vector<bool>> t2 = b.bruteforce(0);
-            std::cout<<"coucou";
             std::vector<Graphe*> p = b.Pareto(t);
-            std::cout<<"coucou";
+
             draw_sprite(buffer,fond,0,0);
             dessinerPareto(buffer,b,100,600,t,t2,p,nom == "manhattan" ? 1  : 0);
             do
@@ -214,7 +213,7 @@ void dessinerPareto(BITMAP*buffer,Graphe b,double x, double y,std::vector<std::v
         line ( buffer , x , y +i , x+500 , y +i , makecol ( 255 , 255 , 255 ) );
         line ( buffer , x + i, y , x+i , y-500 , makecol ( 255 , 255 , 255 ) );
     }
-    if(dess==0)
+    if(dess==1)
     {
         for(unsigned int i = 1; i < Ttgraphes2.size() ; i++)
         {
