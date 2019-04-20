@@ -264,18 +264,19 @@ std::vector<Graphe*> Graphe::Pareto ( std::vector<Graphe*> & solution ) const
         //Tronquer les éléments qui seront certainement dominées
         {
             //Initialiser nos comparateurs
-            float min_ = infini;           //Cout minimal courant
+            float min = infini;           //Cout minimal courant
             float nMinCout = infini;      //Cout suivant du graphe qui la cout minimal
 
 
             //Récupérer le cout minimal (ce sera le premier élément du vector quand on le trie)
             for ( auto& a : solution )
             {
-                if ( a->m_poidsTotaux.at ( IDXpoidsCourant ) < min_ ) {
-                    min_ = a->m_poidsTotaux.at ( IDXpoidsCourant );
+                if ( a->m_poidsTotaux.at ( IDXpoidsCourant ) < min ) {
+                    min = a->m_poidsTotaux.at ( IDXpoidsCourant );
                     nMinCout = a->m_poidsTotaux.at ( IDXpoidsCourant + 1 );
                 }
             }
+
             //Supprimer toutes les solutions dominées par celle qu'on vient de trouver
             solution.erase ( std::remove_if ( solution.begin ( ) , solution.end ( ) ,
                 [ = ] ( Graphe * g ) {
@@ -316,7 +317,6 @@ std::vector<Graphe*> Graphe::Pareto ( std::vector<Graphe*> & solution ) const
         IDXpoidsCourant++;
     }
 
-
     //Un dernier parcours pour nettoyer les valeurs qui ont 1 cout égal
     for ( size_t i = 0; i < nbCouts - 1; i++ )
     {
@@ -343,13 +343,10 @@ std::vector<Graphe*> Graphe::Pareto ( std::vector<Graphe*> & solution ) const
 }
 
 
-
-
 std::vector<Graphe*> Graphe::optimPartielle ( const std::vector<std::vector<bool>> & solutionsAdmissibles ,
     const size_t idxPoids ) const
 {
     //Timer t ( "Optimisation partielle, Graphe " + graphName );
-
     std::vector<Graphe*> solution;
     for ( auto& a : solutionsAdmissibles )
     {
@@ -384,7 +381,6 @@ std::vector<Graphe*> Graphe::optimBiObj ( const std::vector<std::vector<bool>> &
 
     return Pareto ( solution );
 }
-
 std::vector<float> Graphe::getPoidsTotaux ( ) const
 {
     return m_poidsTotaux;

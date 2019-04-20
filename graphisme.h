@@ -14,7 +14,7 @@ int menu(BITMAP* buffer, Graphe& a, FONT* font1,FONT* titre);
 void choixPoids(BITMAP* buffer,BITMAP* fond, FONT* font1,FONT*titre,std::string fichier1, Graphe& b,int nbPoids);
 void choixUtilisationGraph(BITMAP* buffer, BITMAP* fond, FONT* font1,FONT* titre, Graphe& b,std::string nom);
 void dessinerBrut(BITMAP*buffer,Graphe b,std::vector<std::vector<bool>> Ttgraphes,double x, double y,int proportion);
-void dessinerPareto(BITMAP*buffer,Graphe b,double x, double y,std::vector<std::vector<bool>> Ttgraphes,std::vector<std::vector<bool>> Ttgraphes2,std::vector<Graphe*> Pareto,bool dess);
+void dessinerPareto ( BITMAP * buffer , Graphe b , double x , double y , std::vector<std::vector<bool>> Ttgraphes , std::vector<std::vector<bool>> Ttgraphes2 , std::vector<Graphe*> Pareto , bool dess, bool pareto2 );
 
 
 #endif // GRAPHISME_H_INCLUDED

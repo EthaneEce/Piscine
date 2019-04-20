@@ -141,23 +141,29 @@ void choixUtilisationGraph ( BITMAP * buffer , BITMAP * fond , FONT * font1 , FO
         else if ( pareto == 1 || pareto2 == 1 )
         {
             draw_sprite ( screen , fond , 0 , 0 );
-            std::vector<std::vector<bool>> t = b.bruteforce ( 1 );
-            std::vector<std::vector<bool>> t2 = b.bruteforce ( 0 );
+
+            std::vector<std::vector<bool>> t;
+            std::vector<std::vector<bool>> t2;
+            std::vector<std::vector<bool>> t3;
+
             std::vector<Graphe*> p;
             if ( pareto == 1 )
             {
-                p = b.optimBiObj ( b.bruteforce ( 1 ) );
+                t = b.bruteforce ( 1 );
+                t2 = b.bruteforce ( 0 );
+                p = b.optimBiObj (t);
             }
             else
             {
-                p = b.optimPartielle ( b.bruteforce ( 2 ) , 1 );
+                t3 = b.bruteforce ( 2 );
+                p = b.optimPartielle ( t3 , 1 );
             }
             for (auto it:p)
             {
-                std::cout<<it->poidsTotaux()[0]<<","<<it->poidsTotaux()[1]<<std::endl;
+                std::cout<<it->getPoidsTotaux()[0]<<","<<it->getPoidsTotaux()[1]<<std::endl;
             }
             draw_sprite ( buffer , fond , 0 , 0 );
-            dessinerPareto ( buffer , b , 100 , 600 , t , t2 , p , nom == "manhattan" ? 1 : 0 );
+            dessinerPareto ( buffer , b , 100 , 600 , t , t2 , p , nom == "manhattan" ? 1 : 0 , pareto2 == 1 ? 1 : 0 );
             do
             {
                 quitter2 = draw_bouton ( 4.5 * SCREEN_W / 10 , 9.4 * SCREEN_H / 10 , 5.5 * SCREEN_W / 10 , 9.9 * SCREEN_H / 10 , makecol ( 43 , 105 , 200 ) , makecol ( 30 , 73 , 138 ) , 3 , "Quitter" , font1 , buffer );
@@ -216,7 +222,7 @@ void dessinerBrut ( BITMAP * buffer , Graphe b , std::vector<std::vector<bool>> 
     }
 }
 
-void dessinerPareto ( BITMAP * buffer , Graphe b , double x , double y , std::vector<std::vector<bool>> Ttgraphes , std::vector<std::vector<bool>> Ttgraphes2 , std::vector<Graphe*> Pareto , bool dess )
+void dessinerPareto ( BITMAP * buffer , Graphe b , double x , double y , std::vector<std::vector<bool>> Ttgraphes , std::vector<std::vector<bool>> Ttgraphes2 , std::vector<Graphe*> Pareto , bool dess, bool pareto2 )
 {
     std::vector<Arete*> AretesN;
     for ( int i = 0; i <= 10; i++ )
@@ -224,65 +230,77 @@ void dessinerPareto ( BITMAP * buffer , Graphe b , double x , double y , std::ve
         line ( buffer , x , y + i , x + 500 , y + i , makecol ( 255 , 255 , 255 ) );
         line ( buffer , x + i , y , x + i , y - 500 , makecol ( 255 , 255 , 255 ) );
     }
-    if ( dess == 0 )
+
+    if(pareto2 == 0)
     {
-        for ( unsigned int i = 1; i < Ttgraphes2.size ( ); i++ )
+        if ( dess == 0 )
         {
-            for ( unsigned int j = 0; j < Ttgraphes2 [ i ].size ( ) - 1; j++ )
+            for ( unsigned int i = 1; i < Ttgraphes2.size ( ); i++ )
             {
-                if ( Ttgraphes2 [ i ][ j ] == true )
+                for ( unsigned int j = 0; j < Ttgraphes2 [ i ].size ( ) - 1; j++ )
+                {
+                    if ( Ttgraphes2 [ i ][ j ] == true )
+                    {
+                        AretesN.push_back ( b.getAretes ( ) [ j ] );
+                    }
+                }
+                Graphe a ( b.getsommets ( ) , AretesN );
+                circlefill ( buffer , x + ( a.getPoidsTotaux ( ) [ 0 ] ) * 4 + 10 , y - ( a.getPoidsTotaux ( ) [ 1 ] ) * 4 - 10 , 1 , makecol ( 0 , 255 , 0 ) );
+                //std::cout<<(x+a.getPoidsTotaux()[1]+10)*1.2<<","<<(y-a.getPoidsTotaux()[1]-10)*1.2<<std::endl;
+                AretesN.clear ( );
+
+                if ( i == 1 )
+                {
+                    circlefill ( buffer , 650 , 625 , 6 , makecol ( 0 , 255 , 0 ) );
+                    a.afficherallegro ( buffer , 1300 , 1100 , 2 );
+                    textprintf_centre_ex ( buffer , font , SCREEN_W - 150 , 615 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 0 , 255 ) , "Poids total 1 :   %0.2f" , a.getPoidsTotaux ( ) [ 0 ] );
+                    textprintf_centre_ex ( buffer , font , SCREEN_W - 150 , 630 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 0 , 255 ) , "Poids total 2 :   %0.2f" , a.getPoidsTotaux ( ) [ 1 ] );
+
+                }
+            }
+        }
+        for ( unsigned int i = 1; i < Ttgraphes.size ( ); i++ )
+        {
+            for ( unsigned int j = 0; j < Ttgraphes [ i ].size ( ) - 1; j++ )
+            {
+                if ( Ttgraphes [ i ][ j ] == true )
                 {
                     AretesN.push_back ( b.getAretes ( ) [ j ] );
                 }
             }
             Graphe a ( b.getsommets ( ) , AretesN );
-            circlefill ( buffer , x + ( a.poidsTotaux ( ) [ 0 ] ) * 4 + 10 , y - ( a.poidsTotaux ( ) [ 1 ] ) * 4 - 10 , 1 , makecol ( 0 , 255 , 0 ) );
-            //std::cout<<(x+a.poidsTotaux()[1]+10)*1.2<<","<<(y-a.poidsTotaux()[1]-10)*1.2<<std::endl;
+            circlefill ( buffer , x + ( a.getPoidsTotaux ( ) [ 0 ] ) * 4 + 10 , y - ( a.getPoidsTotaux ( ) [ 1 ] ) * 4 - 10 , 1 , makecol ( 0 , 0 , 255 ) );
+            std::cout<<x + ( a.getPoidsTotaux ( ) [ 0 ] ) * 4 + 10<<","<<y - ( a.getPoidsTotaux ( ) [ 1 ] ) * 4 - 10<<std::endl;
             AretesN.clear ( );
 
             if ( i == 1 )
             {
-                circlefill ( buffer , 650 , 625 , 6 , makecol ( 0 , 255 , 0 ) );
-                a.afficherallegro ( buffer , 1300 , 1100 , 2 );
-                textprintf_centre_ex ( buffer , font , SCREEN_W - 150 , 615 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 0 , 255 ) , "Poids total 1 :   %0.2f" , a.poidsTotaux ( ) [ 0 ] );
-                textprintf_centre_ex ( buffer , font , SCREEN_W - 150 , 630 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 0 , 255 ) , "Poids total 2 :   %0.2f" , a.poidsTotaux ( ) [ 1 ] );
+                circlefill ( buffer , 650 , 370 , 6 , makecol ( 0 , 0 , 255 ) );
+                a.afficherallegro ( buffer , 1300 , 580 , 2 );
+                textprintf_centre_ex ( buffer , font , SCREEN_W - 150 , 360 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 0 , 255 ) , "Poids total 1 :   %0.2f" , a.getPoidsTotaux ( ) [ 0 ] );
+                textprintf_centre_ex ( buffer , font , SCREEN_W - 150 , 375 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 0 , 255 ) , "Poids total 2 :   %0.2f" , a.getPoidsTotaux ( ) [ 1 ] );
 
             }
         }
     }
-    for ( unsigned int i = 1; i < Ttgraphes.size ( ); i++ )
-    {
-        for ( unsigned int j = 0; j < Ttgraphes [ i ].size ( ) - 1; j++ )
-        {
-            if ( Ttgraphes [ i ][ j ] == true )
-            {
-                AretesN.push_back ( b.getAretes ( ) [ j ] );
-            }
-        }
-        Graphe a ( b.getsommets ( ) , AretesN );
-        circlefill ( buffer , x + ( a.poidsTotaux ( ) [ 0 ] ) * 4 + 10 , y - ( a.poidsTotaux ( ) [ 1 ] ) * 4 - 10 , 1 , makecol ( 0 , 0 , 255 ) );
-        //std::cout<<(x+a.poidsTotaux()[1]+10)*1.2<<","<<(y-a.poidsTotaux()[1]-10)*1.2<<std::endl;
-        AretesN.clear ( );
 
-        if ( i == 1 )
-        {
-            circlefill ( buffer , 650 , 370 , 6 , makecol ( 0 , 0 , 255 ) );
-            a.afficherallegro ( buffer , 1300 , 580 , 2 );
-            textprintf_centre_ex ( buffer , font , SCREEN_W - 150 , 360 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 0 , 255 ) , "Poids total 1 :   %0.2f" , a.poidsTotaux ( ) [ 0 ] );
-            textprintf_centre_ex ( buffer , font , SCREEN_W - 150 , 375 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 0 , 255 ) , "Poids total 2 :   %0.2f" , a.poidsTotaux ( ) [ 1 ] );
-
-        }
-    }
 
     for ( auto it2 : Pareto )
     {
-        circlefill ( buffer , x + ( it2->poidsTotaux ( ) [ 0 ] ) * 4 + 10 , y - ( it2->poidsTotaux ( ) [ 1 ] ) * 4 - 10 , 2 , makecol ( 255 , 0 , 0 ) );
+        if(pareto2 == 0)
+        {
+            circlefill ( buffer , x + ( it2->getPoidsTotaux ( ) [ 0 ] ) *4 + 10 , y - ( it2->getPoidsTotaux ( ) [ 1 ] ) * 4 - 10 , 2 , makecol ( 255 , 0 , 0 ) );
+        }
+        if(pareto2 == 1)
+        {
+            circlefill ( buffer , x + ( it2->getPoidsTotaux ( ) [ 0 ] ) / 10 + 10 , y - ( it2->getPoidsTotaux ( ) [ 1 ] ) / 10 - 10 , 2 , makecol ( 255 , 0 , 0 ) );
+        }
     }
 
     circlefill ( buffer , 650 , 90 , 6 , makecol ( 255 , 0 , 0 ) );
     Pareto [ 0 ]->afficherallegro ( buffer , 1300 , 30 , 2 );
-    textprintf_centre_ex ( buffer , font , SCREEN_W - 150 , 80 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 0 , 255 ) , "Poids total 1 :   %0.2f" , Pareto [ 0 ]->poidsTotaux ( ) [ 0 ] );
-    textprintf_centre_ex ( buffer , font , SCREEN_W - 150 , 95 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 0 , 255 ) , "Poids total 2 :   %0.2f" , Pareto [ 0 ]->poidsTotaux ( ) [ 1 ] );
+    textprintf_centre_ex ( buffer , font , SCREEN_W - 150 , 80 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 0 , 255 ) , "Poids total 1 :   %0.2f" , Pareto [ 0 ]->getPoidsTotaux ( ) [ 0 ] );
+    textprintf_centre_ex ( buffer , font , SCREEN_W - 150 , 95 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 0 , 255 ) , "Poids total 2 :   %0.2f" , Pareto [ 0 ]->getPoidsTotaux ( ) [ 1 ] );
 
 
 }
