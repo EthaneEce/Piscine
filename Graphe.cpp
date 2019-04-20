@@ -393,7 +393,7 @@ std::vector<float> Graphe::getPoidsTotaux ( ) const
 
 
 
-std::vector<std::vector<bool>> bruteforce(int tri) const
+std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
 {
     //Timer t ( "Brute force pour le graphe : " + graphName );
     std::vector<Sommet*> Sommetsmap = m_sommets;
@@ -471,9 +471,9 @@ std::vector<std::vector<bool>> bruteforce(int tri) const
                 }//std::cout<<std::endl;
             }
         }
-        else if(tri == 2)
+        else if ( tri == 2 )
         {
-            std::vector<Arrete*> ArretesN;
+            std::vector<Arete*> ArretesN;
             for ( unsigned int k = 0; k < compteur.size ( ) - 1; k++ )
             {
                 if ( compteur [ k ] == 1 )

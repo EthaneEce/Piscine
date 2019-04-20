@@ -18,8 +18,8 @@ public:
     Graphe() = default;
     ~Graphe();
 
-    std::vector<Sommet*> getsommets(){return m_sommets;};
-    std::vector<Arete*> getarretes(){return m_Aretes;};
+    std::vector<Sommet*> getsommets()const{return m_sommets;};
+    std::vector<Arete*> getarretes()const{return m_Aretes;};
 
     void afficher() const;
     void afficherallegro(BITMAP *buffer, double x, double y, int proportion) const;
