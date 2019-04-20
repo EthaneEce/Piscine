@@ -343,7 +343,7 @@ std::vector<float> Graphe::getPoidsTotaux ( ) const
 
 
 
-std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )  const
+std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
 {
     Timer t ( "Brute force pour le graphe : " + graphName );
     std::vector<Sommet*> Sommetsmap = m_sommets;
@@ -355,18 +355,19 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )  const
     while ( compteur.back ( ) != 1 )
     {
 
-        /// Tri
-        if ( tri == true )
+        /// Compteur
+        int j = 0;
+        for ( unsigned int i = 0; i < compteur.size ( ) - 1; i++ )
         {
-            size_t j = 0;
-            for ( unsigned int i = 0; i < compteur.size ( ) - 1; i++ )
+            if ( compteur [ i ] == 1 )
             {
-
-                if ( compteur [ i ] == 1 )
-                {
-                    j++;
-                }
+                j++;
             }
+        }
+
+        /// Tri
+        if ( tri == 1 )
+        {
             if ( j == Sommetsmap.size ( ) - 1 )
             {
                 std::vector<Arete*> AretesN;
@@ -385,11 +386,13 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )  const
                 }
                 for ( auto it : AretesN )
                 {
-                    size_t s1 = it->gets1 ( );
-                    size_t s2 = it->gets2 ( );
+                    int s1 = it->gets1 ( );
+                    int s2 = it->gets2 ( );
+                    //std::cout<<s1<<":"<<connexe[s1]<<","<<s2<<":"<<connexe[s2];
 
                     if ( ( connexe [ s1 ] ) == ( connexe [ s2 ] ) )
                     {
+                        //std::cout<<"break : ("<<s1<<","<<s2<<")"<<" ";
                         break;
                     }
                     for ( unsigned int m = 0; m < connexe.size ( ); m++ )
@@ -408,19 +411,50 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )  const
                     {
                         temp++;
                     }
+                    //std::cout<<connexe[j];
                 }
 
                 if ( temp == m_sommets.size ( ) )
                 {
                     compteurs.push_back ( compteur );
-
+                    //std::cout<<"oui";
+                }//std::cout<<std::endl;
+            }
+        }
+        else if ( tri == 2 )
+        {
+            std::vector<Arete*> ArretesN;
+            for ( unsigned int k = 0; k < compteur.size ( ) - 1; k++ )
+            {
+                if ( compteur [ k ] == 1 )
+                {
+                    ArretesN.push_back ( m_Aretes [ k ] );
                 }
+            }
+            std::vector<Sommet*> sommets = m_sommets;
+            for ( auto it : ArretesN )
+            {
+
+                for ( int i = 0; i < sommets.size ( ); i++ )
+                {
+                    if ( ( it->gets1 ( ) == sommets [ i ]->getid ( ) ) || ( it->gets2 ( ) == sommets [ i ]->getid ( ) ) )
+                    {
+                        sommets.erase ( sommets.begin ( ) + i );
+                    }
+                }
+
+            }
+            if ( sommets.empty ( ) )
+            {
+                compteurs.push_back ( compteur );
             }
         }
         else
         {
             compteurs.push_back ( compteur );
         }
+
+
 
 
         /// Compteur
@@ -437,6 +471,10 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )  const
                 break;
             }
         }
+        for ( unsigned int i = 0; i < compteur.size ( ); i++ )
+        {
+            //std::cout<<compteur[i];
+        }//std::cout<<std::endl;
     }
     return compteurs;
 }
