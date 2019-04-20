@@ -493,11 +493,6 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
                     int s2 = it->gets2 ( );
                     //std::cout<<s1<<":"<<connexe[s1]<<","<<s2<<":"<<connexe[s2];
 
-                    if ( ( connexe [ s1 ] ) == ( connexe [ s2 ] ) )
-                    {
-                        //std::cout<<"break : ("<<s1<<","<<s2<<")"<<" ";
-                        break;
-                    }
                     for ( unsigned int m = 0; m < connexe.size ( ); m++ )
                     {
                         if ( ( connexe [ m ] == connexe [ s2 ] ) && ( m != s2 ) )
@@ -514,13 +509,13 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
                     {
                         temp++;
                     }
-                    //std::cout<<connexe[j];
+                    //std::cout<<connexe[n];
                 }
 
                 if ( temp == m_sommets.size ( ) )
                 {
                     compteurs.push_back ( compteur );
-                    //std::cout<<"oui";
+                    //std::cout<<" "<<"oui"<<" ";
                 }
         }
         else
