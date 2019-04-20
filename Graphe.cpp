@@ -329,8 +329,6 @@ void Graphe::dessiner ( Svgfile & svgout ) const
         svgout.addText ( a->getx ( ) - 15 , a->gety ( ) - 15 , a->getid ( ) );
     }
     for ( auto& a : m_arretes ) {
-        int s1 = a->gets1 ( );
-        int s2 = a->gets2 ( );
         double x1 = m_sommets.at ( a->gets1 ( ) )->getx ( );
         double y1 = m_sommets.at ( a->gets1 ( ) )->gety ( );
         double x2 = m_sommets.at ( a->gets2 ( ) )->getx ( );
@@ -365,7 +363,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )  const
         /// Tri
         if ( tri == true )
         {
-            int j = 0;
+            size_t j = 0;
             for ( unsigned int i = 0; i < compteur.size ( ) - 1; i++ )
             {
 
@@ -386,9 +384,9 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )  const
                 }
 
                 std::vector<int> connexe;
-                for ( size_t j = 0; j < m_sommets.size ( ); j++ )
+                for ( size_t l = 0; l < m_sommets.size ( ); l++ )
                 {
-                    connexe.push_back ( j );
+                    connexe.push_back ( l );
                 }
                 for ( auto it : ArretesN )
                 {
@@ -399,19 +397,19 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( bool tri )  const
                     {
                         break;
                     }
-                    for ( unsigned int j = 0; j < connexe.size ( ); j++ )
+                    for ( unsigned int m = 0; m < connexe.size ( ); m++ )
                     {
-                        if ( ( connexe [ j ] == connexe [ s2 ] ) && ( j != s2 ) )
+                        if ( ( connexe [ m ] == connexe [ s2 ] ) && ( m != s2 ) )
                         {
-                            connexe [ j ] = connexe [ s1 ];
+                            connexe [ m ] = connexe [ s1 ];
                         }
                     }
                     connexe [ s2 ] = connexe [ s1 ];
                 }
-                int temp = 0;
-                for ( size_t j = 0; j < m_sommets.size ( ); j++ )
+                size_t temp = 0;
+                for ( size_t n = 0; n < m_sommets.size ( ); n++ )
                 {
-                    if ( connexe [ j ] == connexe [ 0 ] )
+                    if ( connexe [ n ] == connexe [ 0 ] )
                     {
                         temp++;
                     }

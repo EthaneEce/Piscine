@@ -19,7 +19,7 @@ int main ( )
         Graphe g ( "txt\\broadway.txt" , "txt\\broadway_weights_0.txt" );
         _Graphe b ( g , 1 );
         float total = 0.0f;
-        std::vector<Arrete*> vec;
+        std::vector<Arrete> vec;
         std::vector<float>sommes ( g.getsommets ( ).size ( ) , 0 );
         for ( size_t i = 0; i < g.getsommets ( ).size ( ); ++i )
         {
@@ -29,7 +29,10 @@ int main ( )
                 sommes [ a.first ] += a.second;
             }
         }
-
+        for ( size_t i = 0; i < sommes.size ( ); ++i ) {
+            vec.push_back ( Arrete ( i , i , i + 1 , sommes ) );
+        }
+        auto a = g.getsommets ( );
         for ( auto& a : sommes )
             total += a;
         std::cout << total;
