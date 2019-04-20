@@ -1,20 +1,20 @@
-#include "Arrete.h"
+#include "Arete.h"
 #include <limits>
 
-Arrete::Arrete ( int id , int s1 , int s2 , std::vector<float> Cout )
+Arete::Arete ( int id , int s1 , int s2 , std::vector<float> Cout )
     :m_id ( id ) , m_s1 ( s1 ) , m_s2 ( s2 ) , m_Couts ( Cout )
 {}
 
-Arrete::Arrete ( const size_t nbCouts ) : m_id ( 0 ) , m_s1 ( 0 ) , m_s2 ( 0 )
+Arete::Arete ( const size_t nbCouts ) : m_id ( 0 ) , m_s1 ( 0 ) , m_s2 ( 0 )
 {
     const constexpr float infinity = std::numeric_limits<float>::max ( );
     m_Couts = std::vector<float> ( nbCouts , infinity );
 }
 
 
-void Arrete::afficherData ( ) const {
+void Arete::afficherData ( ) const {
     std::cout
-        << "Arrete " << m_id
+        << "Arete " << m_id
         << " : " << std::endl <<
         "Sommets(" << m_s1
         << "," << m_s2 << ")"
@@ -26,20 +26,21 @@ void Arrete::afficherData ( ) const {
     }
     std::cout << std::endl << std::endl;
 }
-int Arrete::getid ( )const
+int Arete::getid ( )const
 {
     return m_id;
 }
-int Arrete::gets1 ( )const
+int Arete::gets1 ( )const
 {
     return m_s1;
 }
-int Arrete::gets2 ( )const
+int Arete::gets2 ( )const
 {
     return m_s2;
 }
-std::vector<float> Arrete::getcout ( )const
+std::vector<float> Arete::getcout ( )const
 {
     return m_Couts;
 }
+
 

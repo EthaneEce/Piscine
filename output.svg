@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1000" height="800">
+
+<circle cx="100" cy="100" r="10" fill="black" />
+<text x="85" y="85" fill="black" >0</text>
+<circle cx="200" cy="100" r="10" fill="black" />
+<text x="185" y="85" fill="black" >1</text>
+<circle cx="100" cy="200" r="10" fill="black" />
+<text x="85" y="185" fill="black" >2</text>
+<circle cx="200" cy="200" r="10" fill="black" />
+<text x="185" y="185" fill="black" >3</text>
+<line x1="100" y1="100" x2="200" y2="100" stroke="black" />
+<line x1="200" y1="100" x2="100" y2="200" stroke="black" />
+<line x1="200" y1="100" x2="200" y2="200" stroke="black" />
+<text x="500" y="500" fill="black" >19.000000; 90.000000; </text>
+
+
+</svg>
