@@ -10,7 +10,7 @@ _Graphe::_Graphe ( const Graphe& g , size_t idxPoidsTranspose )
 
     //Lecture des _Sommets
     auto sommets = g.getsommets ( );
-    auto Aretes = g.getarretes() ( );
+    auto Aretes = g.getAretes ( );
     for ( auto& a : sommets )
     {
         int id = a->getid ( );
