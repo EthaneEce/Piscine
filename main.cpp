@@ -11,7 +11,7 @@ std::ostream& operator<<( std::ostream& out , std::vector<float> vec )
 
 int main ( )
 {
-    Graphe b ( "txt/manhattan.txt" , "txt/manhattan_weights_1.txt" );
+    Graphe b ( "txt/broadway.txt" , "txt/broadway_weights_0.txt" );
     auto bf = b.bruteforce ( true );
     auto par = b.Pareto ( bf );
     for ( auto& a : par )

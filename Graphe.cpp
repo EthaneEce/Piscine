@@ -250,7 +250,6 @@ std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec
                 [ = ] ( Graphe * g ) {
                     return g->poidsTotaux ( ).at ( IDXpoidsCourant + 1 ) > nMinCout;
                 } ) , solution.end ( ) );
-
         }
 
         //Trier le vector solution
@@ -271,7 +270,7 @@ std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec
             float pCout = ( *a )->poidsTotaux ( ).at ( IDXpoidsCourant );
 
             if ( Cout < pivot )
-            {
+            {         
                 pivot = Cout;
                 a++;
                 auto iterator = std::remove_if ( a , solution.end ( ) ,
