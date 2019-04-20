@@ -474,30 +474,54 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
         else if ( tri == 2 )
         {
             std::vector<Arete*> AretesN;
-            for ( unsigned int k = 0; k < compteur.size ( ) - 1; k++ )
-            {
-                if ( compteur [ k ] == 1 )
+                for ( unsigned int k = 0; k < compteur.size ( ) - 1; k++ )
                 {
-                    AretesN.push_back ( m_Aretes [ k ] );
-                }
-            }
-            std::vector<Sommet*> sommets = m_sommets;
-            for ( auto it : AretesN )
-            {
-
-                for ( int i = 0; i < sommets.size ( ); i++ )
-                {
-                    if ( ( it->gets1 ( ) == sommets [ i ]->getid ( ) ) || ( it->gets2 ( ) == sommets [ i ]->getid ( ) ) )
+                    if ( compteur [ k ] == 1 )
                     {
-                        sommets.erase ( sommets.begin ( ) + i );
+                        AretesN.push_back ( m_Aretes [ k ] );
                     }
                 }
 
-            }
-            if ( sommets.empty ( ) )
-            {
-                compteurs.push_back ( compteur );
-            }
+                std::vector<int> connexe;
+                for ( size_t l = 0; l < m_sommets.size ( ); l++ )
+                {
+                    connexe.push_back ( l );
+                }
+                for ( auto it : AretesN )
+                {
+                    int s1 = it->gets1 ( );
+                    int s2 = it->gets2 ( );
+                    //std::cout<<s1<<":"<<connexe[s1]<<","<<s2<<":"<<connexe[s2];
+
+                    if ( ( connexe [ s1 ] ) == ( connexe [ s2 ] ) )
+                    {
+                        //std::cout<<"break : ("<<s1<<","<<s2<<")"<<" ";
+                        break;
+                    }
+                    for ( unsigned int m = 0; m < connexe.size ( ); m++ )
+                    {
+                        if ( ( connexe [ m ] == connexe [ s2 ] ) && ( m != s2 ) )
+                        {
+                            connexe [ m ] = connexe [ s1 ];
+                        }
+                    }
+                    connexe [ s2 ] = connexe [ s1 ];
+                }
+                size_t temp = 0;
+                for ( size_t n = 0; n < m_sommets.size ( ); n++ )
+                {
+                    if ( connexe [ n ] == connexe [ 0 ] )
+                    {
+                        temp++;
+                    }
+                    //std::cout<<connexe[j];
+                }
+
+                if ( temp == m_sommets.size ( ) )
+                {
+                    compteurs.push_back ( compteur );
+                    //std::cout<<"oui";
+                }
         }
         else
         {

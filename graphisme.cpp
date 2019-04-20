@@ -169,7 +169,7 @@ void choixUtilisationGraph ( BITMAP * buffer , BITMAP * fond , FONT * font1 , FO
         {
             draw_sprite ( screen , fond , 0 , 0 );
             clear_bitmap ( buffer );
-            std::vector<std::vector<bool>> t = b.bruteforce ( 1 );
+            std::vector<std::vector<bool>> t = b.bruteforce ( 2 );
             do
             {
                 draw_sprite ( buffer , fond , 0 , 0 );
