@@ -212,15 +212,14 @@ std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec
 {
     Timer t ( "Pareto pour le graphe " + graphName );
     const constexpr float infini = std::numeric_limits<float>::max ( );
-
     //Vector solution
     std::vector<Graphe*> solution;
+    if ( vec.empty ( ) )return solution;
 
     //Remplir le vector avec toutes les solutions admissibles 
     for ( auto a : vec )
     {
         solution.push_back ( new Graphe ( *this , a ) );
-
     }
 
     size_t IDXpoidsCourant = 0;
@@ -270,7 +269,7 @@ std::vector<Graphe*> Graphe::Pareto ( const std::vector<std::vector<bool>> & vec
             float pCout = ( *a )->poidsTotaux ( ).at ( IDXpoidsCourant );
 
             if ( Cout < pivot )
-            {         
+            {
                 pivot = Cout;
                 a++;
                 auto iterator = std::remove_if ( a , solution.end ( ) ,
