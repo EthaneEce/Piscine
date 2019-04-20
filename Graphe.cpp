@@ -8,7 +8,7 @@
 #include <limits>
 #include <vector>
 #include "_graphe.h"
-
+#include "svgfile.h"
 
 
 
@@ -314,7 +314,12 @@ std::vector<Graphe*> Graphe::optimPartielle ( const std::vector<std::vector<bool
                 total += b.second;
             }
         }
-        G.m_poidsTotaux.at ( idxPoids ) = total;
+        {
+            Svgfile svg;
+            G.m_poidsTotaux.at ( idxPoids ) = total;
+            _g.dessiner ( svg );
+        }
+
         solution.push_back ( new Graphe ( G ) );
     }
 
