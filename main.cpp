@@ -13,7 +13,7 @@ int main ( )
 {
     try
     {
-        Graphe g ( "txt\\cubetown.txt" , "txt\\cubetown_weights_0.txt" );
+        Graphe g ( "txt\\triville.txt" , "txt\\triville_weights_0.txt" );
 
         //Optimisation Partielle (Parie 3)
         auto sol = g.optimPartielle ( g.bruteforce ( 2 ) , 1 );

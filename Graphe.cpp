@@ -303,7 +303,7 @@ std::vector<std::shared_ptr<Graphe>> Graphe::optimPartielle ( const std::vector<
     std::vector<std::shared_ptr<Graphe>> solution;
     std::cout << "Dijkstra..." << std::endl;
     {
-        Timer t ( "Dijkstra pour chaque solution" );
+        Timer t1 ( "Dijkstra pour chaque solution" );
         for ( auto& a : solutionsAdmissibles )
         {
             Graphe G ( *this , a );
@@ -348,7 +348,7 @@ std::vector<float> Graphe::getPoidsTotaux ( ) const
 
 Graphe::~Graphe ( )
 {
-    std::cout << "Graphe deleted" << std::endl;
+    // std::cout << "Graphe deleted" << std::endl;
 }
 
 std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
