@@ -32,6 +32,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="Arete.cpp" />
+		<Unit filename="Arete.h" />
 		<Unit filename="Arrete.cpp" />
 		<Unit filename="Arrete.h" />
 		<Unit filename="Graphe.cpp" />
@@ -39,11 +41,17 @@
 		<Unit filename="Sommet.cpp" />
 		<Unit filename="Sommet.h" />
 		<Unit filename="Timer.h" />
+		<Unit filename="_Graphe.cpp" />
+		<Unit filename="_Graphe.h" />
+		<Unit filename="_Sommet.cpp" />
+		<Unit filename="_Sommet.h" />
 		<Unit filename="graphisme.cpp" />
 		<Unit filename="graphisme.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="types.cpp" />
 		<Unit filename="types.h" />
+		<Unit filename="util.cpp" />
+		<Unit filename="util.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
