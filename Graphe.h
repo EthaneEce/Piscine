@@ -32,6 +32,7 @@ public:
 
     std::vector<Graphe*> optimPartielle ( const std::vector<std::vector<bool>>& solutionsAdmissibles , const size_t idxPoids = 0 )const;
     std::vector<Graphe*> optimBiObj ( const std::vector<std::vector<bool>>& solutionsAmissibles )const;
+    std::vector<float> poidsTotaux ( );
 
 
 protected:

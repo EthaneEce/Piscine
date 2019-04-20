@@ -4,13 +4,13 @@
 #include <iostream>
 #include <limits>
 #include "Graphe.h"
-//Constructeur 
+//Constructeur
 _Graphe::_Graphe ( const Graphe& g , size_t idxPoidsTranspose )
 {
 
     //Lecture des _Sommets
     auto sommets = g.getsommets ( );
-    auto Aretes = g.getAretes ( );
+    auto Aretes = g.getarretes() ( );
     for ( auto& a : sommets )
     {
         int id = a->getid ( );
@@ -30,7 +30,7 @@ _Graphe::_Graphe ( const Graphe& g , size_t idxPoidsTranspose )
         //trouver le _Sommet
         auto s1 = m__Sommets.find ( id1 );
 
-        //trouver son voisin 
+        //trouver son voisin
         auto s2 = m__Sommets.find ( id2 );
 
         //les associer

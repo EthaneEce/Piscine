@@ -374,7 +374,7 @@ std::vector<Graphe*> Graphe::optimPartielle ( const std::vector<std::vector<bool
 
 std::vector<Graphe*> Graphe::optimBiObj ( const std::vector<std::vector<bool>> & solutionsAmissibles )const
 {
-    Timer ( "Optimisation bi-objectif, Graphe " + graphName );
+    //Timer ( "Optimisation bi-objectif, Graphe " + graphName );
     std::vector<Graphe*> solution;
     //Remplir le vector avec toutes les solutions admissibles
     for ( auto& a : solutionsAmissibles )
@@ -539,7 +539,7 @@ float Graphe::distanceEuclidienne ( int s1 , int s2 )  const
     return ( float ) dist;
 }
 
-std::vector<float> Graphe::poidsTotaux ( ) const
+std::vector<float> Graphe::poidsTotaux ( )
 {
     std::vector<float>solution;
     for ( size_t i = 0; i < nbCouts; i++ )
