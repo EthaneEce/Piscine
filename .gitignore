@@ -47,3 +47,8 @@ Piscine.depend
 Piscine.layout
 *.o
 Piscine.depend
+*.png
+*.html
+*.css
+*.js
+doxygen/doxyfile

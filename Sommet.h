@@ -16,7 +16,6 @@ public:
 
     ~Sommet ( );
 
-protected:
 
 private:
 

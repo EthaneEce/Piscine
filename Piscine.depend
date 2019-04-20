@@ -65,26 +65,28 @@
 	"Timer.h"
 	<limits>
 
-1555777380 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\graphe.h
+1555787806 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\graphe.h
 	<string>
 	<unordered_map>
 	<iomanip>
 	"allegro.h"
 	"Sommet.h"
-	"Arrete.h"
+	"Arete.h"
 	<cmath>
 
-1555672123 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\sommet.h
+1555786229 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\sommet.h
 	<iostream>
 
-1555672123 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\sommet.cpp
+1555786229 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\sommet.cpp
 	"sommet.h"
 	"iomanip"
 
-1555764202 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\main.cpp
+1555787362 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\main.cpp
 	<iostream>
 	"Graphe.h"
 	"graphisme.h"
+	<fstream>
+	"_Graphe.h"
 
 1555445696 D
 
@@ -135,10 +137,10 @@
 
 1555423077 >
 
-1555763682 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\types.cpp
+1555786221 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\types.cpp
 	"types.h"
 
-1555763682 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\types.h
+1555786221 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\types.h
 	<iostream>
 
 1555432197 teforce
@@ -160,10 +162,10 @@
 1555776940 source:c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\graphisme.cpp
 	"graphisme.h"
 
-1555777353 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\graphisme.cpp
+1555787544 source:c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\graphisme.cpp
 	"graphisme.h"
 
-1555763682 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\graphisme.h
+1555786221 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\graphisme.h
 	<iostream>
 	<stdio.h>
 	<stdlib.h>
@@ -176,4 +178,15 @@
 1555765326 c:\users\ethane\desktop\ecole\informatique\piscine\piscine1\timer.h
 	<chrono>
 	<iostream>
+
+1555786229 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\arete.h
+	<iostream>
+	<vector>
+
+1555786229 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\_graphe.h
+	<unordered_map>
+	"_Sommet.h"
+
+1555786229 c:\users\nabil\desktop\info\ing 2\projet picsine\piscine\piscine\_sommet.h
+	<unordered_map>
 

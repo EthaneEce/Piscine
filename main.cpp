@@ -1,6 +1,8 @@
 #include <iostream>
 #include "Graphe.h"
 #include "graphisme.h"
+#include <fstream>
+#include "_Graphe.h"
 
 void lancerToutAllegro(int largeur, int hauteur);
 
@@ -10,7 +12,6 @@ std::ostream& operator<<( std::ostream& out , std::vector<float> vec )
         out << a << " ";
     return out;
 }
-
 
 
 int main()
@@ -48,6 +49,3 @@ void lancerToutAllegro(int largeur, int hauteur)
     /// si on veut afficher le pointeur de souris
     show_mouse(screen);
 }
-
-
-

@@ -145,8 +145,15 @@ void choixUtilisationGraph(BITMAP* buffer, BITMAP* fond, FONT* font1, FONT* titr
             draw_sprite(screen,fond,0,0);
             std::vector<std::vector<bool>> t = b.bruteforce(1);
             std::vector<std::vector<bool>> t2 = b.bruteforce(0);
-            std::vector<Graphe*> p = b.Pareto(t);
-
+            std::vector<Graphe*> p;
+            if (pareto==1)
+            {
+                p = b.optimBiObj ( b.bruteforce (1) );
+            }
+            else
+            {
+                p = b.optimPartielle ( b.bruteforce (2) , 1 );
+            }
             draw_sprite(buffer,fond,0,0);
             dessinerPareto(buffer,b,100,600,t,t2,p,nom == "manhattan" ? 1  : 0);
             do
@@ -184,7 +191,7 @@ void choixUtilisationGraph(BITMAP* buffer, BITMAP* fond, FONT* font1, FONT* titr
 void dessinerBrut(BITMAP*buffer,Graphe b,std::vector<std::vector<bool>> Ttgraphes,double x, double y,int proportion)
 {
     int k=x,l=y;
-    std::vector<Arrete*> ArretesN;
+    std::vector<Arete*> ArretesN;
 
     for(unsigned int i = 1; i < ((Ttgraphes.size()<20) ? Ttgraphes.size() : 21 ); i++)
     {
@@ -210,7 +217,7 @@ void dessinerBrut(BITMAP*buffer,Graphe b,std::vector<std::vector<bool>> Ttgraphe
 
 void dessinerPareto(BITMAP*buffer,Graphe b,double x, double y,std::vector<std::vector<bool>> Ttgraphes,std::vector<std::vector<bool>> Ttgraphes2,std::vector<Graphe*> Pareto,bool dess)
 {
-    std::vector<Arrete*> ArretesN;
+    std::vector<Arete*> ArretesN;
     for(int i=0; i<=10 ; i++ )
     {
         line ( buffer , x , y +i , x+500 , y +i , makecol ( 255 , 255 , 255 ) );
