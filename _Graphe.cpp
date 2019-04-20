@@ -80,7 +80,7 @@ std::unordered_map<int , float> _Graphe::dijkstra ( const size_t depart ) const
 
 
 
-void _Graphe::dessiner ( Svgfile& svgout ) const
+void _Graphe::dessiner ( Svgfile & svgout ) const
 {
     for ( auto& a : m__Sommets )
         a.second->dessiner ( svgout );
