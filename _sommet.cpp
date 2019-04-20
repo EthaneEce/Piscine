@@ -8,7 +8,7 @@ _Sommet::_Sommet ( int id , double x , double y ) : m_id ( id ) , m_x ( x ) , m_
 {
 }
 
-void _Sommet::ajouterArrete ( _Sommet* s , const float poids )
+void _Sommet::ajouterArete ( _Sommet* s , const float poids )
 {
     m_voisins.push_back ( std::make_pair ( s , poids ) );
 }

@@ -11,7 +11,7 @@ _Graphe::_Graphe ( const Graphe& g , size_t idxPoidsTranspose )
 
     //Lecture des _Sommets
     auto sommets = g.getsommets ( );
-    auto aretes = g.getarretes ( );
+    auto Aretes = g.getAretes ( );
     for ( auto& a : sommets )
     {
         int id = a->getid ( );
@@ -20,8 +20,8 @@ _Graphe::_Graphe ( const Graphe& g , size_t idxPoidsTranspose )
         m__Sommets.insert ( { id, new _Sommet ( id,x,y ) } );
     }
 
-    //Lecture des arretes
-    for ( auto& a : aretes )
+    //Lecture des Aretes
+    for ( auto& a : Aretes )
     {
         int id1 , id2;
         id1 = a->gets1 ( );
@@ -35,8 +35,8 @@ _Graphe::_Graphe ( const Graphe& g , size_t idxPoidsTranspose )
         auto s2 = m__Sommets.find ( id2 );
 
         //les associer
-        s1->second->ajouterArrete ( s2->second , poids );
-        s2->second->ajouterArrete ( s1->second , poids );
+        s1->second->ajouterArete ( s2->second , poids );
+        s2->second->ajouterArete ( s1->second , poids );
     }
 
 }
