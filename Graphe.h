@@ -23,7 +23,7 @@ public:
     );
     Graphe ( ) = default;
     ~Graphe ( ) = default;
-    std::vector<std::vector<bool>> bruteforce ( int tri = 0 )const;
+    std::vector<std::vector<bool>> bruteforce ( int tri = 1 )const;
     float distanceEuclidienne ( int s1 , int s2 )const;
     std::vector<Sommet*> getsommets ( )const { return m_sommets; };
     std::vector<Arete*> getAretes ( )const { return m_Aretes; };

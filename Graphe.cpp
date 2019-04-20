@@ -301,29 +301,27 @@ std::vector<Graphe*> Graphe::optimPartielle ( const std::vector<std::vector<bool
 {
     Timer t ( "Optimisation partielle, Graphe " + graphName );
     std::vector<Graphe*> solution;
-    for ( auto& a : solutionsAdmissibles )
+    std::cout << "Dijkstra..." << std::endl;
     {
-        Graphe G ( *this , a );
-        _Graphe _g ( G , idxPoids );
-        float total = 0.0f;
-        for ( size_t i = 0; i < m_sommets.size ( ); ++i )
+        Timer t ( "Dijkstra pour chaque solution" );
+        for ( auto& a : solutionsAdmissibles )
         {
-            auto dij = _g.dijkstra ( i );
-            for ( auto& b : dij )
+            Graphe G ( *this , a );
+            _Graphe _g ( G , idxPoids );
+            float total = 0.0f;
+            for ( size_t i = 0; i < m_sommets.size ( ); ++i )
             {
-                total += b.second;
+                auto dij = _g.dijkstra ( i );
+                for ( auto& b : dij )
+                {
+                    total += b.second;
+                }
             }
-        }
-        {
-            Svgfile svg;
             G.m_poidsTotaux.at ( idxPoids ) = total;
-            _g.dessiner ( svg );
+
+            solution.push_back ( new Graphe ( G ) );
         }
-
-        solution.push_back ( new Graphe ( G ) );
     }
-
-
     return Pareto ( solution );
 }
 
@@ -350,7 +348,7 @@ std::vector<float> Graphe::getPoidsTotaux ( ) const
 
 std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
 {
-    //Timer t ( "Brute force pour le graphe : " + graphName );
+    Timer t ( "Brute force pour le graphe : " + graphName );
     std::vector<Sommet*> Sommetsmap = m_sommets;
     std::vector<Arete*> Aretesvec = m_Aretes;
 
@@ -448,11 +446,6 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
                 int s2 = it->gets2 ( );
                 //std::cout<<s1<<":"<<connexe[s1]<<","<<s2<<":"<<connexe[s2];
 
-                if ( ( connexe [ s1 ] ) == ( connexe [ s2 ] ) )
-                {
-                    //std::cout<<"break : ("<<s1<<","<<s2<<")"<<" ";
-                    break;
-                }
                 for ( unsigned int m = 0; m < connexe.size ( ); m++ )
                 {
                     if ( ( connexe [ m ] == connexe [ s2 ] ) && ( m != s2 ) )
@@ -469,13 +462,13 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
                 {
                     temp++;
                 }
-                //std::cout<<connexe[j];
+                //std::cout<<connexe[n];
             }
 
             if ( temp == m_sommets.size ( ) )
             {
                 compteurs.push_back ( compteur );
-                //std::cout<<"oui";
+                //std::cout<<" "<<"oui"<<" ";
             }
         }
         else
@@ -505,9 +498,9 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
             //std::cout<<compteur[i];
         }//std::cout<<std::endl;
     }
-    std::cout << compteurs.size ( ) << std::endl;
     return compteurs;
 }
+
 float Graphe::distanceEuclidienne ( int s1 , int s2 )  const
 {
     auto x = m_sommets [ s1 ]->getx ( ) - m_sommets [ s2 ]->getx ( );
