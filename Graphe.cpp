@@ -22,9 +22,9 @@ Graphe::Graphe ( const std::vector<std::shared_ptr<Sommet>>& mS ,
 }
 
 
-Graphe::Graphe ( const Graphe & src ,
-    const std::vector<bool> & vec ,
-    const std::string & nom_graph ) : graphName ( nom_graph )
+Graphe::Graphe ( const Graphe& src ,
+    const std::vector<bool>& vec ,
+    const std::string& nom_graph ) : graphName ( nom_graph )
 {
     std::vector<std::shared_ptr<Arete>> temp;
     for ( size_t i = 0; i < vec.size ( ); i++ )
@@ -259,9 +259,6 @@ std::vector<std::shared_ptr<Graphe>> Graphe::Pareto ( std::vector<std::shared_pt
                     [ = ] ( std::shared_ptr<Graphe> & g ) {
                         return g->getPoidsTotaux ( ).at ( IDXpoidsCourant + 1 ) >= pivot;
                     } );
-                //std::cout << "Courant : " << ( *a )->m_poidsTotaux << std::endl;
-                //std::cout << "Iterator : " << ( *iterator )->m_poidsTotaux << std::endl;
-                //    std::cout << "Final : " << ( *solution.end ( ) )->m_poidsTotaux << std::endl;
                 solution.erase ( iterator , solution.end ( ) );
                 a++;
             }
@@ -350,7 +347,7 @@ std::vector<float> Graphe::getPoidsTotaux ( ) const
 
 std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
 {
-    Timer t ( "Brute force pour le graphe : " + graphName );
+    //Timer t ( "Brute force pour le graphe : " + graphName );
     std::vector<std::shared_ptr<Sommet>> Sommetsmap = m_sommets;
     std::vector<std::shared_ptr<Arete>> Aretesvec = m_Aretes;
 
@@ -376,7 +373,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
             if ( j == Sommetsmap.size ( ) - 1 )
             {
                 std::vector<std::shared_ptr<Arete>> AretesN;
-                for ( unsigned int k = 0; k < compteur.size ( ) - 1; k++ )
+                for ( unsigned int k = 0; k < compteur.size ( ) - 1; k++ )  // Traduction du tableau de bool en tableau d'aretes
                 {
                     if ( compteur [ k ] == 1 )
                     {
@@ -389,7 +386,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
                 {
                     connexe.push_back ( l );
                 }
-                for ( auto& it : AretesN )
+                for ( auto it : AretesN )
                 {
                     int s1 = it->gets1 ( );
                     int s2 = it->gets2 ( );
@@ -424,50 +421,49 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
         }
         else if ( tri == 2 ) //Avec cycles et tous les sommets reliés
         {
-            std::vector<std::shared_ptr<Arete>> AretesN;
-            for ( unsigned int k = 0; k < compteur.size ( ) - 1; k++ )
+            if ( j >= Sommetsmap.size ( ) - 1 )
             {
-                std::vector<Arete*> AretesN;
+                std::vector<std::shared_ptr<Arete>> AretesN;
                 for ( unsigned int k = 0; k < compteur.size ( ) - 1; k++ )  // Traduction du tableau de bool en tableau d'aretes
                 {
-                    AretesN.push_back ( m_Aretes [ k ] );
-                }
-            }
-
-            std::vector<int> connexe;
-            for ( size_t l = 0; l < m_sommets.size ( ); l++ )
-            {
-                connexe.push_back ( l );
-            }
-            for ( auto& it : AretesN )
-            {
-                int s1 = it->gets1 ( );
-                int s2 = it->gets2 ( );
-                //std::cout<<s1<<":"<<connexe[s1]<<","<<s2<<":"<<connexe[s2];
-
-                for ( unsigned int m = 0; m < connexe.size ( ); m++ )
-                {
-                    if ( ( connexe [ m ] == connexe [ s2 ] ) && ( m != s2 ) )
+                    if ( compteur [ k ] == 1 )
                     {
-                        connexe [ m ] = connexe [ s1 ];
+                        AretesN.push_back ( m_Aretes [ k ] );
                     }
                 }
-                connexe [ s2 ] = connexe [ s1 ];
-            }
-            size_t temp = 0;
-            for ( size_t n = 0; n < m_sommets.size ( ); n++ )
-            {
-                if ( connexe [ n ] == connexe [ 0 ] )
-                {
-                    temp++;
-                }
-                //std::cout<<connexe[n];
-            }
 
-            if ( temp == m_sommets.size ( ) )
-            {
-                compteurs.push_back ( compteur );
-                //std::cout<<" "<<"oui"<<" ";
+                std::vector<int> connexe;  // Tableau de connexité
+                for ( size_t l = 0; l < m_sommets.size ( ); l++ )
+                {
+                    connexe.push_back ( l );
+                }
+                for ( auto it : AretesN )
+                {
+                    int s1 = it->gets1 ( );
+                    int s2 = it->gets2 ( );
+
+                    for ( int m = 0; m < connexe.size ( ); m++ )  // Changement des meme numeros
+                    {
+                        if ( ( connexe [ m ] == connexe [ s2 ] ) && ( m != s2 ) )
+                        {
+                            connexe [ m ] = connexe [ s1 ];
+                        }
+                    }
+                    connexe [ s2 ] = connexe [ s1 ];
+                }
+                size_t temp = 0;
+                for ( size_t n = 0; n < m_sommets.size ( ); n++ )
+                {
+                    if ( connexe [ n ] == connexe [ 0 ] )
+                    {
+                        temp++;
+                    }
+                }
+
+                if ( temp == m_sommets.size ( ) )   // Si tout les numéros du tableau de connexité sont les memes, On pushback le compteur
+                {
+                    compteurs.push_back ( compteur );
+                }
             }
         }
         else // Toutes les solutions possibles
@@ -495,6 +491,8 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
     }
     return compteurs;
 }
+
+
 float Graphe::distanceEuclidienne ( int s1 , int s2 )  const
 {
     auto x = m_sommets [ s1 ]->getx ( ) - m_sommets [ s2 ]->getx ( );

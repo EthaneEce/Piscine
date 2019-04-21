@@ -40,6 +40,12 @@ _Graphe::_Graphe ( const Graphe& g , size_t idxPoidsTranspose )
 
 }
 
+_Graphe::~_Graphe ( )
+{
+    for ( auto& a : m__Sommets )
+        delete a.second;
+}
+
 void _Graphe::afficher ( ) const
 {
     for ( auto& a : m__Sommets )

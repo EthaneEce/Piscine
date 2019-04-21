@@ -16,18 +16,17 @@ void _Sommet::ajouterArete ( _Sommet* s , const float poids )
 
 void _Sommet::afficher ( ) const
 {
+    std::cout << "ID Sommet : " << m_id << std::endl;
     for ( auto& a : m_voisins )
     {
         std::cout
-            << "["
-            << m_id
-            << ", "
+            << "Voisin : "
             << a.first->m_id
-            << "]"
-            << " = "
+            << " | Poids : "
             << a.second
             << std::endl;
     }
+    std::cout << std::endl;
 }
 
 
@@ -35,7 +34,7 @@ void _Sommet::afficher ( ) const
 class myComparator
 {
 public:
-    bool operator() ( const std::pair<float , const _Sommet*>& p1 ,
+    int operator() ( const std::pair<float , const _Sommet*>& p1 ,
         const std::pair<float , const _Sommet*>& p2 )
     {
         return p1.first > p2.first;

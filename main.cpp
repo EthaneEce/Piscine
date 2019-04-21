@@ -2,7 +2,7 @@
 #include "Graphe.h"
 #include <fstream>
 #include "_Graphe.h"
-
+#include "svgfile.h"
 
 
 std::ostream& operator<<( std::ostream& out , std::vector<float> vec )
@@ -17,11 +17,10 @@ int main ( )
 {
     try
     {
-        Graphe g ( "txt\\triville.txt" , "txt\\triville_weights_0.txt" );
-
+        Graphe g ( "txt\\manhattan.txt" , "txt\\manhattan_weights_0.txt" );
         {
             //Optimisation Partielle (Parie 3)
-            auto sol = g.optimPartielle ( g.bruteforce ( 2 ) , 1 );  
+            auto sol = g.optimPartielle ( g.bruteforce ( 2 ) , 1 );
             for ( auto& a : sol )
                 std::cout << a->getPoidsTotaux ( ) << std::endl;
         }
