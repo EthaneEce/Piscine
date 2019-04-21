@@ -2,7 +2,6 @@
 #include "Graphe.h"
 #include <fstream>
 #include "_Graphe.h"
-#include "svgfile.h"
 
 
 std::ostream& operator<<( std::ostream& out , std::vector<float> vec )
@@ -17,7 +16,7 @@ int main ( )
 {
     try
     {
-        Graphe g ( "txt\\manhattan.txt" , "txt\\manhattan_weights_1.txt" );
+        Graphe g ( "txt\\broadway.txt" , "txt\\broadway_weights_0.txt" );
 
 
         //Optimisation Bi Objectif (Partie2)

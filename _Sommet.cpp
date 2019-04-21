@@ -3,7 +3,6 @@
 #include <string>
 #include <queue>
 #include <vector>
-#include "svgfile.h"
 _Sommet::_Sommet ( int id , double x , double y ) : m_id ( id ) , m_x ( x ) , m_y ( y )
 {
 }
@@ -75,12 +74,3 @@ std::unordered_map<int , float> _Sommet::dijsktra ( std::unordered_map<int , flo
 
 
 
-
-
-void _Sommet::dessiner ( Svgfile& svgout ) const
-{
-    svgout.addDisk ( m_x , m_y , 10 );
-    for ( auto& a : m_voisins ) {
-        svgout.addLine ( m_x , m_y , a.first->m_x , a.first->m_y );
-    }
-}

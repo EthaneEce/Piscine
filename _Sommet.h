@@ -1,6 +1,5 @@
 #pragma once
 #include <unordered_map>
-class Svgfile;
 class _Sommet
 {
 private:
@@ -14,6 +13,5 @@ public:
     void afficher ( ) const;
     //on prend en parametre le _Sommet de destination et la map contenant tous les _Sommets du _Graphe
     std::unordered_map<int , float> dijsktra ( std::unordered_map<int , float>& map ) const;
-    void dessiner ( Svgfile& svgout ) const;
 };
 
