@@ -10,8 +10,11 @@
 #include "_graphe.h"
 
 
-Graphe::Graphe ( const std::vector<Sommet*>& mS , const std::vector<Arete*>& mA )
-    : m_sommets ( mS ) , m_Aretes ( mA )
+
+Graphe::Graphe ( const std::vector<std::shared_ptr<Sommet>>& mS ,
+    const std::vector<std::shared_ptr<Arete>>& mA ,
+    const std::string& nom_graphe )
+    : m_sommets ( mS ) , m_Aretes ( mA ) , graphName ( nom_graphe )
 {
     nbCouts = m_Aretes [ 0 ]->getcout ( ).size ( );
     m_poidsTotaux = poidsTotaux ( );
@@ -19,7 +22,7 @@ Graphe::Graphe ( const std::vector<Sommet*>& mS , const std::vector<Arete*>& mA 
 
 Graphe::Graphe ( const Graphe& src , const std::vector<bool>& vec )
 {
-    std::vector<Arete*> temp;
+    std::vector<std::shared_ptr<Arete>> temp;
     for ( size_t i = 0; i < vec.size ( ); i++ )
     {
         if ( vec.at ( i ) & true ) {
@@ -27,7 +30,7 @@ Graphe::Graphe ( const Graphe& src , const std::vector<bool>& vec )
         }
     }
     if ( temp.empty ( ) )
-        temp.push_back ( new Arete ( src.nbCouts ) );
+        temp.push_back ( std::make_shared<Arete> ( src.nbCouts ) );
     *this = Graphe ( src.m_sommets , temp );
     m_poidsTotaux = poidsTotaux ( );
 }
@@ -61,7 +64,7 @@ Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 )
         ifs1 >> y1;
         if ( ifs1.fail ( ) )
             throw std::runtime_error ( "Probleme lecture donnees sommet" );
-        m_sommets.push_back ( new Sommet { id1, x1, y1 } );
+        m_sommets.push_back ( std::make_shared <Sommet > ( id1 , x1 , y1 ) );
     }
 
     int taille , taille2;
@@ -108,7 +111,7 @@ Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 )
                 throw std::runtime_error ( "Probleme lecture donn�es Arete" );
             Cout.push_back ( coutnbr );
         }
-        m_Aretes.push_back ( new Arete { id2, x2, y2, Cout } );
+        m_Aretes.push_back ( std::make_shared <Arete> ( id2 , x2 , y2 , Cout ) );
     }
     m_poidsTotaux = poidsTotaux ( );
 }
@@ -118,14 +121,14 @@ void Graphe::afficher ( ) const
 {
     std::cout << "graphe : " << std::endl;
     std::cout << "ordre : " << m_sommets.size ( ) << std::endl;
-    for ( auto it : m_sommets )
+    for ( auto& it : m_sommets )
     {
         std::cout << "->";
         it->afficherData ( );
         std::cout << std::endl;
     }
     std::cout << "taille : " << m_Aretes.size ( ) << std::endl;
-    for ( auto it : m_Aretes )
+    for ( auto& it : m_Aretes )
     {
         std::cout << "->";
         it->afficherData ( );
@@ -189,13 +192,13 @@ void Graphe::afficherallegro ( BITMAP* buffer , double x , double y , int propor
     }
 }
 
-std::vector<Arete*> Graphe::Kruskal ( size_t cout_id ) const
+std::vector<std::shared_ptr<Arete>> Graphe::Kruskal ( size_t cout_id ) const
 {
-
-    //Timer t ( "Kruskal a partir du graphe " + graphName );
-
+    if ( cout_id >= m_poidsTotaux.size ( ) )
+        throw std::exception ( "Cout n'existe pas" );
+    Timer t ( "Kruskal a partir du graphe " + graphName );
     //Map Solution
-    std::vector<Arete*> solution;
+    std::vector<std::shared_ptr<Arete>> solution;
 
     //Associer un sommet et sa composante connexe
     std::vector<int> composantesConnexes;
@@ -207,11 +210,11 @@ std::vector<Arete*> Graphe::Kruskal ( size_t cout_id ) const
     }
 
     //Vector dans lequel on va mettre notre map d'Aretes
-    std::vector<Arete*> vec ( m_Aretes );
+    std::vector<std::shared_ptr<Arete>> vec ( m_Aretes );
 
 
     //trier le vector en fonction du cout reçu en parametre
-    auto sortFunction = [ & ] ( Arete * a1 , Arete * a2 ) {
+    auto sortFunction = [ & ] ( std::shared_ptr<Arete> & a1 , std::shared_ptr<Arete> & a2 ) {
         return a1->getcout ( ).at ( cout_id ) < a2->getcout ( ).at ( cout_id );
     };
 
@@ -234,7 +237,7 @@ std::vector<Arete*> Graphe::Kruskal ( size_t cout_id ) const
             solution.push_back ( a );
 
 
-            //Mettre à jour pour que les sommets sont sur la meme composante connexe
+            //Mettre à jour pour que les sommets soient sur la meme composante connexe
             for ( auto& b : composantesConnexes ) {
                 if ( b == s1 )
                     b = s2;
@@ -250,7 +253,7 @@ std::vector<Arete*> Graphe::Kruskal ( size_t cout_id ) const
 }
 
 
-std::vector<Graphe*> Graphe::Pareto ( std::vector<Graphe*> & solution ) const
+std::vector<std::shared_ptr<Graphe>> Graphe::Pareto ( std::vector<std::shared_ptr<Graphe>> & solution ) const
 {
     //Timer t ( "Pareto pour le graphe " + graphName );
     const constexpr float infini = std::numeric_limits<float>::max ( );
@@ -265,7 +268,7 @@ std::vector<Graphe*> Graphe::Pareto ( std::vector<Graphe*> & solution ) const
         {
             //Initialiser nos comparateurs
             float min = infini;           //Cout minimal courant
-            float nMinCout = infini;      //Cout suivant du graphe qui la cout minimal
+            float nMinCout = infini;      //Cout suivant du graphe qui le cout minimal
 
 
             //Récupérer le cout minimal (ce sera le premier élément du vector quand on le trie)
@@ -279,13 +282,13 @@ std::vector<Graphe*> Graphe::Pareto ( std::vector<Graphe*> & solution ) const
 
             //Supprimer toutes les solutions dominées par celle qu'on vient de trouver
             solution.erase ( std::remove_if ( solution.begin ( ) , solution.end ( ) ,
-                [ = ] ( Graphe * g ) {
+                [ = ] ( std::shared_ptr<Graphe > & g ) {
                     return g->getPoidsTotaux ( ).at ( IDXpoidsCourant + 1 ) > nMinCout;
                 } ) , solution.end ( ) );
         }
 
         //Trier le vector solution
-        auto sortFunction = [ = ] ( Graphe * g1 , Graphe * g2 )
+        auto sortFunction = [ = ] ( std::shared_ptr<Graphe> & g1 , std::shared_ptr<Graphe> & g2 )
         {
             auto v1 = g1->getPoidsTotaux ( );
             auto v2 = g2->getPoidsTotaux ( );
@@ -299,17 +302,16 @@ std::vector<Graphe*> Graphe::Pareto ( std::vector<Graphe*> & solution ) const
         for ( auto a = solution.begin ( ); a != solution.end ( ); )
         {
             float Cout = ( *a )->m_poidsTotaux.at ( IDXpoidsCourant + 1 );
-            float pCout = ( *a )->m_poidsTotaux.at ( IDXpoidsCourant );
 
             if ( Cout < pivot )
             {
                 pivot = Cout;
-                a++;
-                auto iterator = std::remove_if ( a , solution.end ( ) ,
-                    [ = ] ( Graphe * g ) {
+                auto iterator = std::remove_if ( a + 1 , solution.end ( ) ,
+                    [ = ] ( std::shared_ptr<Graphe> & g ) {
                         return g->getPoidsTotaux ( ).at ( IDXpoidsCourant + 1 ) >= pivot;
                     } );
                 solution.erase ( iterator , solution.end ( ) );
+                a++;
             }
         }
 
@@ -320,6 +322,7 @@ std::vector<Graphe*> Graphe::Pareto ( std::vector<Graphe*> & solution ) const
     //Un dernier parcours pour nettoyer les valeurs qui ont 1 cout égal
     for ( size_t i = 0; i < nbCouts - 1; i++ )
     {
+        size_t j = 0;
         for ( auto a = solution.begin ( ); a != solution.end ( ) - 1; )
         {
             auto it = *a;
@@ -337,46 +340,74 @@ std::vector<Graphe*> Graphe::Pareto ( std::vector<Graphe*> & solution ) const
             else {
                 a++;
             }
+            j++;
         }
     }
     return solution;
 }
 
 
-std::vector<Graphe*> Graphe::optimPartielle ( const std::vector<std::vector<bool>> & solutionsAdmissibles ,
+
+std::vector<std::shared_ptr<Graphe>> Graphe::optimPartielle ( const std::vector<std::vector<bool>> & solutionsAdmissibles ,
     const size_t idxPoids ) const
 {
-    //Timer t ( "Optimisation partielle, Graphe " + graphName );
-    std::vector<Graphe*> solution;
-    for ( auto& a : solutionsAdmissibles )
+    Timer t ( "Optimisation partielle, Graphe " + graphName );
+    std::vector<_Graphe*> stash;
+
+    std::vector<std::shared_ptr<Graphe>> solution;
+    std::cout << "Dijkstra..." << std::endl;
     {
-        Graphe G ( *this , a );
-        _Graphe _g ( G , idxPoids );
-        float total = 0.0f;
-        for ( size_t i = 0; i < m_sommets.size ( ); ++i )
+        Timer t1 ( "Dijkstra pour chaque solution" );
+        for ( auto& a : solutionsAdmissibles )
         {
-            auto dij = _g.dijkstra ( i );
-            for ( auto& b : dij )
+            Graphe G ( *this , a );
+            _Graphe* _g = new _Graphe ( G , idxPoids );
+            float total = 0.0f;
+            for ( size_t i = 0; i < m_sommets.size ( ); ++i )
             {
-                total += b.second;
+                auto dij = _g->dijkstra ( i );
+                for ( auto& b : dij )
+                {
+                    total += b.second;
+                }
+            }
+            G.m_poidsTotaux.at ( idxPoids ) = total;
+
+            solution.push_back ( std::make_shared <Graphe> ( G ) );
+            stash.push_back ( _g );
+
+
+            if ( solution.size ( ) >= 50000 )
+            {
+                solution = Pareto ( solution );
+
+                for ( auto& a : stash )
+                    delete a;
+                stash.clear ( );
+
             }
         }
-        G.m_poidsTotaux.at ( idxPoids ) = total;
-        solution.push_back ( new Graphe ( G ) );
     }
+
+
+    for ( auto& a : stash )
+        delete a;
+    stash.clear ( );
 
 
     return Pareto ( solution );
 }
 
-std::vector<Graphe*> Graphe::optimBiObj ( const std::vector<std::vector<bool>> & solutionsAmissibles )const
+std::vector<std::shared_ptr<Graphe>> Graphe::optimBiObj ( const std::vector<std::vector<bool>> & solutionsAmissibles )const
 {
-    //Timer ( "Optimisation bi-objectif, Graphe " + graphName );
-    std::vector<Graphe*> solution;
-    //Remplir le vector avec toutes les solutions admissibles
+    Timer ( "Optimisation bi-objectif, Graphe " + graphName );
+    std::vector<std::shared_ptr<Graphe>> solution;
+    //Remplir le vector avec toutes les solutions admissibles 
     for ( auto& a : solutionsAmissibles )
     {
-        solution.push_back ( new Graphe ( *this , a ) );
+        solution.push_back ( std::make_shared <Graphe> ( *this , a ) );
+        if ( solution.size ( ) >= 50000 )
+            solution = Pareto ( solution );
     }
 
     return Pareto ( solution );
@@ -387,13 +418,11 @@ std::vector<float> Graphe::getPoidsTotaux ( ) const
 }
 
 
-
-
 std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
 {
-    //Timer t ( "Brute force pour le graphe : " + graphName );
-    std::vector<Sommet*> Sommetsmap = m_sommets;
-    std::vector<Arete*> Aretesvec = m_Aretes;
+    Timer t ( "Brute force pour le graphe : " + graphName );
+    std::vector<std::shared_ptr<Sommet>> Sommetsmap = m_sommets;
+    std::vector<std::shared_ptr<Arete>> Aretesvec = m_Aretes;
 
     std::vector<bool> compteur ( Aretesvec.size ( ) + 1 , 0 );
     std::vector<std::vector<bool>> compteurs;
@@ -416,7 +445,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
         {
             if ( j == Sommetsmap.size ( ) - 1 )
             {
-                std::vector<Arete*> AretesN;
+                std::vector<std::shared_ptr<Arete>> AretesN;
                 for ( unsigned int k = 0; k < compteur.size ( ) - 1; k++ )  // Traduction du tableau de bool en tableau d'aretes
                 {
                     if ( compteur [ k ] == 1 )
@@ -467,7 +496,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
         {
             if ( j >= Sommetsmap.size ( ) - 1 )
             {
-                std::vector<Arete*> AretesN;
+                std::vector<std::shared_ptr<Arete>> AretesN;
                 for ( unsigned int k = 0; k < compteur.size ( ) - 1; k++ )  // Traduction du tableau de bool en tableau d'aretes
                 {
                     if ( compteur [ k ] == 1 )
@@ -536,6 +565,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
     std::cout << compteurs.size ( ) << std::endl; // Affiche le nombre de solutions
     return compteurs;
 }
+
 
 float Graphe::distanceEuclidienne ( int s1 , int s2 )  const
 {

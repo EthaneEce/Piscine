@@ -15,18 +15,17 @@ void _Sommet::ajouterArete ( _Sommet* s , const float poids )
 
 void _Sommet::afficher ( ) const
 {
+    std::cout << "ID Sommet : " << m_id << std::endl;
     for ( auto& a : m_voisins )
     {
         std::cout
-            << "["
-            << m_id
-            << ", "
+            << "Voisin : "
             << a.first->m_id
-            << "]"
-            << " = "
+            << " | Poids : "
             << a.second
             << std::endl;
     }
+    std::cout << std::endl;
 }
 
 
@@ -60,7 +59,9 @@ std::unordered_map<int , float> _Sommet::dijsktra ( std::unordered_map<int , flo
         pq.pop ( );
         for ( auto& a : u.second->m_voisins ) {
             auto it = map.find ( a.first->m_id );
-            if ( it->second > a.second + u.first ) {
+
+            if ( it->second > a.second + u.first )
+            {
                 it->second = a.second + u.first;
                 pq.push ( std::make_pair ( it->second , a.first ) );
 
@@ -72,7 +73,6 @@ std::unordered_map<int , float> _Sommet::dijsktra ( std::unordered_map<int , flo
     return l_pred;
 
 }
-
 
 
 

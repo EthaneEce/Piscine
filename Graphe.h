@@ -12,6 +12,11 @@
 class Graphe
 {
 public:
+    Graphe ( std::string nomFichier1 , std::string nomFichier2 );
+
+    Graphe ( const std::vector<std::shared_ptr<Sommet>>& sommets_src ,
+        const std::vector<std::shared_ptr<Arete>>& Aretes_src ,
+        const std::string& nom_graphe = "" );
 
     /// Constructeur
     Graphe ( std::string nomFichier1 , std::string nomFichier2 );
@@ -19,34 +24,25 @@ public:
     Graphe ( const Graphe& src , const std::vector<bool>& vec );
     Graphe ( ) = default;
     ~Graphe ( ) = default;
-
-    ///attributs
-    std::vector<Sommet*> getsommets ( )const { return m_sommets; }; // Retourne les sommets
-    std::vector<Arete*> getAretes ( )const { return m_Aretes; }; // Retourne les aretes
-    std::vector<float> getPoidsTotaux ( ) const;
-
-    ///Affichage
-    void afficher ( ) const; // Affiche sur la console le graphes et ses attibuts
+    std::vector<std::vector<bool>> bruteforce ( int tri = 0 )const;
     void afficherallegro ( BITMAP* buffer , double x , double y , int proportion ) const; // Affiche le graphe sur allegro
-
-    ///Outils
-    std::vector<Arete*> Kruskal ( size_t cout_id = 0 ) const;
-    std::vector<Graphe*> optimPartielle ( const std::vector<std::vector<bool>>& solutionsAdmissibles , const size_t idxPoids = 0 )const;
-    std::vector<Graphe*> optimBiObj ( const std::vector<std::vector<bool>>& solutionsAmissibles )const;
-    std::vector<float> poidsTotaux ( );
     float distanceEuclidienne ( int s1 , int s2 )const;
-    std::vector<std::vector<bool>> bruteforce ( int tri ) const;  // Fait un brute force different en fonction du int en parametre
-
-
-
-protected:
+    std::vector<std::shared_ptr<Sommet>> getsommets ( )const { return m_sommets; };
+    std::vector<std::shared_ptr<Arete>> getAretes ( )const { return m_Aretes; };
+    void afficher ( ) const;
+    std::vector<std::shared_ptr<Arete>> Kruskal ( size_t cout_id = 0 ) const;
+    std::vector<std::shared_ptr<Graphe>> optimPartielle ( const std::vector<std::vector<bool>>& solutionsAdmissibles ,
+        const size_t idxPoids = 0 )const;
+    std::vector<std::shared_ptr<Graphe>> optimBiObj ( const std::vector<std::vector<bool>>& solutionsAmissibles )const;
+    std::vector<float> getPoidsTotaux ( )const;
 
 private:
 
-    std::vector<Graphe*> Pareto ( std::vector<Graphe*>& solutionsAdmissibles )const;
+    std::vector<std::shared_ptr<Graphe>> Pareto ( std::vector<std::shared_ptr<Graphe>>& solutionsAdmissibles )const;
     size_t nbCouts = 0;
-    std::vector<Sommet*> m_sommets;
-    std::vector<Arete*> m_Aretes;
+    std::vector<std::shared_ptr<Sommet>> m_sommets;
+    std::vector<std::shared_ptr<Arete>> m_Aretes;
+    std::string graphName;
     std::vector<float> m_poidsTotaux;
     std::vector<float> poidsTotaux ( )const;
 

@@ -1,12 +1,13 @@
 #pragma once
 #include <unordered_map>
 #include "_Sommet.h"
-class Svgfile;
+
 class Graphe;
 class _Graphe
 {
 public:
     _Graphe ( const Graphe& g , const size_t idxPoidsTranspose );
+    ~_Graphe ( );
     void afficher ( ) const;
     std::unordered_map<int , float> dijkstra ( const size_t depart ) const;
 private:

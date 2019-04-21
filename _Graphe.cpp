@@ -7,7 +7,8 @@
 //Constructeur
 _Graphe::_Graphe ( const Graphe& g , size_t idxPoidsTranspose )
 {
-
+    if ( idxPoidsTranspose >= g.getPoidsTotaux ( ).size ( ) )
+        throw std::exception ( "indice trop grand" );
     //Lecture des _Sommets
     auto sommets = g.getsommets ( );
     auto Aretes = g.getAretes ( );
@@ -40,19 +41,18 @@ _Graphe::_Graphe ( const Graphe& g , size_t idxPoidsTranspose )
 
 }
 
+_Graphe::~_Graphe ( )
+{
+    for ( auto& a : m__Sommets )
+        delete a.second;
+}
+
 void _Graphe::afficher ( ) const
 {
     for ( auto& a : m__Sommets )
     {
         a.second->afficher ( );
     }
-}
-
-//surcharge de l'operteur << pour pouvoir afficher un vector avec std::cout<<vec
-std::ostream& operator<<( std::ostream& out , const std::vector<std::string>& vec ) {
-    for ( auto& a : vec )
-        out << a << " ";
-    return out;
 }
 
 
@@ -62,8 +62,10 @@ std::unordered_map<int , float> _Graphe::dijkstra ( const size_t depart ) const
 
     //trouver le _Sommet de départ dans la map
     auto it = m__Sommets.find ( depart );
-    //if ( depart >= m__Sommets.size ( ) )
-        //throw std::exception ( "Impossible de trouver la valeur de depart" );
+    if ( it == m__Sommets.end ( ) )
+        throw std::exception ( "Sommet introuvable" );
+    if ( depart >= m__Sommets.size ( ) )
+        throw std::exception ( "Impossible de trouver la valeur de depart" );
     //map avec laquelle on va faire le boulot (on va éviter de bidouiller les valeurs de la map m__Sommets)
     std::unordered_map<int , float> map2;
 
@@ -78,6 +80,5 @@ std::unordered_map<int , float> _Graphe::dijkstra ( const size_t depart ) const
     sol [ depart ] = 0;
     return sol;
 }
-
 
 
