@@ -562,7 +562,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
             }
         }
     }
-    std::cout << compteurs.size ( ) << std::endl; // Affiche le nombre de solutions
+    std::cout<<" compteur"<<tri<<" : "<< compteurs.size ( ) << std::endl; // Affiche le nombre de solutions
     return compteurs;
 }
 
