@@ -401,8 +401,8 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
     while ( compteur.back ( ) != 1 )
     {
 
-        /// Compteur
-        int j = 0;
+        /// Compteur : Compte le nombre d'aretes
+        unsigned int j = 0;
         for ( unsigned int i = 0; i < compteur.size ( ) - 1; i++ )
         {
             if ( compteur [ i ] == 1 )
@@ -412,12 +412,12 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
         }
 
         /// Tri
-        if ( tri == 1 )
+        if ( tri == 1 ) //Sans cycles et tous les sommets reliés
         {
             if ( j == Sommetsmap.size ( ) - 1 )
             {
                 std::vector<Arete*> AretesN;
-                for ( unsigned int k = 0; k < compteur.size ( ) - 1; k++ )
+                for ( unsigned int k = 0; k < compteur.size ( ) - 1; k++ )  // Traduction du tableau de bool en tableau d'aretes
                 {
                     if ( compteur [ k ] == 1 )
                     {
@@ -425,7 +425,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
                     }
                 }
 
-                std::vector<int> connexe;
+                std::vector<int> connexe;  // Tableau de connexité
                 for ( size_t l = 0; l < m_sommets.size ( ); l++ )
                 {
                     connexe.push_back ( l );
@@ -434,14 +434,12 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
                 {
                     int s1 = it->gets1 ( );
                     int s2 = it->gets2 ( );
-                    //std::cout<<s1<<":"<<connexe[s1]<<","<<s2<<":"<<connexe[s2];
 
-                    if ( ( connexe [ s1 ] ) == ( connexe [ s2 ] ) )
+                    if ( ( connexe [ s1 ] ) == ( connexe [ s2 ] ) )  // Break si meme numéro
                     {
-                        //std::cout<<"break : ("<<s1<<","<<s2<<")"<<" ";
                         break;
                     }
-                    for ( unsigned int m = 0; m < connexe.size ( ); m++ )
+                    for ( int m = 0; m < connexe.size ( ); m++ )  // Changement des meme numeros
                     {
                         if ( ( connexe [ m ] == connexe [ s2 ] ) && ( m != s2 ) )
                         {
@@ -457,20 +455,20 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
                     {
                         temp++;
                     }
-                    //std::cout<<connexe[j];
                 }
 
-                if ( temp == m_sommets.size ( ) )
+                if ( temp == m_sommets.size ( ) ) // Si tout les numéros du tableau de connexité sont les memes, On pushback le compteur
                 {
                     compteurs.push_back ( compteur );
-                    //std::cout<<"oui";
-                }//std::cout<<std::endl;
+                }
             }
         }
-        else if ( tri == 2 )
+        else if ( tri == 2 ) //Avec cycles et tous les sommets reliés
         {
-            std::vector<Arete*> AretesN;
-                for ( unsigned int k = 0; k < compteur.size ( ) - 1; k++ )
+            if ( j >= Sommetsmap.size ( ) - 1 )
+            {
+                std::vector<Arete*> AretesN;
+                for ( unsigned int k = 0; k < compteur.size ( ) - 1; k++ )  // Traduction du tableau de bool en tableau d'aretes
                 {
                     if ( compteur [ k ] == 1 )
                     {
@@ -478,7 +476,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
                     }
                 }
 
-                std::vector<int> connexe;
+                std::vector<int> connexe;  // Tableau de connexité
                 for ( size_t l = 0; l < m_sommets.size ( ); l++ )
                 {
                     connexe.push_back ( l );
@@ -487,9 +485,8 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
                 {
                     int s1 = it->gets1 ( );
                     int s2 = it->gets2 ( );
-                    //std::cout<<s1<<":"<<connexe[s1]<<","<<s2<<":"<<connexe[s2];
 
-                    for ( unsigned int m = 0; m < connexe.size ( ); m++ )
+                    for ( int m = 0; m < connexe.size ( ); m++ )  // Changement des meme numeros
                     {
                         if ( ( connexe [ m ] == connexe [ s2 ] ) && ( m != s2 ) )
                         {
@@ -505,16 +502,15 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
                     {
                         temp++;
                     }
-                    //std::cout<<connexe[n];
                 }
 
-                if ( temp == m_sommets.size ( ) )
+                if ( temp == m_sommets.size ( ) )   // Si tout les numéros du tableau de connexité sont les memes, On pushback le compteur
                 {
                     compteurs.push_back ( compteur );
-                    //std::cout<<" "<<"oui"<<" ";
                 }
+            }
         }
-        else
+        else // Toutes les solutions possibles
         {
             compteurs.push_back ( compteur );
         }
@@ -524,7 +520,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
 
         /// Compteur
 
-        for ( size_t i = 0; i < compteur.size ( ); i++ )
+        for ( size_t i = 0; i < compteur.size ( ); i++ ) // Cheche un endroit ou il y a un 0,le remplace par un 1 et remplace toutes les valeurs qui sont avant par 0
         {
             if ( compteur [ i ] == 1 )
             {
@@ -536,12 +532,8 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
                 break;
             }
         }
-        for ( unsigned int i = 0; i < compteur.size ( ); i++ )
-        {
-            //std::cout<<compteur[i];
-        }//std::cout<<std::endl;
     }
-    std::cout << compteurs.size ( ) << std::endl;
+    std::cout << compteurs.size ( ) << std::endl; // Affiche le nombre de solutions
     return compteurs;
 }
 
