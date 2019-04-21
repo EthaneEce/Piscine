@@ -35,7 +35,7 @@ Graphe::Graphe ( const Graphe& src , const std::vector<bool>& vec , const std::s
     m_poidsTotaux = poidsTotaux ( );
 }
 
-Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 )
+Graphe::Graphe ( std::string nomFichier1 , std::string nomFichier2 ) : graphName ( nomFichier1 + " | " + nomFichier2 )
 {
     std::ifstream ifs1 { nomFichier1 };
     if ( !ifs1 )
@@ -255,7 +255,7 @@ std::vector<std::shared_ptr<Arete>> Graphe::Kruskal ( size_t cout_id ) const
 
 std::vector<std::shared_ptr<Graphe>> Graphe::Pareto ( std::vector<std::shared_ptr<Graphe>> & solution ) const
 {
-    //Timer t ( "Pareto pour le graphe " + graphName );
+    Timer t ( "Pareto pour le graphe " + graphName );
     const constexpr float infini = std::numeric_limits<float>::max ( );
 
     size_t IDXpoidsCourant = 0;
@@ -271,7 +271,7 @@ std::vector<std::shared_ptr<Graphe>> Graphe::Pareto ( std::vector<std::shared_pt
             float nMinCout = infini;      //Cout suivant du graphe qui le cout minimal
 
 
-            //Récupérer le cout minimal (ce sera le premier élément du vector quand on le trie)
+            //Récupérer le cout minimal (ce sera le premier élément du vector quand on le trie) 
             for ( auto& a : solution )
             {
                 if ( a->m_poidsTotaux.at ( IDXpoidsCourant ) < min ) {
@@ -347,7 +347,6 @@ std::vector<std::shared_ptr<Graphe>> Graphe::Pareto ( std::vector<std::shared_pt
 }
 
 
-
 std::vector<std::shared_ptr<Graphe>> Graphe::optimPartielle ( const std::vector<std::vector<bool>> & solutionsAdmissibles ,
     const size_t idxPoids ) const
 {
@@ -397,7 +396,6 @@ std::vector<std::shared_ptr<Graphe>> Graphe::optimPartielle ( const std::vector<
 
     return Pareto ( solution );
 }
-
 std::vector<std::shared_ptr<Graphe>> Graphe::optimBiObj ( const std::vector<std::vector<bool>> & solutionsAmissibles )const
 {
     Timer ( "Optimisation bi-objectif, Graphe " + graphName );

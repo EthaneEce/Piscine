@@ -23,7 +23,7 @@ public:
     ~Graphe ( ) = default;
 
     ///Algorithmes
-    std::vector<std::vector<bool>> bruteforce ( int tri = 0 )const;
+    std::vector<std::vector<bool>> bruteforce ( int filtre = 0 )const;
     std::vector<std::shared_ptr<Arete>> Kruskal ( size_t cout_id = 0 ) const;
     std::vector<std::shared_ptr<Graphe>> optimBiObj ( const std::vector<std::vector<bool>>& solutionsAmissibles )const;
     std::vector<std::shared_ptr<Graphe>> optimPartielle ( const std::vector<std::vector<bool>>& solutionsAdmissibles , const size_t idxPoids = 0 )const;
