@@ -160,8 +160,9 @@ void choixUtilisationGraph ( BITMAP * buffer , BITMAP * fond , FONT * font1 , FO
             }
             for (auto it:p)
             {
-                std::cout<<it->getPoidsTotaux()[0]<<","<<it->getPoidsTotaux()[1]<<std::endl;
+                std::cout<<"Pareto : "<<it->getPoidsTotaux ( ) [ 0 ]<<","<<it->getPoidsTotaux ( ) [ 1 ]<<std::endl;
             }
+            std::cout<<std::endl;
             draw_sprite ( buffer , fond , 0 , 0 );
             dessinerPareto ( buffer , b , 100 , 600 , t , t2 , p , nom == "manhattan" ? 1 : 0 , pareto2 == 1 ? 1 : 0 );
             do
@@ -336,7 +337,6 @@ void dessinerPareto ( BITMAP * buffer , Graphe b , double x , double y , std::ve
         {
             circlefill ( buffer , x + ( it2->getPoidsTotaux ( ) [ 0 ] ) / 10 + 10 , y - ( it2->getPoidsTotaux ( ) [ 1 ] ) / 10 - 10 , 2 , makecol ( 255 , 0 , 0 ) );
         }
-        std::cout<<"Pareto : "<<it2->getPoidsTotaux ( ) [ 0 ]<<","<<it2->getPoidsTotaux ( ) [ 1 ]<<std::endl;
     }
 
     circlefill ( buffer , 650 , 90 , 6 , makecol ( 255 , 0 , 0 ) );
