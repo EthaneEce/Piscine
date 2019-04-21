@@ -144,6 +144,8 @@ void Graphe::afficher ( ) const
 
 std::vector<std::shared_ptr<Arete>> Graphe::Kruskal ( size_t cout_id ) const
 {
+    if ( cout_id >= m_poidsTotaux.size ( ) )
+        throw std::exception ( "Cout n'existe pas" );
     Timer t ( "Kruskal a partir du graphe " + graphName );
     //Map Solution
     std::vector<std::shared_ptr<Arete>> solution;
@@ -185,7 +187,7 @@ std::vector<std::shared_ptr<Arete>> Graphe::Kruskal ( size_t cout_id ) const
             solution.push_back ( a );
 
 
-            //Mettre à jour pour que les sommets sont sur la meme composante connexe
+            //Mettre à jour pour que les sommets soient sur la meme composante connexe
             for ( auto& b : composantesConnexes ) {
                 if ( b == s1 )
                     b = s2;
