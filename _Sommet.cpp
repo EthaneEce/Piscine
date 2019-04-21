@@ -59,7 +59,9 @@ std::unordered_map<int , float> _Sommet::dijsktra ( std::unordered_map<int , flo
         pq.pop ( );
         for ( auto& a : u.second->m_voisins ) {
             auto it = map.find ( a.first->m_id );
-            if ( it->second > a.second + u.first ) {
+
+            if ( it->second > a.second + u.first )
+            {
                 it->second = a.second + u.first;
                 pq.push ( std::make_pair ( it->second , a.first ) );
 
