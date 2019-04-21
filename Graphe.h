@@ -12,27 +12,31 @@
 class Graphe
 {
 public:
+
+    /// Constructeur
     Graphe ( std::string nomFichier1 , std::string nomFichier2 );
     Graphe ( const std::vector<Sommet*>& sommets_src , const std::vector<Arete*>& aretes_src );
     Graphe ( const Graphe& src , const std::vector<bool>& vec );
     Graphe ( ) = default;
     ~Graphe ( ) = default;
 
-    std::vector<Sommet*> getsommets ( )const { return m_sommets; };
-    std::vector<Arete*> getAretes ( )const { return m_Aretes; };
-
-    void afficher ( ) const;
-    void afficherallegro ( BITMAP* buffer , double x , double y , int proportion ) const;
-
-    std::vector<Arete*> Kruskal ( size_t cout_id = 0 ) const;
-
-    float distanceEuclidienne ( int s1 , int s2 )const;
+    ///attributs
+    std::vector<Sommet*> getsommets ( )const { return m_sommets; }; // Retourne les sommets
+    std::vector<Arete*> getAretes ( )const { return m_Aretes; }; // Retourne les aretes
     std::vector<float> getPoidsTotaux ( ) const;
-    std::vector<std::vector<bool>> bruteforce ( int tri ) const;
 
+    ///Affichage
+    void afficher ( ) const; // Affiche sur la console le graphes et ses attibuts
+    void afficherallegro ( BITMAP* buffer , double x , double y , int proportion ) const; // Affiche le graphe sur allegro
+
+    ///Outils
+    std::vector<Arete*> Kruskal ( size_t cout_id = 0 ) const;
     std::vector<Graphe*> optimPartielle ( const std::vector<std::vector<bool>>& solutionsAdmissibles , const size_t idxPoids = 0 )const;
     std::vector<Graphe*> optimBiObj ( const std::vector<std::vector<bool>>& solutionsAmissibles )const;
     std::vector<float> poidsTotaux ( );
+    float distanceEuclidienne ( int s1 , int s2 )const;
+    std::vector<std::vector<bool>> bruteforce ( int tri ) const;  // Fait un brute force different en fonction du int en parametre
+
 
 
 protected:
