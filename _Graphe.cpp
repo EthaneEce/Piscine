@@ -54,13 +54,6 @@ void _Graphe::afficher ( ) const
     }
 }
 
-//surcharge de l'operteur << pour pouvoir afficher un vector avec std::cout<<vec
-std::ostream& operator<<( std::ostream& out , const std::vector<std::string>& vec ) {
-    for ( auto& a : vec )
-        out << a << " ";
-    return out;
-}
-
 
 std::unordered_map<int , float> _Graphe::dijkstra ( const size_t depart ) const
 {
