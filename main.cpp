@@ -17,17 +17,20 @@ int main ( )
 {
     try
     {
-        Graphe g ( "txt\\broadway.txt" , "txt\\broadway_weights_0.txt" );
+        Graphe g ( "txt\\manhattan.txt" , "txt\\manhattan_weights_1.txt" );
+
+
+        //Optimisation Bi Objectif (Partie2)
+        auto sol1 = g.optimBiObj ( g.bruteforce ( 1 ) );
+        for ( auto& a : sol1 )
+            std::cout << a->getPoidsTotaux ( ) << std::endl;
+
 
         //Optimisation Partielle (Parie 3)
         auto sol = g.optimPartielle ( g.bruteforce ( 2 ) , 1 );
         for ( auto& a : sol )
             std::cout << a->getPoidsTotaux ( ) << std::endl;
 
-        //Optimisation Bi Objectif (Partie2)
-        auto sol1 = g.optimBiObj ( g.bruteforce ( 1 ) );
-        for ( auto& a : sol1 )
-            std::cout << a->getPoidsTotaux ( ) << std::endl;
 
     }
     catch ( const std::exception & e )

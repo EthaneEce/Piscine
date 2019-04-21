@@ -301,6 +301,8 @@ std::vector<std::shared_ptr<Graphe>> Graphe::optimPartielle ( const std::vector<
     const size_t idxPoids ) const
 {
     Timer t ( "Optimisation partielle, Graphe " + graphName );
+    std::vector<_Graphe*> stash;
+
     std::vector<std::shared_ptr<Graphe>> solution;
     std::cout << "Dijkstra..." << std::endl;
     {
@@ -308,11 +310,11 @@ std::vector<std::shared_ptr<Graphe>> Graphe::optimPartielle ( const std::vector<
         for ( auto& a : solutionsAdmissibles )
         {
             Graphe G ( *this , a );
-            _Graphe _g ( G , idxPoids );
+            _Graphe* _g = new _Graphe ( G , idxPoids );
             float total = 0.0f;
             for ( size_t i = 0; i < m_sommets.size ( ); ++i )
             {
-                auto dij = _g.dijkstra ( i );
+                auto dij = _g->dijkstra ( i );
                 for ( auto& b : dij )
                 {
                     total += b.second;
@@ -321,8 +323,27 @@ std::vector<std::shared_ptr<Graphe>> Graphe::optimPartielle ( const std::vector<
             G.m_poidsTotaux.at ( idxPoids ) = total;
 
             solution.push_back ( std::make_shared <Graphe> ( G ) );
+            stash.push_back ( _g );
+
+
+            if ( solution.size ( ) >= 50000 )
+            {
+                solution = Pareto ( solution );
+
+                for ( auto& a : stash )
+                    delete a;
+                stash.clear ( );
+
+            }
         }
     }
+
+
+    for ( auto& a : stash )
+        delete a;
+    stash.clear ( );
+
+
     return Pareto ( solution );
 }
 
@@ -334,6 +355,8 @@ std::vector<std::shared_ptr<Graphe>> Graphe::optimBiObj ( const std::vector<std:
     for ( auto& a : solutionsAmissibles )
     {
         solution.push_back ( std::make_shared <Graphe> ( *this , a ) );
+        if ( solution.size ( ) >= 50000 )
+            solution = Pareto ( solution );
     }
 
     return Pareto ( solution );
@@ -347,7 +370,7 @@ std::vector<float> Graphe::getPoidsTotaux ( ) const
 
 std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
 {
-    //Timer t ( "Brute force pour le graphe : " + graphName );
+    Timer t ( "Brute force pour le graphe : " + graphName );
     std::vector<std::shared_ptr<Sommet>> Sommetsmap = m_sommets;
     std::vector<std::shared_ptr<Arete>> Aretesvec = m_Aretes;
 
