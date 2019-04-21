@@ -1,4 +1,4 @@
-/**#pragma once
+#pragma once
 #include <chrono>
 #include <iostream>
 
@@ -23,4 +23,4 @@ public:
             << m_functionName << "' a pris : "
             << duree.count ( ) / 1000000.0 << " ms" << std::endl;
     }
-};**/
+};

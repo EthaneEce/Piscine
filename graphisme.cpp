@@ -151,40 +151,40 @@ void choixUtilisationGraph ( BITMAP * buffer , BITMAP * fond , FONT * font1 , FO
             {
                 t = b.bruteforce ( 1 );
                 t2 = b.bruteforce ( 0 );
-                p = b.optimBiObj (t);
+                p = b.optimBiObj ( t );
             }
             else
             {
                 t3 = b.bruteforce ( 2 );
                 p = b.optimPartielle ( t3 , 1 );
             }
-            for (auto it:p)
+            for ( auto it : p )
             {
-                std::cout<<"Pareto : "<<it->getPoidsTotaux ( ) [ 0 ]<<","<<it->getPoidsTotaux ( ) [ 1 ]<<std::endl;
+                std::cout << "Pareto : " << it->getPoidsTotaux ( ) [ 0 ] << "," << it->getPoidsTotaux ( ) [ 1 ] << std::endl;
             }
-            std::cout<<std::endl;
+            std::cout << std::endl;
             draw_sprite ( buffer , fond , 0 , 0 );
             dessinerPareto ( buffer , b , 100 , 600 , t , t2 , p , nom == "manhattan" ? 1 : 0 , pareto2 == 1 ? 1 : 0 );
             do
             {
                 quitter2 = draw_bouton ( 4.5 * SCREEN_W / 10 , 9.4 * SCREEN_H / 10 , 5.5 * SCREEN_W / 10 , 9.9 * SCREEN_H / 10 , makecol ( 43 , 105 , 200 ) , makecol ( 30 , 73 , 138 ) , 3 , "Quitter" , font1 , buffer );
                 draw_sprite ( screen , buffer , 0 , 0 );
-                if(key[KEY_RIGHT])
+                if ( key [ KEY_RIGHT ] )
                 {
-                    clear(buffer);
+                    clear ( buffer );
                     draw_sprite ( buffer , fond , 0 , 0 );
                     quitter2 = draw_bouton ( 4.5 * SCREEN_W / 10 , 9.4 * SCREEN_H / 10 , 5.5 * SCREEN_W / 10 , 9.9 * SCREEN_H / 10 , makecol ( 43 , 105 , 200 ) , makecol ( 30 , 73 , 138 ) , 3 , "Quitter" , font1 , buffer );
-                    dessinersolPareto(buffer,p,0,0,( nom == "manhattan" || nom == "triville" ) ? 3 : 3 );
-                    draw_sprite ( screen , buffer , 0 , 0);
+                    dessinersolPareto ( buffer , p , 0 , 0 , ( nom == "manhattan" || nom == "triville" ) ? 3 : 3 );
+                    draw_sprite ( screen , buffer , 0 , 0 );
                 }
-                else if(key[KEY_LEFT])
+                else if ( key [ KEY_LEFT ] )
                 {
-                    clear(buffer);
+                    clear ( buffer );
                     draw_sprite ( buffer , fond , 0 , 0 );
                     dessinerPareto ( buffer , b , 100 , 600 , t , t2 , p , nom == "manhattan" ? 1 : 0 , pareto2 == 1 ? 1 : 0 );
-                    if(pareto2==1 && nom=="manhattan"){
-                        textprintf_centre_ex ( buffer , font , 500 , 15 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "Appuyez sur la touche Droite pour afficher les 20 derniers graphes");
-                        textprintf_centre_ex ( buffer , font , 500 , 30 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "Appuyez sur la touche Droite + Bas pour afficher tous les graphes");
+                    if ( pareto2 == 1 && nom == "manhattan" ) {
+                        textprintf_centre_ex ( buffer , font , 500 , 15 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "Appuyez sur la touche Droite pour afficher les 20 derniers graphes" );
+                        textprintf_centre_ex ( buffer , font , 500 , 30 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "Appuyez sur la touche Droite + Bas pour afficher tous les graphes" );
                     }
 
 
@@ -245,19 +245,19 @@ void dessinerBrut ( BITMAP * buffer , Graphe b , std::vector<std::vector<bool>> 
 
 void dessinersolPareto ( BITMAP * buffer , std::vector<Graphe*> p , double x , double y , int proportion )
 {
-    int k = x , l = y,i;
-    if(key[KEY_DOWN])
+    int k = x , l = y , i;
+    if ( key [ KEY_DOWN ] )
     {
-        i=20;
+        i = 20;
     }
     else
     {
-        i=0;
+        i = 0;
     }
 
-    for ( i ; i < p.size() ; i++)
+    for ( i; i < p.size ( ); i++ )
     {
-        p[i]->afficherallegro ( buffer , k , l , proportion );
+        p [ i ]->afficherallegro ( buffer , k , l , proportion );
         k += 500;
         if ( k >= 2500 )
         {
@@ -266,11 +266,11 @@ void dessinersolPareto ( BITMAP * buffer , std::vector<Graphe*> p , double x , d
             k = 0;
         }
     }
-    textprintf_centre_ex ( buffer , font , 500 , 15 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "Appuyez sur la touche Gauche pour afficher les solutions de Pareto");
+    textprintf_centre_ex ( buffer , font , 500 , 15 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "Appuyez sur la touche Gauche pour afficher les solutions de Pareto" );
 
 }
 
-void dessinerPareto ( BITMAP * buffer , Graphe b , double x , double y , std::vector<std::vector<bool>> Ttgraphes , std::vector<std::vector<bool>> Ttgraphes2 , std::vector<Graphe*> Pareto , bool dess, bool pareto2 )
+void dessinerPareto ( BITMAP * buffer , Graphe b , double x , double y , std::vector<std::vector<bool>> Ttgraphes , std::vector<std::vector<bool>> Ttgraphes2 , std::vector<Graphe*> Pareto , bool dess , bool pareto2 )
 {
     std::vector<Arete*> AretesN;
     for ( int i = 0; i <= 10; i++ )
@@ -279,7 +279,7 @@ void dessinerPareto ( BITMAP * buffer , Graphe b , double x , double y , std::ve
         line ( buffer , x + i , y , x + i , y - 500 , makecol ( 255 , 255 , 255 ) );
     }
 
-    if(pareto2 == 0)
+    if ( pareto2 == 0 )
     {
         if ( dess == 0 )
         {
@@ -335,11 +335,11 @@ void dessinerPareto ( BITMAP * buffer , Graphe b , double x , double y , std::ve
 
     for ( auto it2 : Pareto )
     {
-        if(pareto2 == 0)
+        if ( pareto2 == 0 )
         {
-            circlefill ( buffer , x + ( it2->getPoidsTotaux ( ) [ 0 ] ) *4 + 10 , y - ( it2->getPoidsTotaux ( ) [ 1 ] ) * 4 - 10 , 2 , makecol ( 255 , 0 , 0 ) );
+            circlefill ( buffer , x + ( it2->getPoidsTotaux ( ) [ 0 ] ) * 4 + 10 , y - ( it2->getPoidsTotaux ( ) [ 1 ] ) * 4 - 10 , 2 , makecol ( 255 , 0 , 0 ) );
         }
-        if(pareto2 == 1)
+        if ( pareto2 == 1 )
         {
             circlefill ( buffer , x + ( it2->getPoidsTotaux ( ) [ 0 ] ) / 10 + 10 , y - ( it2->getPoidsTotaux ( ) [ 1 ] ) / 10 - 10 , 2 , makecol ( 255 , 0 , 0 ) );
         }
@@ -350,7 +350,7 @@ void dessinerPareto ( BITMAP * buffer , Graphe b , double x , double y , std::ve
     textprintf_centre_ex ( buffer , font , SCREEN_W - 150 , 80 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 0 , 255 ) , "Poids total 1 :   %0.2f" , Pareto [ 0 ]->getPoidsTotaux ( ) [ 0 ] );
     textprintf_centre_ex ( buffer , font , SCREEN_W - 150 , 95 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 0 , 255 ) , "Poids total 2 :   %0.2f" , Pareto [ 0 ]->getPoidsTotaux ( ) [ 1 ] );
 
-    textprintf_centre_ex ( buffer , font , 500 , 30 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "Appuyez sur la touche Droite pour afficher les graphes");
+    textprintf_centre_ex ( buffer , font , 500 , 30 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "Appuyez sur la touche Droite pour afficher les graphes" );
 
 }
 

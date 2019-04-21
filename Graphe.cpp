@@ -20,7 +20,7 @@ Graphe::Graphe ( const std::vector<std::shared_ptr<Sommet>>& mS ,
     m_poidsTotaux = poidsTotaux ( );
 }
 
-Graphe::Graphe ( const Graphe& src , const std::vector<bool>& vec )
+Graphe::Graphe ( const Graphe& src , const std::vector<bool>& vec , const std::string& nom_graphe ) : graphName ( src.graphName )
 {
     std::vector<std::shared_ptr<Arete>> temp;
     for ( size_t i = 0; i < vec.size ( ); i++ )
@@ -145,8 +145,8 @@ void Graphe::afficherallegro ( BITMAP* buffer , double x , double y , int propor
         int sommet1id = it->gets1 ( );
         int sommet2id = it->gets2 ( );
 
-        Sommet* n1;
-        Sommet* n2;
+        std::shared_ptr<Sommet> n1;
+        std::shared_ptr<Sommet> n2;
         for ( auto it2 : m_sommets )
         {
             if ( sommet1id == it2->getid ( ) )
@@ -562,7 +562,7 @@ std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
             }
         }
     }
-    std::cout<<" compteur"<<tri<<" : "<< compteurs.size ( ) << std::endl; // Affiche le nombre de solutions
+    std::cout << " compteur" << tri << " : " << compteurs.size ( ) << std::endl; // Affiche le nombre de solutions
     return compteurs;
 }
 
@@ -576,7 +576,7 @@ float Graphe::distanceEuclidienne ( int s1 , int s2 )  const
     return ( float ) dist;
 }
 
-std::vector<float> Graphe::poidsTotaux ( )
+std::vector<float> Graphe::poidsTotaux ( )const
 {
     std::vector<float>solution;
     for ( size_t i = 0; i < nbCouts; i++ )
