@@ -251,8 +251,6 @@ std::vector<std::shared_ptr<Graphe>> Graphe::Pareto ( std::vector<std::shared_pt
         for ( auto a = solution.begin ( ); a != solution.end ( ); )
         {
             float Cout = ( *a )->m_poidsTotaux.at ( IDXpoidsCourant + 1 );
-            float pCout = ( *a )->m_poidsTotaux.at ( IDXpoidsCourant );
-
             if ( Cout < pivot )
             {
                 pivot = Cout;
@@ -274,11 +272,11 @@ std::vector<std::shared_ptr<Graphe>> Graphe::Pareto ( std::vector<std::shared_pt
     {
         for ( auto a = solution.begin ( ); a != solution.end ( ) - 1; )
         {
-            auto it = a;
-            auto nextIt = ( a + 1 );
-            if ( ( *it )->m_poidsTotaux.at ( i ) == ( *nextIt )->m_poidsTotaux.at ( i ) )
+            auto it = *a;
+            auto nextIt = *( a + 1 );
+            if ( it->m_poidsTotaux.at ( i ) == nextIt->m_poidsTotaux.at ( i ) )
             {
-                if ( ( *it )->m_poidsTotaux.at ( i + 1 ) < ( *nextIt )->m_poidsTotaux.at ( i + 1 ) )
+                if ( it->m_poidsTotaux.at ( i + 1 ) < nextIt->m_poidsTotaux.at ( i + 1 ) )
                 {
                     a = solution.erase ( a + 1 );
                 }
@@ -343,13 +341,6 @@ std::vector<float> Graphe::getPoidsTotaux ( ) const
     return m_poidsTotaux;
 }
 
-
-
-
-Graphe::~Graphe ( )
-{
-    // std::cout << "Graphe deleted" << std::endl;
-}
 
 std::vector<std::vector<bool>> Graphe::bruteforce ( int tri )const
 {

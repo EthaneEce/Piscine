@@ -22,7 +22,7 @@ public:
         const std::string& nom_graphe = ""
     );
     Graphe ( ) = default;
-    ~Graphe ( );
+    ~Graphe ( ) = default;
     std::vector<std::vector<bool>> bruteforce ( int tri = 0 )const;
     float distanceEuclidienne ( int s1 , int s2 )const;
     std::vector<std::shared_ptr<Sommet>> getsommets ( )const { return m_sommets; };
