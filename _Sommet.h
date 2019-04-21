@@ -9,7 +9,7 @@ private:
     //on definit un voisin avec un pointeur sur _Sommet et le poids de l'Arete
     std::vector<std::pair<_Sommet* , float>> m_voisins;
 public:
-    _Sommet ( int id, double x, double y );
+    _Sommet ( int id , double x , double y );
     void ajouterArete ( _Sommet* s , const float poids );
     void afficher ( ) const;
     //on prend en parametre le _Sommet de destination et la map contenant tous les _Sommets du _Graphe

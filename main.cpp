@@ -3,12 +3,16 @@
 #include <fstream>
 #include "_Graphe.h"
 
+
+
 std::ostream& operator<<( std::ostream& out , std::vector<float> vec )
 {
     for ( auto& a : vec )
         out << a << " ";
     return out;
 }
+
+
 int main ( )
 {
     try
@@ -16,12 +20,12 @@ int main ( )
         Graphe g ( "txt\\broadway.txt" , "txt\\broadway_weights_0.txt" );
 
         //Optimisation Partielle (Parie 3)
-        auto sol = g.optimPartielle ( g.bruteforce ( ) , 1 );   //Nouveau Brute force à implémenter
+        auto sol = g.optimPartielle ( g.bruteforce ( 2 ) , 1 );   //Nouveau Brute force à implémenter
         for ( auto& a : sol )
             std::cout << a->getPoidsTotaux ( ) << std::endl;
 
         //Optimisation Bi Objectif (Partie2)
-        auto sol1 = g.optimBiObj ( g.bruteforce ( ) );
+        auto sol1 = g.optimBiObj ( g.bruteforce ( 1 ) );
         for ( auto& a : sol1 )
             std::cout << a->getPoidsTotaux ( ) << std::endl;
 
