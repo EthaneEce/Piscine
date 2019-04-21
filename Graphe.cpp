@@ -195,7 +195,7 @@ void Graphe::afficherallegro ( BITMAP* buffer , double x , double y , int propor
 std::vector<std::shared_ptr<Arete>> Graphe::Kruskal ( size_t cout_id ) const
 {
     if ( cout_id >= m_poidsTotaux.size ( ) )
-        throw std::exception ( "Cout n'existe pas" );
+        throw std::runtime_error ( "Cout n'existe pas" );
     Timer t ( "Kruskal a partir du graphe " + graphName );
     //Map Solution
     std::vector<std::shared_ptr<Arete>> solution;
@@ -402,7 +402,7 @@ std::vector<std::shared_ptr<Graphe>> Graphe::optimBiObj ( const std::vector<std:
 {
     Timer ( "Optimisation bi-objectif, Graphe " + graphName );
     std::vector<std::shared_ptr<Graphe>> solution;
-    //Remplir le vector avec toutes les solutions admissibles 
+    //Remplir le vector avec toutes les solutions admissibles
     for ( auto& a : solutionsAmissibles )
     {
         solution.push_back ( std::make_shared <Graphe> ( *this , a ) );

@@ -1,4 +1,5 @@
 #include "graphisme.h"
+#include <memory>
 
 int menu ( BITMAP* buffer , Graphe& a , FONT* font1 , FONT* titre )
 {
@@ -146,7 +147,7 @@ void choixUtilisationGraph ( BITMAP * buffer , BITMAP * fond , FONT * font1 , FO
             std::vector<std::vector<bool>> t2;
             std::vector<std::vector<bool>> t3;
 
-            std::vector<Graphe*> p;
+            std::vector<std::shared_ptr <Graphe>> p;
             if ( pareto == 1 )
             {
                 t = b.bruteforce ( 1 );
@@ -219,7 +220,7 @@ void choixUtilisationGraph ( BITMAP * buffer , BITMAP * fond , FONT * font1 , FO
 void dessinerBrut ( BITMAP * buffer , Graphe b , std::vector<std::vector<bool>> Ttgraphes , double x , double y , int proportion )
 {
     int k = x , l = y;
-    std::vector<Arete*> AretesN;
+    std::vector<std::shared_ptr <Arete>> AretesN;
 
     for ( unsigned int i = 1; i < ( ( Ttgraphes.size ( ) < 20 ) ? Ttgraphes.size ( ) : 21 ); i++ )
     {
@@ -243,7 +244,7 @@ void dessinerBrut ( BITMAP * buffer , Graphe b , std::vector<std::vector<bool>> 
     }
 }
 
-void dessinersolPareto ( BITMAP * buffer , std::vector<Graphe*> p , double x , double y , int proportion )
+void dessinersolPareto ( BITMAP * buffer , std::vector<std::shared_ptr <Graphe>> p , double x , double y , int proportion )
 {
     int k = x , l = y , i;
     if ( key [ KEY_DOWN ] )
@@ -270,9 +271,9 @@ void dessinersolPareto ( BITMAP * buffer , std::vector<Graphe*> p , double x , d
 
 }
 
-void dessinerPareto ( BITMAP * buffer , Graphe b , double x , double y , std::vector<std::vector<bool>> Ttgraphes , std::vector<std::vector<bool>> Ttgraphes2 , std::vector<Graphe*> Pareto , bool dess , bool pareto2 )
+void dessinerPareto ( BITMAP * buffer , Graphe b , double x , double y , std::vector<std::vector<bool>> Ttgraphes , std::vector<std::vector<bool>> Ttgraphes2 , std::vector<std::shared_ptr<Graphe>> Pareto , bool dess , bool pareto2 )
 {
-    std::vector<Arete*> AretesN;
+    std::vector<std::shared_ptr<Arete>> AretesN;
     for ( int i = 0; i <= 10; i++ )
     {
         line ( buffer , x , y + i , x + 500 , y + i , makecol ( 255 , 255 , 255 ) );

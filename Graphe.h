@@ -7,6 +7,7 @@
 #include "Sommet.h"
 #include "Arete.h"
 #include <cmath>
+#include <memory>
 
 
 class Graphe
@@ -27,7 +28,7 @@ public:
     std::vector<std::shared_ptr<Graphe>> optimBiObj ( const std::vector<std::vector<bool>>& solutionsAmissibles )const;
     std::vector<std::shared_ptr<Graphe>> optimPartielle ( const std::vector<std::vector<bool>>& solutionsAdmissibles , const size_t idxPoids = 0 )const;
 
-    ///Affichage 
+    ///Affichage
     void afficherallegro ( BITMAP* buffer , double x , double y , int proportion ) const; // Affiche le graphe sur allegro
     void afficher ( ) const;
 

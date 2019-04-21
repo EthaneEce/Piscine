@@ -6,8 +6,8 @@
 class Timer
 {
 private:
-    std::chrono::time_point<std::chrono::steady_clock> debut;
-    std::chrono::time_point<std::chrono::steady_clock> fin;
+    std::chrono::system_clock::time_point debut;
+    std::chrono::system_clock::time_point fin;
     std::string m_functionName;
 public:
     Timer ( std::string functionName = "" ) : m_functionName ( functionName )

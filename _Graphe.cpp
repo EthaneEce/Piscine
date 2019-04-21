@@ -8,7 +8,7 @@
 _Graphe::_Graphe ( const Graphe& g , size_t idxPoidsTranspose )
 {
     if ( idxPoidsTranspose >= g.getPoidsTotaux ( ).size ( ) )
-        throw std::exception ( "indice trop grand" );
+        throw std::runtime_error ( "indice trop grand" );
     //Lecture des _Sommets
     auto sommets = g.getsommets ( );
     auto Aretes = g.getAretes ( );
@@ -63,9 +63,9 @@ std::unordered_map<int , float> _Graphe::dijkstra ( const size_t depart ) const
     //trouver le _Sommet de départ dans la map
     auto it = m__Sommets.find ( depart );
     if ( it == m__Sommets.end ( ) )
-        throw std::exception ( "Sommet introuvable" );
+        throw std::runtime_error ( "Sommet introuvable" );
     if ( depart >= m__Sommets.size ( ) )
-        throw std::exception ( "Impossible de trouver la valeur de depart" );
+        throw std::runtime_error ( "Impossible de trouver la valeur de depart" );
     //map avec laquelle on va faire le boulot (on va éviter de bidouiller les valeurs de la map m__Sommets)
     std::unordered_map<int , float> map2;
 

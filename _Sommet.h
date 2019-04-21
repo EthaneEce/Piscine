@@ -1,5 +1,7 @@
 #pragma once
 #include <unordered_map>
+#include <vector>
+
 class _Sommet
 {
 private:
