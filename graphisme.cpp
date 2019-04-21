@@ -270,7 +270,7 @@ void dessinerPareto ( BITMAP * buffer , Graphe b , double x , double y , std::ve
             }
             Graphe a ( b.getsommets ( ) , AretesN );
             circlefill ( buffer , x + ( a.getPoidsTotaux ( ) [ 0 ] ) * 4 + 10 , y - ( a.getPoidsTotaux ( ) [ 1 ] ) * 4 - 10 , 1 , makecol ( 0 , 0 , 255 ) );
-            std::cout<<x + ( a.getPoidsTotaux ( ) [ 0 ] ) * 4 + 10<<","<<y - ( a.getPoidsTotaux ( ) [ 1 ] ) * 4 - 10<<std::endl;
+            //std::cout<<x + ( a.getPoidsTotaux ( ) [ 0 ] ) * 4 + 10<<","<<y - ( a.getPoidsTotaux ( ) [ 1 ] ) * 4 - 10<<std::endl;
             AretesN.clear ( );
 
             if ( i == 1 )
@@ -295,6 +295,7 @@ void dessinerPareto ( BITMAP * buffer , Graphe b , double x , double y , std::ve
         {
             circlefill ( buffer , x + ( it2->getPoidsTotaux ( ) [ 0 ] ) / 10 + 10 , y - ( it2->getPoidsTotaux ( ) [ 1 ] ) / 10 - 10 , 2 , makecol ( 255 , 0 , 0 ) );
         }
+        std::cout<<"Pareto : "<<it2->getPoidsTotaux ( ) [ 0 ]<<","<<it2->getPoidsTotaux ( ) [ 1 ]<<std::endl;
     }
 
     circlefill ( buffer , 650 , 90 , 6 , makecol ( 255 , 0 , 0 ) );
