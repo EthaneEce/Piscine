@@ -181,6 +181,12 @@ void choixUtilisationGraph ( BITMAP * buffer , BITMAP * fond , FONT * font1 , FO
                     clear(buffer);
                     draw_sprite ( buffer , fond , 0 , 0 );
                     dessinerPareto ( buffer , b , 100 , 600 , t , t2 , p , nom == "manhattan" ? 1 : 0 , pareto2 == 1 ? 1 : 0 );
+                    if(pareto2==1 && nom=="manhattan"){
+                        textprintf_centre_ex ( buffer , font , 500 , 15 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "Appuyez sur la touche Droite pour afficher les 20 derniers graphes");
+                        textprintf_centre_ex ( buffer , font , 500 , 30 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "Appuyez sur la touche Droite + Bas pour afficher tous les graphes");
+                    }
+
+
                 }
             } while ( quitter2 == 0 );
             draw_sprite ( screen , fond , 0 , 0 );
