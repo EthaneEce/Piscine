@@ -168,6 +168,20 @@ void choixUtilisationGraph ( BITMAP * buffer , BITMAP * fond , FONT * font1 , FO
             {
                 quitter2 = draw_bouton ( 4.5 * SCREEN_W / 10 , 9.4 * SCREEN_H / 10 , 5.5 * SCREEN_W / 10 , 9.9 * SCREEN_H / 10 , makecol ( 43 , 105 , 200 ) , makecol ( 30 , 73 , 138 ) , 3 , "Quitter" , font1 , buffer );
                 draw_sprite ( screen , buffer , 0 , 0 );
+                if(key[KEY_RIGHT])
+                {
+                    clear(buffer);
+                    draw_sprite ( buffer , fond , 0 , 0 );
+                    quitter2 = draw_bouton ( 4.5 * SCREEN_W / 10 , 9.4 * SCREEN_H / 10 , 5.5 * SCREEN_W / 10 , 9.9 * SCREEN_H / 10 , makecol ( 43 , 105 , 200 ) , makecol ( 30 , 73 , 138 ) , 3 , "Quitter" , font1 , buffer );
+                    dessinersolPareto(buffer,p,0,0,( nom == "manhattan" || nom == "triville" ) ? 3 : 3 );
+                    draw_sprite ( screen , buffer , 0 , 0);
+                }
+                else if(key[KEY_LEFT])
+                {
+                    clear(buffer);
+                    draw_sprite ( buffer , fond , 0 , 0 );
+                    dessinerPareto ( buffer , b , 100 , 600 , t , t2 , p , nom == "manhattan" ? 1 : 0 , pareto2 == 1 ? 1 : 0 );
+                }
             } while ( quitter2 == 0 );
             draw_sprite ( screen , fond , 0 , 0 );
         }
@@ -211,14 +225,39 @@ void dessinerBrut ( BITMAP * buffer , Graphe b , std::vector<std::vector<bool>> 
         }
         Graphe a = Graphe ( b.getsommets ( ) , AretesN );
         a.afficherallegro ( buffer , k , l , proportion );
-        k += 500;
-        if ( k >= 2500 )
+        k += 300;
+        if ( k >= 1500 )
         {
             //l+=500;
             l += 500;
             k = 0;
         }
         AretesN.clear ( );
+    }
+}
+
+void dessinersolPareto ( BITMAP * buffer , std::vector<Graphe*> p , double x , double y , int proportion )
+{
+    int k = x , l = y,i;
+    if(key[KEY_DOWN])
+    {
+        i=20;
+    }
+    else
+    {
+        i=0;
+    }
+
+    for ( i ; i < p.size() ; i++)
+    {
+        p[i]->afficherallegro ( buffer , k , l , proportion );
+        k += 500;
+        if ( k >= 2500 )
+        {
+            //l+=500;
+            l += 400;
+            k = 0;
+        }
     }
 }
 
