@@ -3,27 +3,35 @@
 #include <fstream>
 #include "_Graphe.h"
 
+
+
 std::ostream& operator<<( std::ostream& out , std::vector<float> vec )
 {
     for ( auto& a : vec )
         out << a << " ";
     return out;
 }
+
+
 int main ( )
 {
     try
     {
-        Graphe g ( "txt\\cubetown.txt" , "txt\\cubetown_weights_0.txt" );
+        Graphe g ( "txt\\triville.txt" , "txt\\triville_weights_0.txt" );
 
-        //Optimisation Partielle (Parie 3)
-        auto sol = g.optimPartielle ( g.bruteforce ( 2 ) , 1 );
-        for ( auto& a : sol )
-            std::cout << a->getPoidsTotaux ( ) << std::endl;
+        {
+            //Optimisation Partielle (Parie 3)
+            auto sol = g.optimPartielle ( g.bruteforce ( 2 ) , 1 );  
+            for ( auto& a : sol )
+                std::cout << a->getPoidsTotaux ( ) << std::endl;
+        }
 
-        //Optimisation Bi Objectif (Partie2)
-        auto sol1 = g.optimBiObj ( g.bruteforce ( 1 ) );
-        for ( auto& a : sol1 )
-            std::cout << a->getPoidsTotaux ( ) << std::endl;
+        {
+            //Optimisation Bi Objectif (Partie2)
+            auto sol1 = g.optimBiObj ( g.bruteforce ( 1 ) );
+            for ( auto& a : sol1 )
+                std::cout << a->getPoidsTotaux ( ) << std::endl;
+        }
 
     }
     catch ( const std::exception & e )

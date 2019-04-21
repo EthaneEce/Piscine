@@ -35,7 +35,7 @@ void _Sommet::afficher ( ) const
 class myComparator
 {
 public:
-    int operator() ( const std::pair<float , const _Sommet*>& p1 ,
+    bool operator() ( const std::pair<float , const _Sommet*>& p1 ,
         const std::pair<float , const _Sommet*>& p2 )
     {
         return p1.first > p2.first;
