@@ -259,6 +259,8 @@ void dessinersolPareto ( BITMAP * buffer , std::vector<Graphe*> p , double x , d
             k = 0;
         }
     }
+    textprintf_centre_ex ( buffer , font , 500 , 15 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "Appuyez sur la touche Gauche pour afficher les solutions de Pareto");
+
 }
 
 void dessinerPareto ( BITMAP * buffer , Graphe b , double x , double y , std::vector<std::vector<bool>> Ttgraphes , std::vector<std::vector<bool>> Ttgraphes2 , std::vector<Graphe*> Pareto , bool dess, bool pareto2 )
@@ -342,6 +344,7 @@ void dessinerPareto ( BITMAP * buffer , Graphe b , double x , double y , std::ve
     textprintf_centre_ex ( buffer , font , SCREEN_W - 150 , 80 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 0 , 255 ) , "Poids total 1 :   %0.2f" , Pareto [ 0 ]->getPoidsTotaux ( ) [ 0 ] );
     textprintf_centre_ex ( buffer , font , SCREEN_W - 150 , 95 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 0 , 255 ) , "Poids total 2 :   %0.2f" , Pareto [ 0 ]->getPoidsTotaux ( ) [ 1 ] );
 
+    textprintf_centre_ex ( buffer , font , 500 , 30 , makecol ( 0 , 0 , 0 ) , makecol ( 255 , 255 , 255 ) , "Appuyez sur la touche Droite pour afficher les graphes");
 
 }
 
