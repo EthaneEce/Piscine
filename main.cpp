@@ -16,7 +16,7 @@ int main ( )
 {
     try
     {
-        Graphe g ( "txt\\broadway.txt" , "txt\\broadway_weights_0.txt" );
+        Graphe g ( "txt\\manhattan.txt" , "txt\\manhattan_weights_1.txt" );
 
 
         //Optimisation Bi Objectif (Partie2)
@@ -27,6 +27,7 @@ int main ( )
 
         //Optimisation Partielle (Parie 3)
         auto sol = g.optimPartielle ( g.bruteforce ( 2 ) , 1 );
+        std::cout << sol.size ( ) << std::endl;
         for ( auto& a : sol )
             std::cout << a->getPoidsTotaux ( ) << std::endl;
 
