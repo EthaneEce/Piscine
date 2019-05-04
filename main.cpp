@@ -16,7 +16,7 @@ int main ( )
 {
     try
     {
-        Graphe g ( "txt\\manhattan.txt" , "txt\\manhattan_weights_1.txt" );
+        Graphe g ( "txt\\manhattan.txt" , "txt\\manhattan_weights_0.txt" );
 
 
         //Optimisation Bi Objectif (Partie2)
